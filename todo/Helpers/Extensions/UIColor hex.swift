@@ -1,5 +1,5 @@
 //
-//  UIColor.swift
+//  UIColor hex.swift
 //  todo
 //
 //  Created by Анатолий on 29/01/2020.
@@ -9,18 +9,17 @@
 import UIKit
 
 extension UIColor {
-    
     convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat = 1.0) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
         assert(blue >= 0 && blue <= 255, "Invalid blue component")
-
+        
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: alpha)
     }
-        
+    
     /**
-    #RRGGBB
-    */
+     #RRGGBB
+     */
     public convenience init(hex6: Int) {
         let red = Int((hex6 & 0xFF0000) >> 16)
         let green = Int((hex6 & 0xFF00) >> 8)
