@@ -9,6 +9,9 @@
 import UIKit
 
 class NoteViewController: CustomViewController<NoteView> {
+    var coreDataStack: CoreDataStack!
+    weak var delegate: NoteEdited?
+    var note: Note = Note()
     
     // MARK: View Lifecycle
     
@@ -36,6 +39,14 @@ class NoteViewController: CustomViewController<NoteView> {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        if let delegate = delegate {
+            note.title = customView.titleView.text
+            note.text = customView.noteView.text
+            
+            coreDataStack.saveContext()
+            delegate.noteDidEditted(note: note)
+        }
         
         NotificationCenter.default.removeObserver(self)
     }
