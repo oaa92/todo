@@ -10,8 +10,7 @@ import UIKit
 
 class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
-    weak var delegate: NoteEdited?
-    var note: Note = Note()
+    var note: Note? = nil
     
     // MARK: View Lifecycle
     
@@ -40,14 +39,13 @@ class NoteViewController: CustomViewController<NoteView> {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if let delegate = delegate {
-            note.title = customView.titleView.text
-            note.text = customView.noteView.text
-            
-            coreDataStack.saveContext()
-            delegate.noteDidEditted(note: note)
-        }
         
+        if let _ = note {
+            saveNote()
+        } else {
+            createNote()
+        }
+
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -76,7 +74,23 @@ extension NoteViewController {
 // MARK: Helpers
 
 extension NoteViewController {
+    func createNote() {
+        let title: String = customView.titleView.text ?? ""
+        let text: String = customView.noteView.text ?? ""
+        
+        if title.isEmpty && text.isEmpty {
+            return
+        }
+        
+        let note = Note(context: coreDataStack.managedContext)
+        note.title = title
+        note.text = text
+        coreDataStack.saveContext()
+    }
     
+    func saveNote() {
+        
+    }
 }
 
 // MARK: UITextFieldDelegate
