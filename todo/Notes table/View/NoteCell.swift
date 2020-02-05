@@ -56,11 +56,14 @@ class NoteCell: UITableViewCell, ReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        titleLabel.removeFromSuperview()
+        titleLabel.text = ""
+        noteView.text = ""
+        titleLabel.isHidden = true
     }
     
     private func setupViews() {
         backgroundColor = .clear
+        stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(noteView)
         addSubview(stack)
     }
@@ -71,5 +74,9 @@ class NoteCell: UITableViewCell, ReusableView {
                           stack.trailingAnchor.constraint(equalTo: trailingAnchor),
                           stack.bottomAnchor.constraint(equalTo: bottomAnchor)]
         NSLayoutConstraint.activate(constrains)
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(false, animated: animated)
     }
 }

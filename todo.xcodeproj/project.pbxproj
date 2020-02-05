@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8404477423E5EDCD0024C96E /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8404477323E5EDCD0024C96E /* Note+CoreDataProperties.swift */; };
+		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
+		843668AB23E9A19900618B96 /* intro.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668AA23E9A19900618B96 /* intro.wav */; };
 		84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */; };
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
 		847B286623E1855900F334E8 /* UIColor hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor hex.swift */; };
@@ -28,7 +30,6 @@
 		84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */; };
 		84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C723E1BF0600ABA161 /* NoteCell.swift */; };
 		84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C923E1CA0600ABA161 /* NotesTableController.swift */; };
-		84D2EA8323E6D737004C05A6 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2EA8223E6D737004C05A6 /* Note+CoreDataProperties.swift */; };
 		84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EB09AD23E06E430016CC2B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		8404477323E5EDCD0024C96E /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
+		843668AA23E9A19900618B96 /* intro.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = intro.wav; sourceTree = "<group>"; };
 		84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		847B286523E1855900F334E8 /* UIColor hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor hex.swift"; sourceTree = "<group>"; };
@@ -106,6 +109,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		843668A723E99C5600618B96 /* Sound Files */ = {
+			isa = PBXGroup;
+			children = (
+				843668A823E99C9800618B96 /* crumpled paper.wav */,
+				843668AA23E9A19900618B96 /* intro.wav */,
+			);
+			path = "Sound Files";
+			sourceTree = "<group>";
+		};
 		84787C3523E349F500D7C9DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				84EB09AD23E06E430016CC2B /* Assets.xcassets */,
+				843668A723E99C5600618B96 /* Sound Files */,
 			);
 			path = "Supporting files";
 			sourceTree = "<group>";
@@ -397,8 +410,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843668AB23E9A19900618B96 /* intro.wav in Resources */,
 				84A5515623E02EF100E0CC1E /* LaunchScreen.storyboard in Resources */,
 				84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */,
+				843668A923E99C9800618B96 /* crumpled paper.wav in Resources */,
 				84A5514E23E02EF000E0CC1E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,7 +456,6 @@
 				84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
 				84A5515123E02EF000E0CC1E /* todo.xcdatamodeld in Sources */,
-				84D2EA8323E6D737004C05A6 /* Note+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
