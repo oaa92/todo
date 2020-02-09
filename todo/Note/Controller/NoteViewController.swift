@@ -19,14 +19,12 @@ class NoteViewController: CustomViewController<NoteView> {
         
         print("viewDidLoad")
         
-        customView.titleView.returnKeyType = .done
         addNoteActionBar()
         
+        customView.titleView.returnKeyType = .done
         customView.titleView.delegate = self
-        
-        if let glayer = customView.noteView.layer as? CAGradientLayer {
-            glayer.colors = [UIColor(hex6: 0xBFD6AD).cgColor, UIColor(hex6: 0xFFCAAF).cgColor]
-        }
+
+        updateUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,14 +36,7 @@ class NoteViewController: CustomViewController<NoteView> {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        
-        if let _ = note {
-            saveNote()
-        } else {
-            createNote()
-        }
-
+        saveNote()
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -74,22 +65,50 @@ extension NoteViewController {
 // MARK: Helpers
 
 extension NoteViewController {
-    func createNote() {
-        let title: String = customView.titleView.text ?? ""
-        let text: String = customView.noteView.text ?? ""
-        
-        if title.isEmpty && text.isEmpty {
+    func updateUI() {
+        guard let note = note else {
             return
         }
+        customView.titleView.text = note.title
+        customView.noteView.text = note.text
         
-        let note = Note(context: coreDataStack.managedContext)
-        note.title = title
-        note.text = text
-        coreDataStack.saveContext()
+        if let layer = customView.noteView.layer as? CAGradientLayer,
+            let startPointStr = note.background?.startPoint,
+            let endPointStr = note.background?.endPoint,
+            let cgColors = note.background?.cgColors,
+            cgColors.count > 1 {
+            let startPoint = NSCoder.cgPoint(for: startPointStr)
+            let endPoint = NSCoder.cgPoint(for: endPointStr)
+            layer.startPoint = startPoint
+            layer.endPoint = endPoint
+            layer.colors = cgColors
+        }
     }
     
     func saveNote() {
+        let title: String = customView.titleView.text ?? ""
+        let text: String = customView.noteView.text ?? ""
+        if title.isEmpty && text.isEmpty {
+            return
+        }
+        guard let layer = customView.noteView.layer as? CAGradientLayer else {
+            return
+        }
         
+        if note == nil {
+            note = Note(context: coreDataStack.managedContext)
+            let background = GradientBackgroud(context: coreDataStack.managedContext)
+            note?.background = background
+        }
+        
+        note?.title = title
+        note?.text = text
+        let startPointStr = NSCoder.string(for: layer.startPoint)
+        let endPointStr = NSCoder.string(for: layer.endPoint)
+        note?.background?.startPoint = startPointStr
+        note?.background?.endPoint = endPointStr
+        note?.background?.cgColors = layer.colors as! [CGColor]
+        coreDataStack.saveContext()
     }
 }
 

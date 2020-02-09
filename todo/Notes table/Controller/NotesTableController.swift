@@ -6,12 +6,11 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
+import AVFoundation
 import CoreData
 import UIKit
-import AVFoundation
 
 class NotesTableController: UITableViewController, AVAudioPlayerDelegate {
-    var audioPlayer: AVAudioPlayer?
     lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                              target: self,
                                              action: #selector(addNote))
@@ -25,19 +24,18 @@ class NotesTableController: UITableViewController, AVAudioPlayerDelegate {
     lazy var cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                 target: self,
                                                 action: #selector(cancelButtonPressed))
+    var audioPlayer: AVAudioPlayer?
     let searchController = UISearchController(searchResultsController: nil)
-
     var coreDataStack: CoreDataStack!
     lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
         let sort = NSSortDescriptor(key: #keyPath(Note.createdAt), ascending: false)
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         fetchRequest.sortDescriptors = [sort]
         fetchRequest.fetchBatchSize = 10
-        let fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.managedContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: coreDataStack.managedContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
         return fetchedResultsController
     }()
 
@@ -45,7 +43,7 @@ class NotesTableController: UITableViewController, AVAudioPlayerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+
         do {
             let url = Bundle.main.url(forResource: "crumpled paper", withExtension: "wav")
             audioPlayer = try AVAudioPlayer(contentsOf: url!)
@@ -53,16 +51,14 @@ class NotesTableController: UITableViewController, AVAudioPlayerDelegate {
             print(error)
         }
 
-        view.backgroundColor = UIColor(hex6: 0xF7ECE1)
+        view.backgroundColor = UIColor.Palette.grayish_orange.get
         setupNavigationBar()
         setupSearchController()
 
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.register(NoteCell.self)
-        
+
         fetchedResultsController.delegate = self
-        
-        print("viewDidLoad")
         fetch()
     }
 
@@ -88,10 +84,10 @@ extension NotesTableController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
-    
+
     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Delete"
-        let deleteAction = UIContextualAction(style: .normal, title: title) { (action, view, completionHandler) in
+        let deleteAction = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
             let alert = self.getDeleteAlertController(cellForRowAt: indexPath)
             self.present(alert, animated: true)
             completionHandler(true)
@@ -100,7 +96,7 @@ extension NotesTableController {
         deleteAction.image = UIImage(named: "trash")
         return deleteAction
     }
-    
+
     func getDeleteAlertController(cellForRowAt indexPath: IndexPath) -> UIAlertController {
         let note = fetchedResultsController.object(at: indexPath)
         var message = ""
@@ -109,24 +105,23 @@ extension NotesTableController {
         } else {
             message = "Удалить заметку?"
         }
-        
+
         let title = "Удаление"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+
         let cancelTitle = "Отмена"
-        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { (action) in
-            return
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
         }
         alert.addAction(cancelAction)
-        
+
         let deleteTitle = "Удалить"
-        let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive) { (action) in
+        let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive) { _ in
             self.coreDataStack.managedContext.delete(note)
             self.coreDataStack.saveContext()
             self.audioPlayer?.play()
         }
         alert.addAction(deleteAction)
-        
+
         return alert
     }
 }
@@ -152,18 +147,18 @@ extension NotesTableController {
         noteController.coreDataStack = coreDataStack
         navigationController?.pushViewController(noteController, animated: true)
     }
-    
+
     @objc func editButtonPressed() {
         tableView.setEditing(true, animated: true)
         deleteButtonItem.isEnabled = false
         navigationItem.leftBarButtonItem = deleteButtonItem
         navigationItem.rightBarButtonItem = cancelButtonItem
     }
-    
+
     @objc func cancelButtonPressed() {
         exitFromEditMode()
     }
-    
+
     @objc func deleteButtonPressed() {
         if let paths = tableView.indexPathsForSelectedRows {
             var notes: [Note] = []
@@ -180,7 +175,7 @@ extension NotesTableController {
         }
         exitFromEditMode()
     }
-    
+
     func exitFromEditMode() {
         tableView.setEditing(false, animated: true)
         navigationItem.leftBarButtonItem = customEditButtonItem
@@ -193,14 +188,12 @@ extension NotesTableController {
         return true
     }
 
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?){
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             print(tableView.isEditing)
-            for _ in 0..<5 {
-                let note = Note(context: coreDataStack.managedContext)
-                let s = String(Int.random(in: 0...1_000))
-                note.title = s
-                note.text = s
+            for _ in 0..<1 {
+                let generator = RandomNoteGenerator()
+                _ = generator.generate(context: coreDataStack.managedContext)
                 coreDataStack.saveContext()
             }
         }
@@ -209,31 +202,36 @@ extension NotesTableController {
 
 // MARK: UITableViewDelegate
 
-extension NotesTableController{
+extension NotesTableController {
     override func tableView(_ tableView: UITableView,
                             trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = getDeleteAction(cellForRowAt: indexPath)
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration
     }
-    
+
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.isEditing {
             deleteButtonItem.isEnabled = true
         } else {
-            tableView.deselectRow(at: indexPath, animated: false)
+            //tableView.deselectRow(at: indexPath, animated: false)
+            let note = fetchedResultsController.object(at: indexPath)
+            let noteController = NoteViewController()
+            noteController.coreDataStack = coreDataStack
+            noteController.note = note
+            navigationController?.pushViewController(noteController, animated: true)
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
         navigationItem.leftBarButtonItem?.isEnabled = false
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
-    
+
     override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         exitFromEditMode()
         navigationItem.leftBarButtonItem?.isEnabled = true
@@ -274,11 +272,19 @@ extension NotesTableController {
             cell.titleLabel.text = title
         }
 
-        if let glayer = cell.noteView.layer as? CAGradientLayer {
-            glayer.colors = [UIColor(hex6: 0xBFD6AD).cgColor, UIColor(hex6: 0xFFCAAF).cgColor]
-        }
-
+        // text
         cell.noteView.text = note.text
+        if let layer = cell.noteView.layer as? CAGradientLayer,
+            let startPointStr = note.background?.startPoint,
+            let endPointStr = note.background?.endPoint,
+            let cgColors = note.background?.cgColors,
+            cgColors.count > 1 {
+            let startPoint = NSCoder.cgPoint(for: startPointStr)
+            let endPoint = NSCoder.cgPoint(for: endPointStr)
+            layer.startPoint = startPoint
+            layer.endPoint = endPoint
+            layer.colors = cgColors
+        }
     }
 }
 
@@ -309,7 +315,7 @@ extension NotesTableController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
-    
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any,
                     at indexPath: IndexPath?,

@@ -9,7 +9,6 @@
 import UIKit
 
 class NoteCell: UITableViewCell, ReusableView {
-    
     let stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -34,12 +33,7 @@ class NoteCell: UITableViewCell, ReusableView {
         noteView.heightAnchor.constraint(lessThanOrEqualToConstant: 110).isActive = true
         noteView.isUserInteractionEnabled = false
         noteView.font = UIFont.systemFont(ofSize: 15)
-        
-        if let layer = noteView.layer as? CAGradientLayer {
-            layer.startPoint = CGPoint(x: 0, y: 1)
-            layer.endPoint = CGPoint(x: 1, y: 0)
-        }
-        
+        noteView.textColor = UIColor(hex6: 0x424C55)
         return noteView
     }()
     
@@ -55,17 +49,30 @@ class NoteCell: UITableViewCell, ReusableView {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
-        titleLabel.text = ""
-        noteView.text = ""
+        // title
         titleLabel.isHidden = true
+        titleLabel.text = ""
+        // noteView
+        noteView.text = ""
+        setupLayerParams()
     }
     
     private func setupViews() {
         backgroundColor = .clear
+        setupLayerParams()
+        
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(noteView)
         addSubview(stack)
+    }
+    
+    private func setupLayerParams() {
+        if let layer = noteView.layer as? CAGradientLayer {
+            layer.startPoint = CGPoint(x: 0, y: 1)
+            layer.endPoint = CGPoint(x: 1, y: 0)
+            layer.colors = [UIColor.Palette.soft_yellow.get.cgColor,
+                            UIColor.Palette.pale_orange.get.cgColor]
+        }
     }
     
     private func setupConstrains() {

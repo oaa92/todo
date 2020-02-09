@@ -42,12 +42,12 @@ class NoteView: UIView {
         noteView.font = UIFont.systemFont(ofSize: 20)
         noteView.translatesAutoresizingMaskIntoConstraints = false
         noteView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-        
         if let layer = noteView.layer as? CAGradientLayer {
             layer.startPoint = CGPoint(x: 0, y: 1)
             layer.endPoint = CGPoint(x: 1, y: 0)
+            layer.colors = [UIColor.Palette.soft_yellow.get.cgColor,
+                            UIColor.Palette.pale_orange.get.cgColor]
         }
-        
         return noteView
     }()
     
@@ -62,11 +62,9 @@ class NoteView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = UIColor(hex6: 0xF7ECE1)
-        
+        backgroundColor = UIColor.Palette.grayish_orange.get
         stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(noteView)
-        
         scrollView.addSubview(stackView)
         addSubview(scrollView)
     }
