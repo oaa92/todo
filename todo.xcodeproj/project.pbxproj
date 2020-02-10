@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
+		8440038223F12F3F00B909CC /* TagsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsProvider.swift */; };
+		8440038623F1370300B909CC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038523F1370300B909CC /* String.swift */; };
 		84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */; };
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
 		847B286623E1855900F334E8 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor.swift */; };
@@ -27,6 +29,10 @@
 		84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */; };
 		84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C723E1BF0600ABA161 /* NoteCell.swift */; };
 		84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C923E1CA0600ABA161 /* NotesTableController.swift */; };
+		84C6DC5F23F0558F0092DF4B /* TagCellSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */; };
+		84C6DC6123F059C40092DF4B /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6023F059C40092DF4B /* TagsLayout.swift */; };
+		84C6DC6323F059F70092DF4B /* TagsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */; };
+		84C6DC6523F05BBB0092DF4B /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6423F05BBB0092DF4B /* TagCell.swift */; };
 		84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242023EC735A00C0E4DA /* todo.xcdatamodeld */; };
 		84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */; };
 		84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EB09AD23E06E430016CC2B /* Assets.xcassets */; };
@@ -60,6 +66,8 @@
 
 /* Begin PBXFileReference section */
 		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
+		8440038123F12F3F00B909CC /* TagsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsProvider.swift; sourceTree = "<group>"; };
+		8440038523F1370300B909CC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		847B286523E1855900F334E8 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -85,6 +93,10 @@
 		84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableView.swift"; sourceTree = "<group>"; };
 		84BC01C723E1BF0600ABA161 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		84BC01C923E1CA0600ABA161 /* NotesTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableController.swift; sourceTree = "<group>"; };
+		84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCellSettings.swift; sourceTree = "<group>"; };
+		84C6DC6023F059C40092DF4B /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
+		84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionView.swift; sourceTree = "<group>"; };
+		84C6DC6423F05BBB0092DF4B /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
 		84CC242123EC735A00C0E4DA /* todo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = todo.xcdatamodel; sourceTree = "<group>"; };
 		84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GradientBackgroud+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84EB09AD23E06E430016CC2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -162,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				847B286523E1855900F334E8 /* UIColor.swift */,
+				8440038523F1370300B909CC /* String.swift */,
 				84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */,
 				84BC01C323E1BC9500ABA161 /* UICollectionView+ReusableView.swift */,
 				84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */,
@@ -312,8 +325,37 @@
 		84C6DC5A23F0529C0092DF4B /* Tags cloud */ = {
 			isa = PBXGroup;
 			children = (
+				84C6DC5B23F055560092DF4B /* Model */,
+				84C6DC5D23F0556C0092DF4B /* View */,
+				84C6DC5C23F055640092DF4B /* Controller */,
 			);
 			path = "Tags cloud";
+			sourceTree = "<group>";
+		};
+		84C6DC5B23F055560092DF4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		84C6DC5C23F055640092DF4B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8440038123F12F3F00B909CC /* TagsProvider.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		84C6DC5D23F0556C0092DF4B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84C6DC6023F059C40092DF4B /* TagsLayout.swift */,
+				84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */,
+				84C6DC6423F05BBB0092DF4B /* TagCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		84EB09AC23E06DF10016CC2B /* Supporting files */ = {
@@ -502,6 +544,7 @@
 			files = (
 				84BC01C023E1BC2D00ABA161 /* ReusableView.swift in Sources */,
 				847B286223E180F500F334E8 /* CustomViewController.swift in Sources */,
+				84C6DC6523F05BBB0092DF4B /* TagCell.swift in Sources */,
 				84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */,
 				84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */,
 				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
@@ -518,13 +561,18 @@
 				84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */,
 				84F2435B23EC066700B4438C /* NoteBackgroud+CoreDataProperties.swift in Sources */,
 				84F2435C23EC066700B4438C /* Tag+CoreDataClass.swift in Sources */,
+				84C6DC5F23F0558F0092DF4B /* TagCellSettings.swift in Sources */,
 				84F2435D23EC066700B4438C /* Tag+CoreDataProperties.swift in Sources */,
 				84F2435923EC066700B4438C /* Icon+CoreDataProperties.swift in Sources */,
 				847B286623E1855900F334E8 /* UIColor.swift in Sources */,
 				84AF8B2323E40C2F0019A4DB /* CoreDataStack.swift in Sources */,
+				8440038223F12F3F00B909CC /* TagsProvider.swift in Sources */,
 				84A5514923E02EF000E0CC1E /* SceneDelegate.swift in Sources */,
+				84C6DC6123F059C40092DF4B /* TagsLayout.swift in Sources */,
 				84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */,
+				84C6DC6323F059F70092DF4B /* TagsCollectionView.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
+				8440038623F1370300B909CC /* String.swift in Sources */,
 				84F2435E23EC066700B4438C /* GradientBackgroud+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

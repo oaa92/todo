@@ -39,6 +39,17 @@ class NotesTableController: UITableViewController, AVAudioPlayerDelegate {
         return fetchedResultsController
     }()
 
+    let settings = TagCellSettings(collectionSectionInset: UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4),
+                                   minimumInteritemSpacing: 10,
+                                   stackMargins: UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5),
+                                   stackSpacing: 3,
+                                   iconSize: 10,
+                                   fontSize: 12,
+                                   textColor: .gray,
+                                   backgroundColor: UIColor(white: 0.9, alpha: 1.0),
+                                   cornerRadius: 5)
+    var providers: [UUID: TagsProvider] = [:]
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -218,7 +229,7 @@ extension NotesTableController {
         if tableView.isEditing {
             deleteButtonItem.isEnabled = true
         } else {
-            //tableView.deselectRow(at: indexPath, animated: false)
+            // tableView.deselectRow(at: indexPath, animated: false)
             let note = fetchedResultsController.object(at: indexPath)
             let noteController = NoteViewController()
             noteController.coreDataStack = coreDataStack
@@ -236,6 +247,11 @@ extension NotesTableController {
         exitFromEditMode()
         navigationItem.leftBarButtonItem?.isEnabled = true
         navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let note = fetchedResultsController.object(at: indexPath)
+        providers[note.uid!] = nil
     }
 }
 
@@ -275,15 +291,69 @@ extension NotesTableController {
         // text
         cell.noteView.text = note.text
         if let layer = cell.noteView.layer as? CAGradientLayer,
-            let startPointStr = note.background?.startPoint,
-            let endPointStr = note.background?.endPoint,
-            let cgColors = note.background?.cgColors,
-            cgColors.count > 1 {
+            let background = note.background,
+            let startPointStr = background.startPoint,
+            let endPointStr = background.endPoint,
+            background.cgColors.count > 1 {
             let startPoint = NSCoder.cgPoint(for: startPointStr)
             let endPoint = NSCoder.cgPoint(for: endPointStr)
             layer.startPoint = startPoint
             layer.endPoint = endPoint
-            layer.colors = cgColors
+            layer.colors = background.cgColors
+        }
+
+        configureTags(note: note, cell: cell)
+    }
+
+    func configureTags(note: Note, cell: NoteCell) {
+        let uid = note.uid!
+        if providers[uid] == nil {
+            createProvider(note: note, cell: cell)
+        }
+        let tagsProvider: TagsProvider? = providers[uid]
+
+        cell.tagsView.register(TagCell.self)
+        cell.tagsView.dataSource = tagsProvider
+        cell.tagsView.delegate = tagsProvider
+
+        if tagsProvider != nil {
+            cell.tagsView.isHidden = false
+            cell.tagsView.reloadData()
+        }
+    }
+
+    func createProvider(note: Note, cell: NoteCell) {
+        let tags = note.tags as! Set<Tag>
+        guard tags.count > 0 else {
+            return
+        }
+        let uid = note.uid!
+        let provider = TagsProvider(cellSettings: settings)
+        providers[uid] = provider
+
+        let collectionViewWidth = UIScreen.main.bounds.width -
+            (cell.stack.layoutMargins.left + cell.stack.layoutMargins.right) -
+            (settings.collectionSectionInset.left + settings.collectionSectionInset.right) - 50
+        var sumWidth: CGFloat = 0
+        var addTagsCount = 0
+        for tag in tags {
+            let size = provider.getSizeForTag(tag: tag,
+                                              sectionInset: settings.collectionSectionInset,
+                                              collectionViewWidth: collectionViewWidth)
+            sumWidth += size.width + settings.minimumInteritemSpacing
+            if sumWidth >= collectionViewWidth {
+                if addTagsCount > 0 {
+                    let otherTags = Tag(entity: Tag.entity(), insertInto: nil)
+                    otherTags.name = "+\(tags.count - addTagsCount)"
+                    provider.tags.append(otherTags)
+                } else {
+                    provider.tags.append(tag)
+                }
+                break
+            } else {
+                provider.tags.append(tag)
+                addTagsCount += 1
+            }
         }
     }
 }
@@ -327,6 +397,9 @@ extension NotesTableController: NSFetchedResultsControllerDelegate {
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
+            let note = fetchedResultsController.object(at: indexPath!)
+            providers[note.uid!] = nil
+
             let cell = tableView.cellForRow(at: indexPath!) as! NoteCell
             configure(cell: cell, indexPath: indexPath!)
         case .move:

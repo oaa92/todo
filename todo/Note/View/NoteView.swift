@@ -9,7 +9,6 @@
 import UIKit
 
 class NoteView: UIView {
-    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false

@@ -2,7 +2,7 @@
 //  Icon+CoreDataProperties.swift
 //  todo
 //
-//  Created by Анатолий on 06/02/2020.
+//  Created by Анатолий on 10/02/2020.
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 //
@@ -17,7 +17,7 @@ extension Icon {
         return NSFetchRequest<Icon>(entityName: "Icon")
     }
 
-    @NSManaged public var color: NSObject?
+    @NSManaged public var color: Int32
     @NSManaged public var name: String?
     @NSManaged public var tags: NSSet?
 

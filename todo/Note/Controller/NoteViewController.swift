@@ -10,30 +10,30 @@ import UIKit
 
 class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
-    var note: Note? = nil
-    
+    var note: Note?
+
     // MARK: View Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         print("viewDidLoad")
-        
+
         addNoteActionBar()
-        
+
         customView.titleView.returnKeyType = .done
         customView.titleView.delegate = self
 
         updateUI()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:UIResponder.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name:UIResponder.keyboardDidHideNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveNote()
@@ -58,7 +58,7 @@ extension NoteViewController {
 
 extension NoteViewController {
     @objc func doneTapped() {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
 }
 
@@ -71,7 +71,7 @@ extension NoteViewController {
         }
         customView.titleView.text = note.title
         customView.noteView.text = note.text
-        
+
         if let layer = customView.noteView.layer as? CAGradientLayer,
             let startPointStr = note.background?.startPoint,
             let endPointStr = note.background?.endPoint,
@@ -84,23 +84,23 @@ extension NoteViewController {
             layer.colors = cgColors
         }
     }
-    
+
     func saveNote() {
         let title: String = customView.titleView.text ?? ""
         let text: String = customView.noteView.text ?? ""
-        if title.isEmpty && text.isEmpty {
+        if title.isEmpty, text.isEmpty {
             return
         }
         guard let layer = customView.noteView.layer as? CAGradientLayer else {
             return
         }
-        
+
         if note == nil {
             note = Note(context: coreDataStack.managedContext)
             let background = GradientBackgroud(context: coreDataStack.managedContext)
             note?.background = background
         }
-        
+
         note?.title = title
         note?.text = text
         let startPointStr = NSCoder.string(for: layer.startPoint)
@@ -115,7 +115,7 @@ extension NoteViewController {
 // MARK: UITextFieldDelegate
 
 extension NoteViewController: UITextFieldDelegate {
-    //hide keyboard
+    // hide keyboard
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -127,14 +127,13 @@ extension NoteViewController: UITextFieldDelegate {
 extension NoteViewController {
     @objc func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-            else {
-                return
+            let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
         }
         let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
         customView.scrollView.contentInset = contentInset
     }
-    
+
     @objc func keyboardWillHide(notification: Notification) {
         customView.scrollView.contentInset = UIEdgeInsets.zero
     }

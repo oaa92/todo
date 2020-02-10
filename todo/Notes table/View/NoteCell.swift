@@ -37,6 +37,15 @@ class NoteCell: UITableViewCell, ReusableView {
         return noteView
     }()
     
+    let tagsView: TagsCollectionView = {
+        let tagsView = TagsCollectionView(frame: .zero, collectionViewLayout: TagsLayout())
+        tagsView.translatesAutoresizingMaskIntoConstraints = false
+        tagsView.isUserInteractionEnabled = false
+        return tagsView
+    }()
+    
+    var tagsViewHeight: NSLayoutConstraint!
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -53,16 +62,21 @@ class NoteCell: UITableViewCell, ReusableView {
         titleLabel.isHidden = true
         titleLabel.text = ""
         // noteView
-        noteView.text = ""
         setupLayerParams()
+        noteView.text = ""
+        // tags
+        tagsView.isHidden = true
     }
     
     private func setupViews() {
+        titleLabel.isHidden = true
+        tagsView.isHidden = true
         backgroundColor = .clear
         setupLayerParams()
         
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(noteView)
+        stack.addArrangedSubview(tagsView)
         addSubview(stack)
     }
     
@@ -81,6 +95,9 @@ class NoteCell: UITableViewCell, ReusableView {
                           stack.trailingAnchor.constraint(equalTo: trailingAnchor),
                           stack.bottomAnchor.constraint(equalTo: bottomAnchor)]
         NSLayoutConstraint.activate(constrains)
+        
+        tagsViewHeight = tagsView.heightAnchor.constraint(equalToConstant: 25)
+        tagsViewHeight.isActive = true
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

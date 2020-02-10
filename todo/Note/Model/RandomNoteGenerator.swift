@@ -6,8 +6,8 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import UIKit
 
 class RandomNoteGenerator {
@@ -17,6 +17,14 @@ class RandomNoteGenerator {
         note.text = genNoteText()
         note.updatedAt = Date()
         note.background = genBackground(context: context)
+        // tags
+        if Int.random(in: 1...100) > 50 {
+            let tagN = Int.random(in: 1...10)
+            for _ in 0..<tagN {
+                note.addToTags(genTag(context: context))
+            }
+        }
+        
         return note
     }
     
@@ -60,13 +68,39 @@ class RandomNoteGenerator {
     }
     
     private func genBackground(context: NSManagedObjectContext) -> GradientBackgroud {
-            let b = GradientBackgroud(context: context)
-            b.startPoint = NSCoder.string(for: CGPoint(x: 0, y: 1))
-            b.endPoint = NSCoder.string(for: CGPoint(x: 1, y: 0))
-            let colors = [getRandomColor().rgb!,
-                          getRandomColor().rgb!]
-            b.colors = colors
-            return b
+        let b = GradientBackgroud(context: context)
+        b.startPoint = NSCoder.string(for: CGPoint(x: 0, y: 1))
+        b.endPoint = NSCoder.string(for: CGPoint(x: 1, y: 0))
+        let colors = [getRandomColor().rgb!,
+                      getRandomColor().rgb!]
+        b.colors = colors
+        return b
+    }
+    
+    private func genTag(context: NSManagedObjectContext) -> Tag {
+        let icons = ["angry",
+                     "book",
+                     "car",
+                     "cart",
+                     "doge",
+                     "goal",
+                     "heart",
+                     "meeting",
+                     "party",
+                     "pills",
+                     "sport",
+                     "submarine",
+                     "tag",
+                     "work"]
+        let t = Tag(context: context)
+        t.name = genRandomString(n: 10, emptyPercent: 0)
+        if Int.random(in: 1...100) > 50 {
+            let i = Icon(context: context)
+            i.color = getRandomColor().rgb!
+            i.name = icons.randomElement()!
+            t.icon = i
+        }
+        return t
     }
     
     private func getRandomColor() -> UIColor {

@@ -9,8 +9,7 @@
 import UIKit
 
 class NoteTextView: UITextView {
-    
-    override class var layerClass : AnyClass {
+    override class var layerClass: AnyClass {
         return CAGradientLayer.self
     }
     
@@ -34,7 +33,7 @@ class NoteTextView: UITextView {
         layer.shadowOpacity = 0.25
         layer.shadowRadius = 4
         
-        let insV = radius/2
+        let insV = radius / 2
         textContainerInset = UIEdgeInsets(top: insV, left: insV, bottom: insV, right: insV)
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = .byTruncatingTail

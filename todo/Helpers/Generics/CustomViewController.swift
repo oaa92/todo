@@ -12,7 +12,7 @@ class CustomViewController<CustomView: UIView>: UIViewController {
     var customView: CustomView {
         return view as! CustomView
     }
-    
+
     override func loadView() {
         view = CustomView()
     }

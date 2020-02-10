@@ -6,12 +6,11 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
     var window: UIWindow?
     lazy var coreDataStack = CoreDataStack(modelName: "todo")
     
@@ -21,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // do nothing / do things that should only be done for iOS 13
         } else {
             // do iOS 12 specific window setup
-            window = UIWindow.init(frame: UIScreen.main.bounds)
+            window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             let rootController = NotesTableController()
             rootController.coreDataStack = coreDataStack
@@ -35,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: UISceneSession Lifecycle
+    
     @available(iOS 13.0, *)
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -49,4 +49,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 }
-
