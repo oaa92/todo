@@ -50,6 +50,14 @@ class NoteView: UIView {
         return noteView
     }()
     
+    let tagsView: TagsCollectionView = {
+        let tagsView = TagsCollectionView(frame: .zero, collectionViewLayout: TagsLayout())
+        tagsView.translatesAutoresizingMaskIntoConstraints = false
+        return tagsView
+    }()
+    
+    var tagsViewHeight: NSLayoutConstraint!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -62,8 +70,10 @@ class NoteView: UIView {
     
     private func setupViews() {
         backgroundColor = UIColor.Palette.grayish_orange.get
+        tagsView.isHidden = true
         stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(noteView)
+        stackView.addArrangedSubview(tagsView)
         scrollView.addSubview(stackView)
         addSubview(scrollView)
     }
@@ -81,5 +91,8 @@ class NoteView: UIView {
                                    stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
                                    stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)]
         NSLayoutConstraint.activate(stackViewConstrains)
+        
+        tagsViewHeight = tagsView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
+        tagsViewHeight.isActive = true
     }
 }

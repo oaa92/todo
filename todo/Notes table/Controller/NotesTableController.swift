@@ -315,11 +315,8 @@ extension NotesTableController {
         cell.tagsView.register(TagCell.self)
         cell.tagsView.dataSource = tagsProvider
         cell.tagsView.delegate = tagsProvider
-
-        if tagsProvider != nil {
-            cell.tagsView.isHidden = false
-            cell.tagsView.reloadData()
-        }
+        cell.tagsView.reloadData()
+        cell.tagsView.isHidden = tagsProvider == nil ? true : false
     }
 
     func createProvider(note: Note, cell: NoteCell) {

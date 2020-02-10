@@ -44,8 +44,6 @@ class NoteCell: UITableViewCell, ReusableView {
         return tagsView
     }()
     
-    var tagsViewHeight: NSLayoutConstraint!
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -95,9 +93,7 @@ class NoteCell: UITableViewCell, ReusableView {
                           stack.trailingAnchor.constraint(equalTo: trailingAnchor),
                           stack.bottomAnchor.constraint(equalTo: bottomAnchor)]
         NSLayoutConstraint.activate(constrains)
-        
-        tagsViewHeight = tagsView.heightAnchor.constraint(equalToConstant: 25)
-        tagsViewHeight.isActive = true
+        tagsView.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
