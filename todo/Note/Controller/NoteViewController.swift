@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Floaty
 
 class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
@@ -31,6 +32,7 @@ class NoteViewController: CustomViewController<NoteView> {
         print("viewDidLoad")
 
         addNoteActionBar()
+        setFloatyItems()
 
         customView.titleView.returnKeyType = .done
         customView.titleView.delegate = self
@@ -65,6 +67,20 @@ class NoteViewController: CustomViewController<NoteView> {
 // MARK: Layout
 
 extension NoteViewController {
+    func setFloatyItems() {
+        addFloatyItem(icon: UIImage(named: "tag"))
+        addFloatyItem(icon: UIImage(named: "notification"))
+        addFloatyItem(icon: UIImage(named: "attachment"))
+    }
+    
+    func addFloatyItem(title: String? = nil, icon: UIImage? = nil, handler: ((FloatyItem) -> Void)? = nil) {
+        let item = FloatyItem()
+        item.title = title
+        item.icon = icon
+        item.handler = handler
+        customView.floaty.addItem(item: item)
+    }
+    
     func addNoteActionBar() {
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
@@ -175,9 +191,12 @@ extension NoteViewController {
         }
         let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
         customView.scrollView.contentInset = contentInset
+        customView.floaty.isHidden = true
     }
 
     @objc func keyboardWillHide(notification: Notification) {
         customView.scrollView.contentInset = UIEdgeInsets.zero
+        customView.floaty.isHidden = false
     }
 }
+

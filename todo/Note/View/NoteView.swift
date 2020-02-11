@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Floaty
 
 class NoteView: UIView {
     let scrollView: UIScrollView = {
@@ -58,6 +59,8 @@ class NoteView: UIView {
     
     var tagsViewHeight: NSLayoutConstraint!
     
+    let floaty = Floaty()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -76,6 +79,7 @@ class NoteView: UIView {
         stackView.addArrangedSubview(tagsView)
         scrollView.addSubview(stackView)
         addSubview(scrollView)
+        addSubview(floaty)
     }
     
     private func setupConstrains() {
