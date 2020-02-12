@@ -211,50 +211,6 @@ extension NotesTableController {
     }
 }
 
-// MARK: UITableViewDelegate
-
-extension NotesTableController {
-    override func tableView(_ tableView: UITableView,
-                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        return configuration
-    }
-
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .none
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.isEditing {
-            deleteButtonItem.isEnabled = true
-        } else {
-            // tableView.deselectRow(at: indexPath, animated: false)
-            let note = fetchedResultsController.object(at: indexPath)
-            let noteController = NoteViewController()
-            noteController.coreDataStack = coreDataStack
-            noteController.note = note
-            navigationController?.pushViewController(noteController, animated: true)
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        navigationItem.leftBarButtonItem?.isEnabled = false
-        navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-
-    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        exitFromEditMode()
-        navigationItem.leftBarButtonItem?.isEnabled = true
-        navigationItem.rightBarButtonItem?.isEnabled = true
-    }
-
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let note = fetchedResultsController.object(at: indexPath)
-        providers[note.uid!] = nil
-    }
-}
-
 // MARK: UITableViewDataSource
 
 extension NotesTableController {
@@ -352,6 +308,50 @@ extension NotesTableController {
                 addTagsCount += 1
             }
         }
+    }
+}
+
+// MARK: UITableViewDelegate
+
+extension NotesTableController {
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
+
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            deleteButtonItem.isEnabled = true
+        } else {
+            // tableView.deselectRow(at: indexPath, animated: false)
+            let note = fetchedResultsController.object(at: indexPath)
+            let noteController = NoteViewController()
+            noteController.coreDataStack = coreDataStack
+            noteController.note = note
+            navigationController?.pushViewController(noteController, animated: true)
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+
+    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        exitFromEditMode()
+        navigationItem.leftBarButtonItem?.isEnabled = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let note = fetchedResultsController.object(at: indexPath)
+        providers[note.uid!] = nil
     }
 }
 

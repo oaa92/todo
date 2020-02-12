@@ -17,6 +17,9 @@
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
 		847B286623E1855900F334E8 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor.swift */; };
 		847B286823E189A900F334E8 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286723E189A900F334E8 /* NoteViewController.swift */; };
+		8488C39423F3D21900C13882 /* TagsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488C39323F3D21900C13882 /* TagsTableController.swift */; };
+		8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488C39523F3E31800C13882 /* TagTableCell.swift */; };
+		8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493913A23F4049F001BB07A /* TagsTableView.swift */; };
 		84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5514623E02EF000E0CC1E /* AppDelegate.swift */; };
 		84A5514923E02EF000E0CC1E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5514823E02EF000E0CC1E /* SceneDelegate.swift */; };
 		84A5514E23E02EF000E0CC1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A5514C23E02EF000E0CC1E /* Main.storyboard */; };
@@ -79,6 +82,9 @@
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		847B286523E1855900F334E8 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		847B286723E189A900F334E8 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		8488C39323F3D21900C13882 /* TagsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTableController.swift; sourceTree = "<group>"; };
+		8488C39523F3E31800C13882 /* TagTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableCell.swift; sourceTree = "<group>"; };
+		8493913A23F4049F001BB07A /* TagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTableView.swift; sourceTree = "<group>"; };
 		84A5514323E02EF000E0CC1E /* todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A5514623E02EF000E0CC1E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A5514823E02EF000E0CC1E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -228,6 +234,55 @@
 			path = Generics;
 			sourceTree = "<group>";
 		};
+		8488C38D23F3C9D900C13882 /* Tags table */ = {
+			isa = PBXGroup;
+			children = (
+				8488C39223F3CA3700C13882 /* View */,
+				8488C39123F3CA3100C13882 /* Controller */,
+			);
+			path = "Tags table";
+			sourceTree = "<group>";
+		};
+		8488C38E23F3C9F800C13882 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				8488C38F23F3CA0100C13882 /* View */,
+				8488C39023F3CA0E00C13882 /* Controller */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
+		8488C38F23F3CA0100C13882 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8488C39023F3CA0E00C13882 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8488C39123F3CA3100C13882 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8488C39323F3D21900C13882 /* TagsTableController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8488C39223F3CA3700C13882 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8488C39523F3E31800C13882 /* TagTableCell.swift */,
+				8493913A23F4049F001BB07A /* TagsTableView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		84A5513A23E02EF000E0CC1E = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +311,8 @@
 				84A5517923E035EE00E0CC1E /* Application */,
 				84F2434823EC037000B4438C /* CoreData */,
 				847B285E23E1801A00F334E8 /* Helpers */,
+				8488C38E23F3C9F800C13882 /* Tag */,
+				8488C38D23F3C9D900C13882 /* Tags table */,
 				84C6DC5A23F0529C0092DF4B /* Tags cloud */,
 				84A5517C23E0467800E0CC1E /* Note */,
 				84BC01BB23E1B9FA00ABA161 /* Notes table */,
@@ -666,8 +723,10 @@
 				84C6DC6523F05BBB0092DF4B /* TagCell.swift in Sources */,
 				84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */,
 				84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */,
+				8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */,
 				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
 				84F2435A23EC066700B4438C /* NoteBackgroud+CoreDataClass.swift in Sources */,
+				8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */,
 				84A5518123E047DD00E0CC1E /* NoteTextView.swift in Sources */,
 				84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */,
 				84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */,
@@ -689,6 +748,7 @@
 				84A5514923E02EF000E0CC1E /* SceneDelegate.swift in Sources */,
 				84C6DC6123F059C40092DF4B /* TagsLayout.swift in Sources */,
 				84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */,
+				8488C39423F3D21900C13882 /* TagsTableController.swift in Sources */,
 				84C6DC6323F059F70092DF4B /* TagsCollectionView.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
 				8440038623F1370300B909CC /* String.swift in Sources */,

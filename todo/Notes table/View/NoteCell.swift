@@ -69,6 +69,7 @@ class NoteCell: UITableViewCell, ReusableView {
     private func setupViews() {
         titleLabel.isHidden = true
         tagsView.isHidden = true
+        
         backgroundColor = .clear
         setupLayerParams()
         
