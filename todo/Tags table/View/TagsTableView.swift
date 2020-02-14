@@ -9,29 +9,14 @@
 import UIKit
 
 class TagsTableView: UIView {
-    let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 0
-        return stackView
-    }()
-    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
-        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         return tableView
     }()
-    
-    let button: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor.Palette.pale_orange.get
-        button.setTitleColor(UIColor.black, for: .normal)
-        return button
-    }()
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -44,18 +29,14 @@ class TagsTableView: UIView {
     
     private func setupViews() {
         backgroundColor = UIColor.Palette.grayish_orange.get
-        button.isHidden = true
-        stackView.addArrangedSubview(tableView)
-        stackView.addArrangedSubview(button)
-        addSubview(stackView)
+        addSubview(tableView)
     }
     
     private func setupConstrains() {
-        let scrollViewConstrains = [stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                                    stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-                                    stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                    stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)]
-        NSLayoutConstraint.activate(scrollViewConstrains)
-        button.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        let tableViewConstrains = [tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                                    tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                                    tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                                    tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40)]
+        NSLayoutConstraint.activate(tableViewConstrains)
     }
 }

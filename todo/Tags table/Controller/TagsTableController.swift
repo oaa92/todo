@@ -7,20 +7,10 @@
 //
 
 import CoreData
+import Panels
 import UIKit
 
 class TagsTableController: CustomViewController<TagsTableView> {
-    
-    class TagsTableProvider {
-        
-    }    
-    
-    
-    enum DisplayMode {
-        case all
-        case selected
-    }
-    
     lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                              target: self,
                                              action: #selector(addTag))
@@ -35,6 +25,7 @@ class TagsTableController: CustomViewController<TagsTableView> {
                                                 target: self,
                                                 action: #selector(cancelButtonPressed))
     let searchController = UISearchController(searchResultsController: nil)
+    
     var coreDataStack: CoreDataStack!
     lazy var fetchedResultsController: NSFetchedResultsController<Tag> = {
         let sort = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
@@ -47,11 +38,11 @@ class TagsTableController: CustomViewController<TagsTableView> {
                                                                   cacheName: nil)
         return fetchedResultsController
     }()
-
-    var isSelectable: Bool = true
-    var mode: DisplayMode = .all
-    var selectedTags: [Tag] = []
     
+    var panelIsShowing: Bool = false
+    lazy var panelManager = Panels(target: self)
+    var panel: SelectedTagsTableView = UIStoryboard.instantiatePanel(identifier: "SelectedTagsPanel") as! SelectedTagsTableView
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -59,7 +50,6 @@ class TagsTableController: CustomViewController<TagsTableView> {
 
         setupNavigationBar()
         setupSearchController()
-        setupButtonAction()
         
         customView.tableView.allowsMultipleSelectionDuringEditing = true
         customView.tableView.register(TagTableCell.self)
@@ -69,18 +59,20 @@ class TagsTableController: CustomViewController<TagsTableView> {
         fetchedResultsController.delegate = self
         fetch()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("viewDidAppear")
+        if !panelIsShowing {
+            showPanel()
+            panelIsShowing = true
+        }
+    }
 }
 
 // MARK: Layout
 
 extension TagsTableController {
-    func setupButtonAction() {
-        guard isSelectable else {
-            return
-        }
-        customView.button.addTarget(self, action: #selector(changeMode), for: .touchUpInside)
-    }
-    
     func setupNavigationBar() {
         navigationItem.title = "Tags"
         navigationItem.leftBarButtonItem = customEditButtonItem
@@ -94,7 +86,29 @@ extension TagsTableController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
-
+    
+    func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+        let title = "Delete"
+        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
+            print("Hi!")
+            completionHandler(true)
+        }
+        action.backgroundColor = .systemRed
+        action.image = UIImage(named: "trash")
+        return action
+    }
+    
+    func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+        let title = "Edit"
+        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
+            print("Hi!")
+            completionHandler(true)
+        }
+        action.backgroundColor = .systemGreen
+        action.image = UIImage(named: "edit")
+        return action
+    }
+    /*
     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Delete"
         let deleteAction = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
@@ -133,26 +147,12 @@ extension TagsTableController {
 
         return alert
     }
+    */
 }
 
 // MARK: Helpers
 
 extension TagsTableController {
-    func getTag(at indexPath: IndexPath) -> Tag {
-        guard <#condition#> else {
-            <#statements#>
-        }
-        
-        switch mode {
-        case .all:
-            let tag = fetchedResultsController.object(at: indexPath)
-            return tag
-        case .selected:
-            let tag = selectedTags[indexPath.row]
-            return tag
-        }
-    }
-    
     func fetch() {
         print("FETCH")
         do {
@@ -161,35 +161,17 @@ extension TagsTableController {
             print("Could not fetch \(error), \(error.userInfo)")
         }
     }
-    
+
     func exitFromEditMode() {
         customView.tableView.setEditing(false, animated: true)
         navigationItem.leftBarButtonItem = customEditButtonItem
         navigationItem.rightBarButtonItem = addButtonItem
-        updateButton()
     }
     
-    func updateButton() {
-        guard isSelectable,
-            !customView.tableView.isEditing else {
-            customView.button.isHidden = true
-            return
-        }
-        let state: (title: String, isHidden: Bool)
-        switch mode {
-        case .all:
-            state = (
-                title: "Показать выбранные" + " (\(selectedTags.count))",
-                isHidden: selectedTags.count == 0
-            )
-        case .selected:
-            state = (
-                title: "Показать все",
-                isHidden: false
-            )
-        }
-        customView.button.setTitle(state.title, for: .normal)
-        customView.button.isHidden = state.isHidden
+    func showPanel() {
+        var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
+        panelConfiguration.animateEntry = true
+        panelManager.show(panel: self.panel, config: panelConfiguration)
     }
 }
 
@@ -209,7 +191,6 @@ extension TagsTableController {
         deleteButtonItem.isEnabled = false
         navigationItem.leftBarButtonItem = deleteButtonItem
         navigationItem.rightBarButtonItem = cancelButtonItem
-        updateButton()
     }
 
     @objc func cancelButtonPressed() {
@@ -231,41 +212,20 @@ extension TagsTableController {
         }
         exitFromEditMode()
     }
-    
-    @objc func changeMode() {
-        if mode == .all {
-            mode = .selected
-        } else {
-            mode = .all
-        }
-        customView.tableView.reloadData()
-        updateButton()
-        searchController.searchBar.text = ""
-    }
 }
 
 // MARK: UITableViewDataSource
 
 extension TagsTableController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        switch mode {
-        case .all:
-            return fetchedResultsController.sections?.count ?? 0
-        case .selected:
-            return selectedTags.count > 0 ? 1 : 0
-        }
+        return fetchedResultsController.sections?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch mode {
-        case .all:
-            guard let sectionInfo = fetchedResultsController.sections?[section] else {
-                return 0
-            }
-            return sectionInfo.numberOfObjects
-        case .selected:
-            return selectedTags.count
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {
+            return 0
         }
+        return sectionInfo.numberOfObjects
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -279,7 +239,7 @@ extension TagsTableController: UITableViewDataSource {
 
 extension TagsTableController {
     func configure(cell: UITableViewCell, indexPath: IndexPath) {
-        let tag = getTag(at: indexPath)
+        let tag = fetchedResultsController.object(at: indexPath)
         cell.backgroundColor = .clear
         cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 10)
         cell.textLabel?.text = tag.name
@@ -290,7 +250,12 @@ extension TagsTableController {
         } else {
             cell.imageView?.image = nil
         }
-        if selectedTags.contains(tag) {
+
+        setSelection(cell: cell, tag: tag)
+    }
+
+    func setSelection(cell: UITableViewCell, tag: Tag) {
+        if panel.selectedTags.contains(tag) {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -303,45 +268,24 @@ extension TagsTableController {
 extension TagsTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = getEditAction(cellForRowAt: indexPath)
         let deleteAction = getDeleteAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        let configuration = UISwipeActionsConfiguration(actions: [editAction, deleteAction])
         return configuration
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard isSelectable else {
-            let tag = fetchedResultsController.object(at: indexPath)
-            print("open tag")
-            return
-        }
-        
-        
-        
-        if tableView.isEditing {
+        guard !tableView.isEditing else {
             deleteButtonItem.isEnabled = true
-        } else {
-            let tag = fetchedResultsController.object(at: indexPath)
-            if selectedTags.contains(tag) {
-                deleteFromSelected(tag)
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-            } else {
-                selectedTags.append(tag)
-                tableView.reloadRows(at: [indexPath], with: .automatic)
-                updateButton()
-                customView.button.isHidden = false
-            }
-        }
-    }
-    
-    func deleteFromSelected(_ tag: Tag) {
-        guard let index = selectedTags.firstIndex(of: tag) else {
             return
         }
-        selectedTags.remove(at: index)
-        if selectedTags.count == 0 {
-            customView.button.isHidden = true
+        let tag = fetchedResultsController.object(at: indexPath)
+        if panel.selectedTags.contains(tag) {
+            panel.deleteTag(tag)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         } else {
-            updateButton()
+            panel.addTag(tag)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 
