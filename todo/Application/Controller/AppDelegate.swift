@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // do iOS 12 specific window setup
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
-            let rootController = TagsTableController()
+            let rootController = NotesTableController()
             rootController.coreDataStack = coreDataStack
             window?.rootViewController = UINavigationController(rootViewController: rootController)
         }

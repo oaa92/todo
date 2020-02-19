@@ -1,5 +1,5 @@
 //
-//  TagCellSettings.swift
+//  TagsCloudSettings.swift
 //  todo
 //
 //  Created by Анатолий on 09/02/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct TagCellSettings {
+struct TagsCloudSettings {
     let collectionSectionInset: UIEdgeInsets
     let minimumInteritemSpacing: CGFloat
     let stackMargins: UIEdgeInsets

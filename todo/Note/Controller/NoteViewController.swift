@@ -6,23 +6,26 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import UIKit
 import Floaty
+
+protocol TagsSelectionProtocol {
+    func tagsDidSelect(tags: [Tag])
+}
 
 class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
     var note: Note?
-    let settings = TagCellSettings(collectionSectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                   minimumInteritemSpacing: 10,
-                                   stackMargins: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10),
-                                   stackSpacing: 5,
-                                   iconSize: 25,
-                                   fontSize: 17,
-                                   multiline: true,
-                                   textColor: .gray,
-                                   backgroundColor: UIColor(white: 0.9, alpha: 1.0),
-                                   cornerRadius: 10)
-    lazy var tagsProvider: TagsProvider = TagsProvider(cellSettings: settings)
+    let settings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
+                                     minimumInteritemSpacing: 10,
+                                     stackMargins: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10),
+                                     stackSpacing: 5,
+                                     iconSize: 25,
+                                     fontSize: 17,
+                                     multiline: true,
+                                     textColor: .gray,
+                                     backgroundColor: UIColor(white: 0.9, alpha: 1.0),
+                                     cornerRadius: 10)
+    lazy var tagsProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: settings)
 
     // MARK: View Lifecycle
 
@@ -31,13 +34,12 @@ class NoteViewController: CustomViewController<NoteView> {
 
         print("viewDidLoad")
 
-        addNoteActionBar()
+        addActionBar()
         setFloatyItems()
 
-        customView.titleView.returnKeyType = .done
         customView.titleView.delegate = self
 
-        customView.tagsView.register(TagCell.self)
+        customView.tagsView.register(TagsCloudCell.self)
         customView.tagsView.dataSource = tagsProvider
         customView.tagsView.delegate = tagsProvider
 
@@ -68,11 +70,19 @@ class NoteViewController: CustomViewController<NoteView> {
 
 extension NoteViewController {
     func setFloatyItems() {
-        addFloatyItem(icon: UIImage(named: "tag"))
+        addFloatyItem(icon: UIImage(named: "tag"), handler: {
+            _ in
+            let tags = Array(self.note?.tags as! Set<Tag>)
+
+            let tagsTableController = TagsTableController()
+            tagsTableController.coreDataStack = self.coreDataStack
+            tagsTableController.panel.setTags(tags)
+            tagsTableController.tagsSelectionDelegate = self
+            self.navigationController?.pushViewController(tagsTableController, animated: true)
+        })
         addFloatyItem(icon: UIImage(named: "notification"))
-        addFloatyItem(icon: UIImage(named: "attachment"))
     }
-    
+
     func addFloatyItem(title: String? = nil, icon: UIImage? = nil, handler: ((FloatyItem) -> Void)? = nil) {
         let item = FloatyItem()
         item.title = title
@@ -80,8 +90,8 @@ extension NoteViewController {
         item.handler = handler
         customView.floaty.addItem(item: item)
     }
-    
-    func addNoteActionBar() {
+
+    func addActionBar() {
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
         let bar = UIToolbar()
@@ -111,9 +121,12 @@ extension NoteViewController {
         guard let note = note else {
             return
         }
+
+        // title
         customView.titleView.text = note.title
+
+        // text
         customView.noteView.text = note.text
-        // gradient
         if let layer = customView.noteView.layer as? CAGradientLayer,
             let startPointStr = note.background?.startPoint,
             let endPointStr = note.background?.endPoint,
@@ -124,17 +137,21 @@ extension NoteViewController {
             layer.startPoint = startPoint
             layer.endPoint = endPoint
             layer.colors = cgColors
+        } else {
+            customView.noteView.setupLayerParams()
         }
+
         // tags
         let tags = note.tags as! Set<Tag>
         tagsProvider.tags = Array(tags)
+        customView.tagsView.reloadData()
         customView.tagsView.isHidden = tags.count == 0 ? true : false
     }
 
     func saveNote() {
         let title: String = customView.titleView.text ?? ""
         let text: String = customView.noteView.text ?? ""
-        if title.isEmpty, text.isEmpty {
+        if note == nil, title.isEmpty, text.isEmpty {
             return
         }
         guard let layer = customView.noteView.layer as? CAGradientLayer else {
@@ -200,3 +217,11 @@ extension NoteViewController {
     }
 }
 
+// MARK: keyboard notifications
+
+extension NoteViewController: TagsSelectionProtocol {
+    func tagsDidSelect(tags: [Tag]) {
+        tagsProvider.tags = tags
+        customView.tagsView.reloadData()
+    }
+}

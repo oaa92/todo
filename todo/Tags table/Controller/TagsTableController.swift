@@ -8,7 +8,6 @@
 
 import CoreData
 import Panels
-import UIKit
 
 class TagsTableController: CustomViewController<TagsTableView> {
     lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
@@ -25,23 +24,24 @@ class TagsTableController: CustomViewController<TagsTableView> {
                                                 target: self,
                                                 action: #selector(cancelButtonPressed))
     let searchController = UISearchController(searchResultsController: nil)
-    
+
     var coreDataStack: CoreDataStack!
     lazy var fetchedResultsController: NSFetchedResultsController<Tag> = {
         let sort = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         fetchRequest.sortDescriptors = [sort]
-        fetchRequest.fetchBatchSize = 10
+        fetchRequest.fetchBatchSize = 20
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: coreDataStack.managedContext,
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
         return fetchedResultsController
     }()
-    
+
     var panelIsShowing: Bool = false
     lazy var panelManager = Panels(target: self)
     var panel: SelectedTagsTableView = UIStoryboard.instantiatePanel(identifier: "SelectedTagsPanel") as! SelectedTagsTableView
+    var tagsSelectionDelegate: TagsSelectionProtocol?
 
     // MARK: View Lifecycle
 
@@ -50,22 +50,29 @@ class TagsTableController: CustomViewController<TagsTableView> {
 
         setupNavigationBar()
         setupSearchController()
-        
+
         customView.tableView.allowsMultipleSelectionDuringEditing = true
         customView.tableView.register(TagTableCell.self)
         customView.tableView.dataSource = self
         customView.tableView.delegate = self
 
-        fetchedResultsController.delegate = self
         fetch()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("viewDidAppear")
+        fetchedResultsController.delegate = self
         if !panelIsShowing {
             showPanel()
             panelIsShowing = true
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let delegate = tagsSelectionDelegate {
+            delegate.tagsDidSelect(tags: panel.selectedTags)
         }
     }
 }
@@ -75,8 +82,9 @@ class TagsTableController: CustomViewController<TagsTableView> {
 extension TagsTableController {
     func setupNavigationBar() {
         navigationItem.title = "Tags"
-        navigationItem.leftBarButtonItem = customEditButtonItem
-        navigationItem.rightBarButtonItem = addButtonItem
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.setLeftBarButton(customEditButtonItem, animated: false)
+        navigationItem.setRightBarButton(addButtonItem, animated: false)
     }
 
     func setupSearchController() {
@@ -86,68 +94,73 @@ extension TagsTableController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
-    
+
     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Delete"
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
+        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             print("Hi!")
             completionHandler(true)
         }
-        action.backgroundColor = .systemRed
+        action.backgroundColor = UIColor(hex6: 0xFB7670)
         action.image = UIImage(named: "trash")
         return action
     }
-    
+
     func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Edit"
         let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            print("Hi!")
+            let tag = self.fetchedResultsController.object(at: indexPath)
+            let tagController = TagViewController()
+            tagController.coreDataStack = self.coreDataStack
+            tagController.tag = tag
+            self.navigationController?.pushViewController(tagController, animated: true)
             completionHandler(true)
         }
-        action.backgroundColor = .systemGreen
+        action.backgroundColor = UIColor(hex6: 0x09A723)
         action.image = UIImage(named: "edit")
         return action
     }
+
     /*
-    func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Delete"
-        let deleteAction = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            let alert = self.getDeleteAlertController(cellForRowAt: indexPath)
-            self.present(alert, animated: true)
-            completionHandler(true)
-        }
-        deleteAction.backgroundColor = .red
-        deleteAction.image = UIImage(named: "trash")
-        return deleteAction
-    }
+     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+         let title = "Delete"
+         let deleteAction = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
+             let alert = self.getDeleteAlertController(cellForRowAt: indexPath)
+             self.present(alert, animated: true)
+             completionHandler(true)
+         }
+         deleteAction.backgroundColor = .red
+         deleteAction.image = UIImage(named: "trash")
+         return deleteAction
+     }
 
-    func getDeleteAlertController(cellForRowAt indexPath: IndexPath) -> UIAlertController {
-        let tag = fetchedResultsController.object(at: indexPath)
-        var message = ""
-        if let name = tag.name, !name.isEmpty {
-            message = "Удалить \(name)?"
-        } else {
-            message = "Удалить заметку?"
-        }
+     func getDeleteAlertController(cellForRowAt indexPath: IndexPath) -> UIAlertController {
+         let tag = fetchedResultsController.object(at: indexPath)
+         var message = ""
+         if let name = tag.name, !name.isEmpty {
+             message = "Удалить \(name)?"
+         } else {
+             message = "Удалить заметку?"
+         }
 
-        let title = "Удаление"
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+         let title = "Удаление"
+         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        let cancelTitle = "Отмена"
-        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
-        }
-        alert.addAction(cancelAction)
+         let cancelTitle = "Отмена"
+         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
+         }
+         alert.addAction(cancelAction)
 
-        let deleteTitle = "Удалить"
-        let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive) { _ in
-            self.coreDataStack.managedContext.delete(tag)
-            self.coreDataStack.saveContext()
-        }
-        alert.addAction(deleteAction)
+         let deleteTitle = "Удалить"
+         let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive) { _ in
+             self.coreDataStack.managedContext.delete(tag)
+             self.coreDataStack.saveContext()
+         }
+         alert.addAction(deleteAction)
 
-        return alert
-    }
-    */
+         return alert
+     }
+     */
 }
 
 // MARK: Helpers
@@ -164,14 +177,14 @@ extension TagsTableController {
 
     func exitFromEditMode() {
         customView.tableView.setEditing(false, animated: true)
-        navigationItem.leftBarButtonItem = customEditButtonItem
-        navigationItem.rightBarButtonItem = addButtonItem
+        navigationItem.setLeftBarButton(customEditButtonItem, animated: true)
+        navigationItem.setRightBarButton(addButtonItem, animated: true)
     }
-    
+
     func showPanel() {
         var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
         panelConfiguration.animateEntry = true
-        panelManager.show(panel: self.panel, config: panelConfiguration)
+        panelManager.show(panel: panel, config: panelConfiguration)
     }
 }
 
@@ -189,8 +202,8 @@ extension TagsTableController {
     @objc func editButtonPressed() {
         customView.tableView.setEditing(true, animated: true)
         deleteButtonItem.isEnabled = false
-        navigationItem.leftBarButtonItem = deleteButtonItem
-        navigationItem.rightBarButtonItem = cancelButtonItem
+        navigationItem.setLeftBarButton(deleteButtonItem, animated: true)
+        navigationItem.setRightBarButton(cancelButtonItem, animated: true)
     }
 
     @objc func cancelButtonPressed() {
@@ -271,6 +284,7 @@ extension TagsTableController: UITableViewDelegate {
         let editAction = getEditAction(cellForRowAt: indexPath)
         let deleteAction = getDeleteAction(cellForRowAt: indexPath)
         let configuration = UISwipeActionsConfiguration(actions: [editAction, deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
 

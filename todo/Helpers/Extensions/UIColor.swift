@@ -11,17 +11,47 @@ import UIKit
 extension UIColor {
     enum Palette {
         case grayish_orange
-        case soft_yellow
-        case pale_orange
+        case yellow_pale
+        case yellow_soft
+        case orange_pale
+        case red
+        case green
+        case cyan_pale
+        case cyan
+        case blue_pale
+        case blue_soft
+        case blue
+        case violet
+        case pink
         
         var get: UIColor {
             switch self {
             case .grayish_orange:
                 return UIColor(hex6: 0xF7ECE1)
-            case .soft_yellow:
+            case .yellow_pale:
+                return UIColor(hex6: 0xFFFECF)
+            case .yellow_soft:
                 return UIColor(hex6: 0xFBE6A1)
-            case .pale_orange:
+            case .orange_pale:
                 return UIColor(hex6: 0xFFCAAF)
+            case .red:
+                return UIColor(hex6: 0xFFB0A2)
+            case .green:
+                return UIColor(hex6: 0xD9FDDF)
+            case .cyan_pale:
+                return UIColor(hex6: 0xD9FEFF)
+            case .cyan:
+                return UIColor(hex6: 0x6ECEDA)
+            case .blue_pale:
+                return UIColor(hex6: 0xC9C9FF)
+            case .blue_soft:
+                return UIColor(hex6: 0x4997F1)
+            case .blue:
+                return UIColor(hex6: 0x88BADF)
+            case .violet:
+                return UIColor(hex6: 0xF1CBFF)
+            case .pink:
+                return UIColor(hex6: 0xFDC6D2)
             }
         }
     }

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import UIKit
 import Floaty
 
 class NoteView: UIView {
@@ -34,6 +33,7 @@ class NoteView: UIView {
         let titleView = UITextField()
         titleView.placeholder = "Title"
         titleView.font = UIFont.systemFont(ofSize: 24)
+        titleView.returnKeyType = .done
         return titleView
     }()
     
@@ -42,18 +42,13 @@ class NoteView: UIView {
         noteView.font = UIFont.systemFont(ofSize: 20)
         noteView.translatesAutoresizingMaskIntoConstraints = false
         noteView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-        if let layer = noteView.layer as? CAGradientLayer {
-            layer.startPoint = CGPoint(x: 0, y: 1)
-            layer.endPoint = CGPoint(x: 1, y: 0)
-            layer.colors = [UIColor.Palette.soft_yellow.get.cgColor,
-                            UIColor.Palette.pale_orange.get.cgColor]
-        }
         return noteView
     }()
     
-    let tagsView: TagsCollectionView = {
-        let tagsView = TagsCollectionView(frame: .zero, collectionViewLayout: TagsLayout())
+    let tagsView: TagsCloudCollectionView = {
+        let tagsView = TagsCloudCollectionView(frame: .zero, collectionViewLayout: TagsCloudLayout())
         tagsView.translatesAutoresizingMaskIntoConstraints = false
+        tagsView.isHidden = true
         return tagsView
     }()
     
@@ -73,7 +68,6 @@ class NoteView: UIView {
     
     private func setupViews() {
         backgroundColor = UIColor.Palette.grayish_orange.get
-        tagsView.isHidden = true
         stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(noteView)
         stackView.addArrangedSubview(tagsView)

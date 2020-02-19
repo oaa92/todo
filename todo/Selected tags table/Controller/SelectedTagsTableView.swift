@@ -21,6 +21,8 @@ class SelectedTagsTableView: UIViewController, Panelable {
         super.viewDidLoad()
         setupView()
         tableView.register(TagTableCell.self)
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
@@ -30,7 +32,7 @@ extension SelectedTagsTableView {
     func setupView() {
         view.backgroundColor = .clear
         curveTopCorners()
-        headerPanel.backgroundColor = UIColor.Palette.pale_orange.get
+        headerPanel.backgroundColor = UIColor.Palette.orange_pale.get
         tableView.backgroundColor = UIColor.Palette.grayish_orange.get
         view.layoutIfNeeded()
     }
@@ -61,7 +63,7 @@ extension SelectedTagsTableView {
             print("Hi!")
             completionHandler(true)
         }
-        action.backgroundColor = .systemRed
+        action.backgroundColor = UIColor(hex6: 0xFB7670)
         action.image = UIImage(named: "trash")
         return action
     }
@@ -83,6 +85,10 @@ extension SelectedTagsTableView {
         case insert
         case delete
         case update
+    }
+    
+    func setTags(_ tags: [Tag]) {
+        selectedTags = tags
     }
     
     func addTag(_ tag: Tag) {

@@ -37,8 +37,8 @@ class NoteCell: UITableViewCell, ReusableView {
         return noteView
     }()
     
-    let tagsView: TagsCollectionView = {
-        let tagsView = TagsCollectionView(frame: .zero, collectionViewLayout: TagsLayout())
+    let tagsView: TagsCloudCollectionView = {
+        let tagsView = TagsCloudCollectionView(frame: .zero, collectionViewLayout: TagsCloudLayout())
         tagsView.translatesAutoresizingMaskIntoConstraints = false
         tagsView.isUserInteractionEnabled = false
         return tagsView
@@ -54,38 +54,12 @@ class NoteCell: UITableViewCell, ReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        // title
-        titleLabel.isHidden = true
-        titleLabel.text = ""
-        // noteView
-        setupLayerParams()
-        noteView.text = ""
-        // tags
-        tagsView.isHidden = true
-    }
-    
     private func setupViews() {
-        titleLabel.isHidden = true
-        tagsView.isHidden = true
-        
         backgroundColor = .clear
-        setupLayerParams()
-        
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(noteView)
         stack.addArrangedSubview(tagsView)
         addSubview(stack)
-    }
-    
-    private func setupLayerParams() {
-        if let layer = noteView.layer as? CAGradientLayer {
-            layer.startPoint = CGPoint(x: 0, y: 1)
-            layer.endPoint = CGPoint(x: 1, y: 0)
-            layer.colors = [UIColor.Palette.soft_yellow.get.cgColor,
-                            UIColor.Palette.pale_orange.get.cgColor]
-        }
     }
     
     private func setupConstrains() {

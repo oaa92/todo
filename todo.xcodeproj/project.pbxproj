@@ -10,9 +10,14 @@
 		18CCFF35EAEB47EEF2F23B82 /* Pods_todoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA21984CE4FB2C586D244A78 /* Pods_todoUITests.framework */; };
 		57F0DC49BAFC6A788A97BE5F /* Pods_todo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5102574DCC446163745A0 /* Pods_todo.framework */; };
 		6F16A47D6D355DE26367CD2B /* Pods_todoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B95DADE022F9A5EE91B6CA9 /* Pods_todoTests.framework */; };
+		8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403703D23FA5F1B00D4CA4D /* ToastView.swift */; };
+		8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403704123FA628B00D4CA4D /* ToastManager.swift */; };
 		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
-		8440038223F12F3F00B909CC /* TagsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsProvider.swift */; };
+		8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */; };
 		8440038623F1370300B909CC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038523F1370300B909CC /* String.swift */; };
+		844CDC8C23F6C7B2004E9DAE /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */; };
+		844CDC8E23F6C7EE004E9DAE /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8D23F6C7EE004E9DAE /* TagView.swift */; };
+		846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */; };
 		84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */; };
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
 		847B286623E1855900F334E8 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor.swift */; };
@@ -27,8 +32,13 @@
 		84A5516C23E02EF100E0CC1E /* todoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5516B23E02EF100E0CC1E /* todoUITests.swift */; };
 		84A5517F23E0473100E0CC1E /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5517E23E0473100E0CC1E /* NoteView.swift */; };
 		84A5518123E047DD00E0CC1E /* NoteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5518023E047DD00E0CC1E /* NoteTextView.swift */; };
+		84AD073123F92B17000C7588 /* TagColorDataSourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073023F92B17000C7588 /* TagColorDataSourse.swift */; };
+		84AD073323F92BB5000C7588 /* TagColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073223F92BB5000C7588 /* TagColorCell.swift */; };
+		84AD073523F92BDD000C7588 /* ColorSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073423F92BDD000C7588 /* ColorSampleView.swift */; };
+		84AD073723F92DC3000C7588 /* TagParamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073623F92DC3000C7588 /* TagParamCell.swift */; };
+		84AD073923F93683000C7588 /* TagIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073823F93683000C7588 /* TagIconCell.swift */; };
+		84AD073B23F937A9000C7588 /* TagIconDataSourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AD073A23F937A9000C7588 /* TagIconDataSourse.swift */; };
 		84AF8B2323E40C2F0019A4DB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF8B2223E40C2F0019A4DB /* CoreDataStack.swift */; };
-		84BBE3A623F53B8000BD4F9B /* SelectedTagsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A523F53B8000BD4F9B /* SelectedTagsTableController.swift */; };
 		84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A723F5445900BD4F9B /* TagsTableController.swift */; };
 		84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */; };
 		84BBE3AC23F559AA00BD4F9B /* SelectedTagsPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */; };
@@ -38,10 +48,12 @@
 		84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */; };
 		84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C723E1BF0600ABA161 /* NoteCell.swift */; };
 		84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C923E1CA0600ABA161 /* NotesTableController.swift */; };
-		84C6DC5F23F0558F0092DF4B /* TagCellSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */; };
-		84C6DC6123F059C40092DF4B /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6023F059C40092DF4B /* TagsLayout.swift */; };
-		84C6DC6323F059F70092DF4B /* TagsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */; };
-		84C6DC6523F05BBB0092DF4B /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6423F05BBB0092DF4B /* TagCell.swift */; };
+		84BC84E223FABBE3007CF76D /* NotesTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC84E123FABBE3007CF76D /* NotesTableDataSource.swift */; };
+		84C2CB3F23FBD89F00DC9958 /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2CB3E23FBD89F00DC9958 /* NotesTableView.swift */; };
+		84C6DC5F23F0558F0092DF4B /* TagsCloudSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC5E23F0558F0092DF4B /* TagsCloudSettings.swift */; };
+		84C6DC6123F059C40092DF4B /* TagsCloudLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6023F059C40092DF4B /* TagsCloudLayout.swift */; };
+		84C6DC6323F059F70092DF4B /* TagsCloudCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6223F059F70092DF4B /* TagsCloudCollectionView.swift */; };
+		84C6DC6523F05BBB0092DF4B /* TagsCloudCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6423F05BBB0092DF4B /* TagsCloudCell.swift */; };
 		84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242023EC735A00C0E4DA /* todo.xcdatamodeld */; };
 		84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */; };
 		84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EB09AD23E06E430016CC2B /* Assets.xcassets */; };
@@ -78,9 +90,14 @@
 		2B95DADE022F9A5EE91B6CA9 /* Pods_todoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF0081C562FE9057E84B385 /* Pods-todoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-todoTests/Pods-todoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6FF5102574DCC446163745A0 /* Pods_todo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8403703D23FA5F1B00D4CA4D /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		8403704123FA628B00D4CA4D /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
-		8440038123F12F3F00B909CC /* TagsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsProvider.swift; sourceTree = "<group>"; };
+		8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudDataSource.swift; sourceTree = "<group>"; };
 		8440038523F1370300B909CC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
+		844CDC8D23F6C7EE004E9DAE /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewAnimator.swift; sourceTree = "<group>"; };
 		84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		847B286523E1855900F334E8 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -101,8 +118,13 @@
 		84A5516D23E02EF100E0CC1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84A5517E23E0473100E0CC1E /* NoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteView.swift; sourceTree = "<group>"; };
 		84A5518023E047DD00E0CC1E /* NoteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTextView.swift; sourceTree = "<group>"; };
+		84AD073023F92B17000C7588 /* TagColorDataSourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagColorDataSourse.swift; sourceTree = "<group>"; };
+		84AD073223F92BB5000C7588 /* TagColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagColorCell.swift; sourceTree = "<group>"; };
+		84AD073423F92BDD000C7588 /* ColorSampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSampleView.swift; sourceTree = "<group>"; };
+		84AD073623F92DC3000C7588 /* TagParamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagParamCell.swift; sourceTree = "<group>"; };
+		84AD073823F93683000C7588 /* TagIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagIconCell.swift; sourceTree = "<group>"; };
+		84AD073A23F937A9000C7588 /* TagIconDataSourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagIconDataSourse.swift; sourceTree = "<group>"; };
 		84AF8B2223E40C2F0019A4DB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		84BBE3A523F53B8000BD4F9B /* SelectedTagsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableController.swift; sourceTree = "<group>"; };
 		84BBE3A723F5445900BD4F9B /* TagsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableController.swift; sourceTree = "<group>"; };
 		84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableView.swift; sourceTree = "<group>"; };
 		84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectedTagsPanel.storyboard; sourceTree = "<group>"; };
@@ -112,10 +134,12 @@
 		84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableView.swift"; sourceTree = "<group>"; };
 		84BC01C723E1BF0600ABA161 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		84BC01C923E1CA0600ABA161 /* NotesTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableController.swift; sourceTree = "<group>"; };
-		84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCellSettings.swift; sourceTree = "<group>"; };
-		84C6DC6023F059C40092DF4B /* TagsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
-		84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCollectionView.swift; sourceTree = "<group>"; };
-		84C6DC6423F05BBB0092DF4B /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		84BC84E123FABBE3007CF76D /* NotesTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableDataSource.swift; sourceTree = "<group>"; };
+		84C2CB3E23FBD89F00DC9958 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
+		84C6DC5E23F0558F0092DF4B /* TagsCloudSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudSettings.swift; sourceTree = "<group>"; };
+		84C6DC6023F059C40092DF4B /* TagsCloudLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudLayout.swift; sourceTree = "<group>"; };
+		84C6DC6223F059F70092DF4B /* TagsCloudCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudCollectionView.swift; sourceTree = "<group>"; };
+		84C6DC6423F05BBB0092DF4B /* TagsCloudCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudCell.swift; sourceTree = "<group>"; };
 		84CC242123EC735A00C0E4DA /* todo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = todo.xcdatamodel; sourceTree = "<group>"; };
 		84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GradientBackgroud+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84EB09AD23E06E430016CC2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -184,6 +208,31 @@
 				E68DDCAB04B8EA5415ED8BCF /* Pods-todoUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		8403703C23FA5D4E00D4CA4D /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				8403703F23FA615C00D4CA4D /* View */,
+				8403704023FA627300D4CA4D /* Controller */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
+		8403703F23FA615C00D4CA4D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8403703D23FA5F1B00D4CA4D /* ToastView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8403704023FA627300D4CA4D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8403704123FA628B00D4CA4D /* ToastManager.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		843668A723E99C5600618B96 /* Sound Files */ = {
@@ -261,6 +310,11 @@
 		8488C38F23F3CA0100C13882 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				844CDC8D23F6C7EE004E9DAE /* TagView.swift */,
+				84AD073623F92DC3000C7588 /* TagParamCell.swift */,
+				84AD073823F93683000C7588 /* TagIconCell.swift */,
+				84AD073423F92BDD000C7588 /* ColorSampleView.swift */,
+				84AD073223F92BB5000C7588 /* TagColorCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -268,6 +322,10 @@
 		8488C39023F3CA0E00C13882 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */,
+				84AD073A23F937A9000C7588 /* TagIconDataSourse.swift */,
+				84AD073023F92B17000C7588 /* TagColorDataSourse.swift */,
+				846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -276,7 +334,6 @@
 			isa = PBXGroup;
 			children = (
 				84BBE3A723F5445900BD4F9B /* TagsTableController.swift */,
-				84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -284,9 +341,16 @@
 		8488C39223F3CA3700C13882 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */,
-				8488C39523F3E31800C13882 /* TagTableCell.swift */,
 				8493913A23F4049F001BB07A /* TagsTableView.swift */,
+				8488C39523F3E31800C13882 /* TagTableCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84927B1023F97EFA00931E78 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -316,12 +380,13 @@
 		84A5514523E02EF000E0CC1E /* todo */ = {
 			isa = PBXGroup;
 			children = (
-				84BBE3A323F53B2E00BD4F9B /* Selected tags table */,
 				84A5517923E035EE00E0CC1E /* Application */,
 				84F2434823EC037000B4438C /* CoreData */,
 				847B285E23E1801A00F334E8 /* Helpers */,
+				8403703C23FA5D4E00D4CA4D /* Toast */,
 				8488C38E23F3C9F800C13882 /* Tag */,
 				8488C38D23F3C9D900C13882 /* Tags table */,
+				84BBE3A323F53B2E00BD4F9B /* Selected tags table */,
 				84C6DC5A23F0529C0092DF4B /* Tags cloud */,
 				84A5517C23E0467800E0CC1E /* Note */,
 				84BC01BB23E1B9FA00ABA161 /* Notes table */,
@@ -398,6 +463,7 @@
 		84BBE3A323F53B2E00BD4F9B /* Selected tags table */ = {
 			isa = PBXGroup;
 			children = (
+				84927B1023F97EFA00931E78 /* View */,
 				84BBE3A423F53B4900BD4F9B /* Controller */,
 			);
 			path = "Selected tags table";
@@ -406,7 +472,7 @@
 		84BBE3A423F53B4900BD4F9B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				84BBE3A523F53B8000BD4F9B /* SelectedTagsTableController.swift */,
+				84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -424,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				84BC01C923E1CA0600ABA161 /* NotesTableController.swift */,
+				84BC84E123FABBE3007CF76D /* NotesTableDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -431,6 +498,7 @@
 		84BC01BD23E1BA1700ABA161 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				84C2CB3E23FBD89F00DC9958 /* NotesTableView.swift */,
 				84BC01C723E1BF0600ABA161 /* NoteCell.swift */,
 			);
 			path = View;
@@ -457,7 +525,7 @@
 		84C6DC5B23F055560092DF4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				84C6DC5E23F0558F0092DF4B /* TagCellSettings.swift */,
+				84C6DC5E23F0558F0092DF4B /* TagsCloudSettings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,7 +533,7 @@
 		84C6DC5C23F055640092DF4B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8440038123F12F3F00B909CC /* TagsProvider.swift */,
+				8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -473,9 +541,9 @@
 		84C6DC5D23F0556C0092DF4B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				84C6DC6023F059C40092DF4B /* TagsLayout.swift */,
-				84C6DC6223F059F70092DF4B /* TagsCollectionView.swift */,
-				84C6DC6423F05BBB0092DF4B /* TagCell.swift */,
+				84C6DC6023F059C40092DF4B /* TagsCloudLayout.swift */,
+				84C6DC6423F05BBB0092DF4B /* TagsCloudCell.swift */,
+				84C6DC6223F059F70092DF4B /* TagsCloudCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -749,16 +817,21 @@
 				84BC01C023E1BC2D00ABA161 /* ReusableView.swift in Sources */,
 				84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableView.swift in Sources */,
 				847B286223E180F500F334E8 /* CustomViewController.swift in Sources */,
-				84C6DC6523F05BBB0092DF4B /* TagCell.swift in Sources */,
+				84C6DC6523F05BBB0092DF4B /* TagsCloudCell.swift in Sources */,
 				84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */,
-				84BBE3A623F53B8000BD4F9B /* SelectedTagsTableController.swift in Sources */,
+				84AD073523F92BDD000C7588 /* ColorSampleView.swift in Sources */,
 				84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */,
 				8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */,
+				8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */,
 				84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */,
 				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
+				84AD073923F93683000C7588 /* TagIconCell.swift in Sources */,
+				846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */,
 				84F2435A23EC066700B4438C /* NoteBackgroud+CoreDataClass.swift in Sources */,
+				84AD073123F92B17000C7588 /* TagColorDataSourse.swift in Sources */,
 				8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */,
 				84A5518123E047DD00E0CC1E /* NoteTextView.swift in Sources */,
+				84BC84E223FABBE3007CF76D /* NotesTableDataSource.swift in Sources */,
 				84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */,
 				84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */,
 				84BC01C223E1BC7400ABA161 /* ReusableView ext.swift in Sources */,
@@ -768,18 +841,25 @@
 				84F2435823EC066700B4438C /* Icon+CoreDataClass.swift in Sources */,
 				84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */,
 				84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */,
+				84C2CB3F23FBD89F00DC9958 /* NotesTableView.swift in Sources */,
 				84F2435B23EC066700B4438C /* NoteBackgroud+CoreDataProperties.swift in Sources */,
 				84F2435C23EC066700B4438C /* Tag+CoreDataClass.swift in Sources */,
-				84C6DC5F23F0558F0092DF4B /* TagCellSettings.swift in Sources */,
+				84C6DC5F23F0558F0092DF4B /* TagsCloudSettings.swift in Sources */,
+				8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */,
 				84F2435D23EC066700B4438C /* Tag+CoreDataProperties.swift in Sources */,
 				84F2435923EC066700B4438C /* Icon+CoreDataProperties.swift in Sources */,
 				847B286623E1855900F334E8 /* UIColor.swift in Sources */,
 				84AF8B2323E40C2F0019A4DB /* CoreDataStack.swift in Sources */,
-				8440038223F12F3F00B909CC /* TagsProvider.swift in Sources */,
+				8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */,
 				84A5514923E02EF000E0CC1E /* SceneDelegate.swift in Sources */,
-				84C6DC6123F059C40092DF4B /* TagsLayout.swift in Sources */,
+				84AD073723F92DC3000C7588 /* TagParamCell.swift in Sources */,
+				84AD073B23F937A9000C7588 /* TagIconDataSourse.swift in Sources */,
+				844CDC8C23F6C7B2004E9DAE /* TagViewController.swift in Sources */,
+				844CDC8E23F6C7EE004E9DAE /* TagView.swift in Sources */,
+				84C6DC6123F059C40092DF4B /* TagsCloudLayout.swift in Sources */,
+				84AD073323F92BB5000C7588 /* TagColorCell.swift in Sources */,
 				84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */,
-				84C6DC6323F059F70092DF4B /* TagsCollectionView.swift in Sources */,
+				84C6DC6323F059F70092DF4B /* TagsCloudCollectionView.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
 				8440038623F1370300B909CC /* String.swift in Sources */,
 				84F2435E23EC066700B4438C /* GradientBackgroud+CoreDataClass.swift in Sources */,

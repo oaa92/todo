@@ -1,5 +1,5 @@
 //
-//  TagCell.swift
+//  TagsCloudCell.swift
 //  todo
 //
 //  Created by Анатолий on 09/02/2020.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class TagCell: UICollectionViewCell, ReusableView {
+class TagsCloudCell: UICollectionViewCell, ReusableView {
     let stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.alignment = .center
         stack.axis = .horizontal
         stack.distribution = .fill
-        stack.alignment = .center
         stack.isLayoutMarginsRelativeArrangement = true
         return stack
     }()
@@ -67,7 +67,7 @@ class TagCell: UICollectionViewCell, ReusableView {
         imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
     }
     
-    func configure(with settings: TagCellSettings) {
+    func configure(with settings: TagsCloudSettings) {
         stack.layoutMargins = settings.stackMargins
         stack.spacing = settings.stackSpacing
         imageViewWidth.constant = settings.iconSize

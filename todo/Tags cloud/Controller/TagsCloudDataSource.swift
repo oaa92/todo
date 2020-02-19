@@ -1,5 +1,5 @@
 //
-//  TagsProvider.swift
+//  TagsCloudDataSource.swift
 //  todo
 //
 //  Created by Анатолий on 10/02/2020.
@@ -8,34 +8,34 @@
 
 import UIKit
 
-class TagsProvider: NSObject {
+class TagsCloudDataSource: NSObject {
     var tags: [Tag] = []
     var isHaveImages: Bool {
         return tags.contains { $0.icon != nil }
     }
 
-    let settings: TagCellSettings
+    let settings: TagsCloudSettings
 
-    init(cellSettings: TagCellSettings) {
+    init(cellSettings: TagsCloudSettings) {
         settings = cellSettings
     }
 }
 
 // MARK: UICollectionViewDataSource
 
-extension TagsProvider: UICollectionViewDataSource {
+extension TagsCloudDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tags.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: TagCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+        let cell: TagsCloudCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         cell.configure(with: settings)
         configure(cell: cell, indexPath: indexPath)
         return cell
     }
 
-    func configure(cell: TagCell, indexPath: IndexPath) {
+    func configure(cell: TagsCloudCell, indexPath: IndexPath) {
         let tag = tags[indexPath.row]
         cell.tagLabel.text = tag.name
         if let icon = tag.icon,
@@ -54,7 +54,7 @@ extension TagsProvider: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension TagsProvider: UICollectionViewDelegateFlowLayout {
+extension TagsCloudDataSource: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

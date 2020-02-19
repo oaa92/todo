@@ -36,10 +36,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j7l-sN-AuN">
                                 <rect key="frame" x="0.0" y="50" width="375" height="350"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="YH9-gV-YtM" id="04B-hZ-c8K"/>
-                                    <outlet property="delegate" destination="YH9-gV-YtM" id="A22-Sb-H6E"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>

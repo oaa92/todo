@@ -16,14 +16,14 @@ class NoteTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
-        configurate()
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configurate() {
+    private func configure() {
         isScrollEnabled = false
         
         let radius: CGFloat = 20
@@ -37,5 +37,16 @@ class NoteTextView: UITextView {
         textContainerInset = UIEdgeInsets(top: insV, left: insV, bottom: insV, right: insV)
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = .byTruncatingTail
+        
+        setupLayerParams()
+    }
+    
+    func setupLayerParams() {
+        if let layer = layer as? CAGradientLayer {
+            layer.startPoint = CGPoint(x: 0, y: 1)
+            layer.endPoint = CGPoint(x: 1, y: 0)
+            layer.colors = [UIColor.Palette.yellow_soft.get.cgColor,
+                            UIColor.Palette.orange_pale.get.cgColor]
+        }
     }
 }

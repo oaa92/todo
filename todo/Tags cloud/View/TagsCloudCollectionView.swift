@@ -1,5 +1,5 @@
 //
-//  TagsCollectionView.swift
+//  TagsCloudCollectionView.swift
 //  todo
 //
 //  Created by Анатолий on 09/02/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TagsCollectionView: UICollectionView {
+class TagsCloudCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         configure()

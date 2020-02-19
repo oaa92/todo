@@ -1,5 +1,5 @@
 //
-//  TagsLayout.swift
+//  TagsCloudLayout.swift
 //  todo
 //
 //  Created by Анатолий on 09/02/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TagsLayout: UICollectionViewFlowLayout {
+class TagsCloudLayout: UICollectionViewFlowLayout {
     var cachedAttributes = [UICollectionViewLayoutAttributes]()
     
     override func prepare() {
