@@ -287,18 +287,31 @@ extension NotesTableController: NSFetchedResultsControllerDelegate {
                     newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            customView.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            guard let newIndexPath = newIndexPath else {
+                break
+            }
+            customView.tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .delete:
-            customView.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            guard let indexPath = indexPath else {
+                break
+            }
+            customView.tableView.deleteRows(at: [indexPath], with: .automatic)
         case .update:
-            let note = tableDataSource.fetchedResultsController.object(at: indexPath!)
+            guard let indexPath = indexPath else {
+                break
+            }
+            let note = tableDataSource.fetchedResultsController.object(at: indexPath)
             tableDataSource.providers[note.uid!] = nil
-
-            let cell = customView.tableView.cellForRow(at: indexPath!) as! NoteCell
-            tableDataSource.configure(cell: cell, indexPath: indexPath!)
+            if let cell = customView.tableView.cellForRow(at: indexPath) as? NoteCell {
+                tableDataSource.configure(cell: cell, indexPath: indexPath)
+            }
         case .move:
-            customView.tableView.deleteRows(at: [indexPath!], with: .automatic)
-            customView.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else {
+                break
+            }
+            customView.tableView.deleteRows(at: [indexPath], with: .automatic)
+            customView.tableView.insertRows(at: [newIndexPath], with: .automatic)
         @unknown default:
             print("Unexpected NSFetchedResultsChangeType")
         }

@@ -9,24 +9,28 @@
 import CoreData
 import Panels
 
+protocol TagUnselectionProtocol: class {
+    func tagDidUnselect(tag: Tag)
+}
+
 class TagsTableController: CustomViewController<TagsTableView> {
-    lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                             target: self,
-                                             action: #selector(addTag))
-    lazy var customEditButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                    target: self,
-                                                    action: #selector(editButtonPressed))
-    lazy var deleteButtonItem = UIBarButtonItem(image: UIImage(named: "trash"),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(deleteButtonPressed))
-    lazy var cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                target: self,
-                                                action: #selector(cancelButtonPressed))
-    let searchController = UISearchController(searchResultsController: nil)
+    private lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                     target: self,
+                                                     action: #selector(addTag))
+    private lazy var customEditButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                            target: self,
+                                                            action: #selector(editButtonPressed))
+    private lazy var deleteButtonItem = UIBarButtonItem(image: UIImage(named: "trash"),
+                                                        style: .plain,
+                                                        target: self,
+                                                        action: #selector(deleteButtonPressed))
+    private lazy var cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                        target: self,
+                                                        action: #selector(cancelButtonPressed))
+    private let searchController = UISearchController(searchResultsController: nil)
 
     var coreDataStack: CoreDataStack!
-    lazy var fetchedResultsController: NSFetchedResultsController<Tag> = {
+    private lazy var fetchedResultsController: NSFetchedResultsController<Tag> = {
         let sort = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
         fetchRequest.sortDescriptors = [sort]
@@ -38,10 +42,10 @@ class TagsTableController: CustomViewController<TagsTableView> {
         return fetchedResultsController
     }()
 
-    var panelIsShowing: Bool = false
-    lazy var panelManager = Panels(target: self)
+    private var panelIsShowing: Bool = false
+    private lazy var panelManager = Panels(target: self)
     var panel: SelectedTagsTableView = UIStoryboard.instantiatePanel(identifier: "SelectedTagsPanel") as! SelectedTagsTableView
-    var tagsSelectionDelegate: TagsSelectionProtocol?
+    weak var tagsSelectionDelegate: TagsSelectionProtocol?
 
     // MARK: View Lifecycle
 
@@ -56,12 +60,14 @@ class TagsTableController: CustomViewController<TagsTableView> {
         customView.tableView.dataSource = self
         customView.tableView.delegate = self
 
+        panel.coreDataStack = coreDataStack
+        panel.tagUnselectionDelegate = self
         fetch()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("viewDidAppear")
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
         fetchedResultsController.delegate = self
         if !panelIsShowing {
             showPanel()
@@ -94,11 +100,17 @@ extension TagsTableController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
+}
 
+// MARK: Helpers
+
+extension TagsTableController {
     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Delete"
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
-            print("Hi!")
+            let tag = self.fetchedResultsController.object(at: indexPath)
+            tag.delete(coreDataStack: self.coreDataStack)
+            self.coreDataStack.saveContext()
             completionHandler(true)
         }
         action.backgroundColor = UIColor(hex6: 0xFB7670)
@@ -161,11 +173,7 @@ extension TagsTableController {
          return alert
      }
      */
-}
 
-// MARK: Helpers
-
-extension TagsTableController {
     func fetch() {
         print("FETCH")
         do {
@@ -175,16 +183,16 @@ extension TagsTableController {
         }
     }
 
-    func exitFromEditMode() {
-        customView.tableView.setEditing(false, animated: true)
-        navigationItem.setLeftBarButton(customEditButtonItem, animated: true)
-        navigationItem.setRightBarButton(addButtonItem, animated: true)
-    }
-
     func showPanel() {
         var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
         panelConfiguration.animateEntry = true
         panelManager.show(panel: panel, config: panelConfiguration)
+    }
+
+    func exitFromEditMode() {
+        customView.tableView.setEditing(false, animated: true)
+        navigationItem.setLeftBarButton(customEditButtonItem, animated: true)
+        navigationItem.setRightBarButton(addButtonItem, animated: true)
     }
 }
 
@@ -192,11 +200,9 @@ extension TagsTableController {
 
 extension TagsTableController {
     @objc func addTag() {
-        /*
-         let noteController = NoteViewController()
-         noteController.coreDataStack = coreDataStack
-         navigationController?.pushViewController(noteController, animated: true)
-         */
+        let tagController = TagViewController()
+        tagController.coreDataStack = coreDataStack
+        navigationController?.pushViewController(tagController, animated: true)
     }
 
     @objc func editButtonPressed() {
@@ -212,15 +218,8 @@ extension TagsTableController {
 
     @objc func deleteButtonPressed() {
         if let paths = customView.tableView.indexPathsForSelectedRows {
-            var tags: [Tag] = []
-            for indexPath in paths {
-                let tag = fetchedResultsController.object(at: indexPath)
-                tags.append(tag)
-            }
-            print("Удалено \(tags.count)")
-            for tag in tags {
-                coreDataStack.managedContext.delete(tag)
-            }
+            let tags = paths.map { fetchedResultsController.object(at: $0) }
+            tags.forEach { $0.delete(coreDataStack: coreDataStack) }
             coreDataStack.saveContext()
         }
         exitFromEditMode()
@@ -235,10 +234,7 @@ extension TagsTableController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {
-            return 0
-        }
-        return sectionInfo.numberOfObjects
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -347,15 +343,37 @@ extension TagsTableController: NSFetchedResultsControllerDelegate {
                     newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            customView.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            guard let newIndexPath = newIndexPath else {
+                break
+            }
+            customView.tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .delete:
-            customView.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            guard let tag = anObject as? Tag,
+                let indexPath = indexPath else {
+                break
+            }
+            if panel.selectedTags.contains(tag) {
+                panel.deleteTag(tag)
+            }
+            customView.tableView.deleteRows(at: [indexPath], with: .automatic)
         case .update:
-            let cell = customView.tableView.cellForRow(at: indexPath!)
-            configure(cell: cell!, indexPath: indexPath!)
+            guard let tag = anObject as? Tag,
+                let indexPath = indexPath else {
+                break
+            }
+            if panel.selectedTags.contains(tag) {
+                panel.updateTag(tag)
+            }
+            if let cell = customView.tableView.cellForRow(at: indexPath) {
+                configure(cell: cell, indexPath: indexPath)
+            }
         case .move:
-            customView.tableView.deleteRows(at: [indexPath!], with: .automatic)
-            customView.tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else {
+                break
+            }
+            customView.tableView.deleteRows(at: [indexPath], with: .automatic)
+            customView.tableView.insertRows(at: [newIndexPath], with: .automatic)
         @unknown default:
             print("Unexpected NSFetchedResultsChangeType")
         }
@@ -363,5 +381,17 @@ extension TagsTableController: NSFetchedResultsControllerDelegate {
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         customView.tableView.endUpdates()
+    }
+}
+
+// MARK: TagUnselectionProtocol
+
+extension TagsTableController: TagUnselectionProtocol {
+    func tagDidUnselect(tag: Tag) {
+        guard let indexPath = fetchedResultsController.indexPath(forObject: tag),
+            let cell = customView.tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        configure(cell: cell, indexPath: indexPath)
     }
 }

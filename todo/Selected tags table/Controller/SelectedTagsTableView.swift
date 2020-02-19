@@ -6,7 +6,6 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import UIKit
 import Panels
 
 class SelectedTagsTableView: UIViewController, Panelable {
@@ -14,6 +13,8 @@ class SelectedTagsTableView: UIViewController, Panelable {
     @IBOutlet weak var headerPanel: UIView!
     @IBOutlet weak var tableView: UITableView!
     private (set) var selectedTags: [Tag] = []
+    var coreDataStack: CoreDataStack!
+    weak var tagUnselectionDelegate: TagUnselectionProtocol?
     
     // MARK: View Lifecycle
     
@@ -29,7 +30,7 @@ class SelectedTagsTableView: UIViewController, Panelable {
 // MARK: Layout
 
 extension SelectedTagsTableView {
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = .clear
         curveTopCorners()
         headerPanel.backgroundColor = UIColor.Palette.orange_pale.get
@@ -46,80 +47,59 @@ extension SelectedTagsTableView {
         maskLayer.path = path.cgPath
         view.layer.mask = maskLayer
     }
+}
+
+// MARK: Helpers
+
+extension SelectedTagsTableView {
+    func setTags(_ tags: [Tag]) {
+        selectedTags = tags
+    }
     
-    func getUnselectAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+    private func getUnselectAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Unselect"
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            print("Hi!")
+        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
+            let index = indexPath.row
+            let tag = self.selectedTags[index]
+            self.deleteTag(tag)
+            if let delegate = self.tagUnselectionDelegate {
+                delegate.tagDidUnselect(tag: tag)
+            }
             completionHandler(true)
         }
         action.backgroundColor = .lightGray
         return action
     }
     
-    func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Delete"
-        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
-            print("Hi!")
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor(hex6: 0xFB7670)
-        action.image = UIImage(named: "trash")
-        return action
-    }
-    
-    func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+    private func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Edit"
         let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            print("Hi!")
+            let index = indexPath.row
+            let tag = self.selectedTags[index]
+            let tagController = TagViewController()
+            tagController.coreDataStack = self.coreDataStack
+            tagController.tag = tag
+            self.navigationController?.pushViewController(tagController, animated: true)
             completionHandler(true)
         }
         action.backgroundColor = UIColor(hex6: 0x09A723)
         action.image = UIImage(named: "edit")
         return action
     }
-}
-
-extension SelectedTagsTableView {
-    enum TagChangeType {
-        case insert
-        case delete
-        case update
-    }
     
-    func setTags(_ tags: [Tag]) {
-        selectedTags = tags
-    }
-    
-    func addTag(_ tag: Tag) {
-        selectedTags.append(tag)
-        tableViewDidChangeContent(at: IndexPath(row: selectedTags.count - 1, section: 0), type: .insert)
-    }
-    
-    func deleteTag(_ tag: Tag) {
-        guard let index = selectedTags.firstIndex(of: tag) else {
-            return
+    private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+        let title = "Delete"
+        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
+            let index = indexPath.row
+            let tag = self.selectedTags[index]
+            self.selectedTags.remove(at: index)
+            tag.delete(coreDataStack: self.coreDataStack)
+            self.coreDataStack.saveContext()
+            completionHandler(true)
         }
-        selectedTags.remove(at: index)
-        tableViewDidChangeContent(at: IndexPath(row: index, section: 0), type: .delete)
-    }
-    
-    func updateTag(_ tag: Tag) {
-        
-    }
-    
-    func tableViewDidChangeContent(at indexPath: IndexPath, type: TagChangeType) {
-        tableView.beginUpdates()
-        switch type {
-        case .insert:
-            tableView.insertRows(at: [indexPath], with: .automatic)
-        case .delete:
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        case .update:
-            let cell = tableView.cellForRow(at: indexPath)
-            configure(cell: cell!, indexPath: indexPath)
-        }
-        tableView.endUpdates()
+        action.backgroundColor = UIColor(hex6: 0xFB7670)
+        action.image = UIImage(named: "trash")
+        return action
     }
 }
 
@@ -144,8 +124,9 @@ extension SelectedTagsTableView: UITableViewDataSource {
 // MARK: Table cell configuration
 
 extension SelectedTagsTableView {
-    func configure(cell: UITableViewCell, indexPath: IndexPath) {
-        let tag = selectedTags[indexPath.row]
+    private func configure(cell: UITableViewCell, indexPath: IndexPath) {
+        let index = indexPath.row
+        let tag = selectedTags[index]
         cell.backgroundColor = .clear
         cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 10)
         cell.textLabel?.text = tag.name
@@ -174,5 +155,50 @@ extension SelectedTagsTableView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
+    }
+}
+
+// MARK: Table content changed
+
+extension SelectedTagsTableView {
+    enum TagChangeType {
+        case insert
+        case delete
+        case update
+    }
+    
+    func addTag(_ tag: Tag) {
+        selectedTags.append(tag)
+        tableViewDidChangedContent(at: IndexPath(row: selectedTags.count - 1, section: 0), type: .insert)
+    }
+    
+    func deleteTag(_ tag: Tag) {
+        guard let index = selectedTags.firstIndex(of: tag) else {
+            return
+        }
+        selectedTags.remove(at: index)
+        tableViewDidChangedContent(at: IndexPath(row: index, section: 0), type: .delete)
+    }
+    
+    func updateTag(_ tag: Tag) {
+        guard let index = selectedTags.firstIndex(of: tag) else {
+            return
+        }
+        tableViewDidChangedContent(at: IndexPath(row: index, section: 0), type: .update)
+    }
+    
+    private func tableViewDidChangedContent(at indexPath: IndexPath, type: TagChangeType) {
+        tableView.beginUpdates()
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [indexPath], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .update:
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configure(cell: cell, indexPath: indexPath)
+            }
+        }
+        tableView.endUpdates()
     }
 }

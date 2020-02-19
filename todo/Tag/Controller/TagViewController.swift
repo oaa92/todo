@@ -163,6 +163,7 @@ extension TagViewController {
     private func saveIcon(tag: Tag) {
         // icon is off
         guard customView.showIconView.isOn else {
+            deleteOldIconIfNeeded(icon: tag.icon)
             tag.icon = nil
             return
         }
@@ -188,6 +189,7 @@ extension TagViewController {
         do {
             let icons = try coreDataStack.managedContext.fetch(fetchRequest)
             if icons.count > 0 {
+                deleteOldIconIfNeeded(icon: tag.icon)
                 tag.icon = icons[0]
                 return
             }
@@ -197,7 +199,17 @@ extension TagViewController {
         }
         // insert icon to core data
         coreDataStack.managedContext.insert(selectedIcon)
+        deleteOldIconIfNeeded(icon: tag.icon)
         tag.icon = selectedIcon
+    }
+    
+    private func deleteOldIconIfNeeded(icon: Icon?) {
+        guard let icon = icon else {
+            return
+        }
+        if icon.tags?.count == 1 {
+            coreDataStack.managedContext.delete(icon)
+        }
     }
 }
 

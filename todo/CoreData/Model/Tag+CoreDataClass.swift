@@ -12,5 +12,13 @@ import CoreData
 
 @objc(Tag)
 public class Tag: NSManagedObject {
+    func delete(coreDataStack: CoreDataStack) {
+        if let icon = icon {
+            if icon.tags?.count == 1 {
+                coreDataStack.managedContext.delete(icon)
+            }
+        }
+        coreDataStack.managedContext.delete(self)
+    }
 
 }

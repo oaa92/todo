@@ -8,7 +8,7 @@
 
 import Floaty
 
-protocol TagsSelectionProtocol {
+protocol TagsSelectionProtocol: class {
     func tagsDidSelect(tags: [Tag])
 }
 
