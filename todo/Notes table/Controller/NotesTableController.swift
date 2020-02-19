@@ -208,6 +208,7 @@ extension NotesTableController: UITableViewDelegate {
         if tableView.isEditing {
             deleteButtonItem.isEnabled = true
         } else {
+            tableView.deselectRow(at: indexPath, animated: true)
             let note = tableDataSource.fetchedResultsController.object(at: indexPath)
             let noteController = NoteViewController()
             noteController.coreDataStack = coreDataStack

@@ -39,16 +39,17 @@ class TagViewController: CustomViewController<TagView> {
         customView.layoutIfNeeded()
         updateIconsAndColorsHeight()
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveTag()
+    }
 }
-
-// MARK: Layout
-
-extension TagViewController {}
 
 // MARK: Helpers
 
 extension TagViewController {
-    func updateUI() {
+    private func updateUI() {
         guard let tag = tag else {
             customView.nameView.text = ""
             setIcon(icon: nil)
@@ -84,7 +85,7 @@ extension TagViewController {
         }
     }
 
-    func selestIcon(icon: Icon) {
+    private func selestIcon(icon: Icon) {
         if let iconIndex = iconsDataSourse.iconNames.firstIndex(of: icon.name ?? "") {
             customView.iconsCollectionView.selectItem(at: IndexPath(row: iconIndex, section: 0),
                                                       animated: false,
@@ -129,9 +130,10 @@ extension TagViewController {
                                            duration: 0.2).startAnimation()
     }
 
-    func getSelectedIcon() -> Icon? {
+    private func getSelectedIcon() -> Icon? {
         if let iconIndex = customView.iconsCollectionView.indexPathsForSelectedItems?.first?.row,
-            let colorIndex = customView.colorsCollectionView.indexPathsForSelectedItems?.first?.row {
+            let colorIndex = customView.colorsCollectionView.indexPathsForSelectedItems?.first?.row,
+            customView.showIconView.isOn {
             let name = iconsDataSourse.iconNames[iconIndex]
             let color = colorsDataSourse.colors[colorIndex]
             let icon = Icon(entity: Icon.entity(), insertInto: nil)
@@ -143,13 +145,70 @@ extension TagViewController {
     }
 }
 
+// MARK: Core Data
+
+extension TagViewController {
+    private func saveTag() {
+        let name: String = customView.nameView.text ?? ""
+        guard !name.isEmpty else {
+            return
+        }
+
+        let tag: Tag = self.tag ?? Tag(context: coreDataStack.managedContext)
+        tag.name = name
+        saveIcon(tag: tag)
+        coreDataStack.saveContext()
+    }
+
+    private func saveIcon(tag: Tag) {
+        // icon is off
+        guard customView.showIconView.isOn else {
+            tag.icon = nil
+            return
+        }
+        // not selected
+        guard let selectedIcon = getSelectedIcon(),
+            let selectedIconName = selectedIcon.name,
+            !selectedIconName.isEmpty else {
+            return
+        }
+        // equal
+        if let icon = tag.icon,
+            selectedIcon.name == icon.name,
+            selectedIcon.color == icon.color {
+            return
+        }
+        // search icon in core data
+        let fetchRequest: NSFetchRequest<Icon> = Icon.fetchRequest()
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "%K = %@", #keyPath(Icon.name), selectedIconName),
+            NSPredicate(format: "%K = %d", #keyPath(Icon.color), selectedIcon.color)
+        ])
+        fetchRequest.predicate = predicate
+        do {
+            let icons = try coreDataStack.managedContext.fetch(fetchRequest)
+            if icons.count > 0 {
+                tag.icon = icons[0]
+                return
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+            return
+        }
+        // insert icon to core data
+        coreDataStack.managedContext.insert(selectedIcon)
+        tag.icon = selectedIcon
+    }
+}
+
 // MARK: Actions
 
 extension TagViewController {
-    @objc func showIconValueChanged(sender: UISwitch) {
+    @objc private func showIconValueChanged(sender: UISwitch) {
         if sender.isOn {
             showIcon()
-            if (customView.iconsCollectionView.indexPathsForSelectedItems?.count ?? 0) == 0,
+            if tag?.icon == nil,
+                (customView.iconsCollectionView.indexPathsForSelectedItems?.count ?? 0) == 0,
                 (customView.colorsCollectionView.indexPathsForSelectedItems?.count ?? 0) == 0,
                 iconsDataSourse.iconNames.count > 0, colorsDataSourse.colors.count > 0 {
                 let icon = Icon(entity: Icon.entity(), insertInto: nil)

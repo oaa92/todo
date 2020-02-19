@@ -53,13 +53,13 @@ extension SelectedTagsTableView {
             print("Hi!")
             completionHandler(true)
         }
-        action.backgroundColor = .systemGray
+        action.backgroundColor = .lightGray
         return action
     }
     
     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
         let title = "Delete"
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
+        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             print("Hi!")
             completionHandler(true)
         }
@@ -74,7 +74,7 @@ extension SelectedTagsTableView {
             print("Hi!")
             completionHandler(true)
         }
-        action.backgroundColor = .systemGreen
+        action.backgroundColor = UIColor(hex6: 0x09A723)
         action.image = UIImage(named: "edit")
         return action
     }
@@ -162,17 +162,13 @@ extension SelectedTagsTableView {
 // MARK: UITableViewDelegate
 
 extension SelectedTagsTableView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editAction = getEditAction(cellForRowAt: indexPath)
-        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [editAction, deleteAction])
-        return configuration
-    }
-    
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let unselectAction = getUnselectAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [unselectAction])
+        let editAction = getEditAction(cellForRowAt: indexPath)
+        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
+        let configuration = UISwipeActionsConfiguration(actions: [unselectAction, editAction, deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
     
