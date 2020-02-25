@@ -24,4 +24,25 @@ public class GradientBackgroud: NSManagedObject {
             colors = newValue.compactMap{ UIColor(cgColor: $0).rgb }
         }
     }
+    
+    var fetchEquals : NSFetchRequest<GradientBackgroud> {
+        let fetchRequest: NSFetchRequest<GradientBackgroud> = GradientBackgroud.fetchRequest()
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "%K = %@", #keyPath(GradientBackgroud.startPoint), startPoint ?? ""),
+            NSPredicate(format: "%K = %@", #keyPath(GradientBackgroud.endPoint), endPoint ?? ""),
+            NSPredicate(format: "%K = %@", #keyPath(GradientBackgroud.endPoint), colors ?? [])
+        ])
+        fetchRequest.predicate = predicate
+        return fetchRequest
+    }
+
+    func compare(with gradient: GradientBackgroud) -> Bool {
+        if self.startPoint == gradient.startPoint,
+            self.endPoint == gradient.endPoint,
+            self.colors == gradient.colors {
+            return true
+        } else {
+            return false
+        }
+    }
 }

@@ -145,74 +145,6 @@ extension TagViewController {
     }
 }
 
-// MARK: Core Data
-
-extension TagViewController {
-    private func saveTag() {
-        let name: String = customView.nameView.text ?? ""
-        guard !name.isEmpty else {
-            return
-        }
-
-        let tag: Tag = self.tag ?? Tag(context: coreDataStack.managedContext)
-        tag.name = name
-        saveIcon(tag: tag)
-        coreDataStack.saveContext()
-    }
-
-    private func saveIcon(tag: Tag) {
-        // icon is off
-        guard customView.showIconView.isOn else {
-            deleteOldIconIfNeeded(icon: tag.icon)
-            tag.icon = nil
-            return
-        }
-        // not selected
-        guard let selectedIcon = getSelectedIcon(),
-            let selectedIconName = selectedIcon.name,
-            !selectedIconName.isEmpty else {
-            return
-        }
-        // equal
-        if let icon = tag.icon,
-            selectedIcon.name == icon.name,
-            selectedIcon.color == icon.color {
-            return
-        }
-        // search icon in core data
-        let fetchRequest: NSFetchRequest<Icon> = Icon.fetchRequest()
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
-            NSPredicate(format: "%K = %@", #keyPath(Icon.name), selectedIconName),
-            NSPredicate(format: "%K = %d", #keyPath(Icon.color), selectedIcon.color)
-        ])
-        fetchRequest.predicate = predicate
-        do {
-            let icons = try coreDataStack.managedContext.fetch(fetchRequest)
-            if icons.count > 0 {
-                deleteOldIconIfNeeded(icon: tag.icon)
-                tag.icon = icons[0]
-                return
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-            return
-        }
-        // insert icon to core data
-        coreDataStack.managedContext.insert(selectedIcon)
-        deleteOldIconIfNeeded(icon: tag.icon)
-        tag.icon = selectedIcon
-    }
-    
-    private func deleteOldIconIfNeeded(icon: Icon?) {
-        guard let icon = icon else {
-            return
-        }
-        if icon.tags?.count == 1 {
-            coreDataStack.managedContext.delete(icon)
-        }
-    }
-}
-
 // MARK: Actions
 
 extension TagViewController {
@@ -245,6 +177,68 @@ extension TagViewController: UICollectionViewDelegate {
             }
         default:
             break
+        }
+    }
+}
+
+// MARK: Core Data
+
+extension TagViewController {
+    private func saveTag() {
+        let name: String = customView.nameView.text ?? ""
+        guard !name.isEmpty else {
+            return
+        }
+
+        let tag: Tag = self.tag ?? Tag(context: coreDataStack.managedContext)
+        tag.name = name
+        saveIcon(tag: tag)
+        coreDataStack.saveContext()
+    }
+
+    private func saveIcon(tag: Tag) {
+        // icon is off
+        guard customView.showIconView.isOn else {
+            deleteOldIconIfNeeded(icon: tag.icon)
+            tag.icon = nil
+            return
+        }
+        // not selected
+        guard let selectedIcon = getSelectedIcon(),
+            let selectedIconName = selectedIcon.name,
+            !selectedIconName.isEmpty else {
+            return
+        }
+        // equal
+        if let icon = tag.icon,
+            selectedIcon.compare(with: icon) {
+            return
+        }
+        // search icon in core data
+        do {
+            let fetchRequest = selectedIcon.fetchEquals
+            let icons = try coreDataStack.managedContext.fetch(fetchRequest)
+            if icons.count > 0 {
+                deleteOldIconIfNeeded(icon: tag.icon)
+                tag.icon = icons[0]
+                return
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+            return
+        }
+        // insert icon to core data
+        coreDataStack.managedContext.insert(selectedIcon)
+        deleteOldIconIfNeeded(icon: tag.icon)
+        tag.icon = selectedIcon
+    }
+
+    private func deleteOldIconIfNeeded(icon: Icon?) {
+        guard let icon = icon else {
+            return
+        }
+        if icon.tags?.count == 1 {
+            coreDataStack.managedContext.delete(icon)
         }
     }
 }

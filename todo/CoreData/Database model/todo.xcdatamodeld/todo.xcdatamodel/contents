@@ -18,7 +18,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uid" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="background" maxCount="1" deletionRule="Nullify" destinationEntity="GradientBackgroud" inverseName="notes" inverseEntity="GradientBackgroud"/>
+        <relationship name="background" maxCount="1" deletionRule="Deny" destinationEntity="GradientBackgroud" inverseName="notes" inverseEntity="GradientBackgroud"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="notes" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">

@@ -105,7 +105,7 @@ extension NotesTableController {
             self.showDeleteNotification()
             completionHandler(true)
         }
-        action.backgroundColor = UIColor(hex6: 0xFB7670)
+        action.backgroundColor = UIColor.Palette.Buttons.delete.get
         action.image = UIImage(named: "trash")
         return action
     }
@@ -117,7 +117,7 @@ extension NotesTableController {
             // self.coreDataStack.saveContext()
             completionHandler(true)
         }
-        action.backgroundColor = UIColor(hex6: 0x7D3BB8)
+        action.backgroundColor = UIColor.Palette.Buttons.favourites.get
         action.image = UIImage(named: "favourite")
         return action
     }

@@ -9,10 +9,6 @@
 import CoreData
 import Panels
 
-protocol TagUnselectionProtocol: class {
-    func tagDidUnselect(tag: Tag)
-}
-
 class TagsTableController: CustomViewController<TagsTableView> {
     private lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                      target: self,
@@ -67,7 +63,6 @@ class TagsTableController: CustomViewController<TagsTableView> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("viewWillAppear")
         fetchedResultsController.delegate = self
         if !panelIsShowing {
             showPanel()
@@ -113,7 +108,7 @@ extension TagsTableController {
             self.coreDataStack.saveContext()
             completionHandler(true)
         }
-        action.backgroundColor = UIColor(hex6: 0xFB7670)
+        action.backgroundColor = UIColor.Palette.Buttons.delete.get
         action.image = UIImage(named: "trash")
         return action
     }
@@ -128,51 +123,10 @@ extension TagsTableController {
             self.navigationController?.pushViewController(tagController, animated: true)
             completionHandler(true)
         }
-        action.backgroundColor = UIColor(hex6: 0x09A723)
+        action.backgroundColor = UIColor.Palette.Buttons.edit.get
         action.image = UIImage(named: "edit")
         return action
     }
-
-    /*
-     func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-         let title = "Delete"
-         let deleteAction = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-             let alert = self.getDeleteAlertController(cellForRowAt: indexPath)
-             self.present(alert, animated: true)
-             completionHandler(true)
-         }
-         deleteAction.backgroundColor = .red
-         deleteAction.image = UIImage(named: "trash")
-         return deleteAction
-     }
-
-     func getDeleteAlertController(cellForRowAt indexPath: IndexPath) -> UIAlertController {
-         let tag = fetchedResultsController.object(at: indexPath)
-         var message = ""
-         if let name = tag.name, !name.isEmpty {
-             message = "Удалить \(name)?"
-         } else {
-             message = "Удалить заметку?"
-         }
-
-         let title = "Удаление"
-         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-         let cancelTitle = "Отмена"
-         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
-         }
-         alert.addAction(cancelAction)
-
-         let deleteTitle = "Удалить"
-         let deleteAction = UIAlertAction(title: deleteTitle, style: .destructive) { _ in
-             self.coreDataStack.managedContext.delete(tag)
-             self.coreDataStack.saveContext()
-         }
-         alert.addAction(deleteAction)
-
-         return alert
-     }
-     */
 
     func fetch() {
         print("FETCH")
@@ -186,6 +140,7 @@ extension TagsTableController {
     func showPanel() {
         var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
         panelConfiguration.animateEntry = true
+        panelConfiguration.closeOutsideTap = false
         panelManager.show(panel: panel, config: panelConfiguration)
     }
 
@@ -247,23 +202,14 @@ extension TagsTableController: UITableViewDataSource {
 // MARK: Table cell configuration
 
 extension TagsTableController {
-    func configure(cell: UITableViewCell, indexPath: IndexPath) {
+    private func configure(cell: TagTableCell, indexPath: IndexPath) {
         let tag = fetchedResultsController.object(at: indexPath)
-        cell.backgroundColor = .clear
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 10)
-        cell.textLabel?.text = tag.name
-        if let icon = tag.icon,
-            let name = icon.name {
-            cell.imageView?.image = UIImage(named: name)
-            cell.imageView?.tintColor = UIColor(hex6: icon.color)
-        } else {
-            cell.imageView?.image = nil
-        }
-
+        let icon: Icon? = tag.icon
+        cell.configure(text: tag.name, imageName: icon?.name, color: icon?.color)
         setSelection(cell: cell, tag: tag)
     }
 
-    func setSelection(cell: UITableViewCell, tag: Tag) {
+    private func setSelection(cell: TagTableCell, tag: Tag) {
         if panel.selectedTags.contains(tag) {
             cell.accessoryType = .checkmark
         } else {
@@ -364,7 +310,7 @@ extension TagsTableController: NSFetchedResultsControllerDelegate {
             if panel.selectedTags.contains(tag) {
                 panel.updateTag(tag)
             }
-            if let cell = customView.tableView.cellForRow(at: indexPath) {
+            if let cell = customView.tableView.cellForRow(at: indexPath) as? TagTableCell {
                 configure(cell: cell, indexPath: indexPath)
             }
         case .move:
@@ -389,7 +335,7 @@ extension TagsTableController: NSFetchedResultsControllerDelegate {
 extension TagsTableController: TagUnselectionProtocol {
     func tagDidUnselect(tag: Tag) {
         guard let indexPath = fetchedResultsController.indexPath(forObject: tag),
-            let cell = customView.tableView.cellForRow(at: indexPath) else {
+            let cell = customView.tableView.cellForRow(at: indexPath) as? TagTableCell else {
             return
         }
         configure(cell: cell, indexPath: indexPath)

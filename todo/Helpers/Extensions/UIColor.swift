@@ -54,6 +54,26 @@ extension UIColor {
                 return UIColor(hex6: 0xFDC6D2)
             }
         }
+        
+        enum Buttons {
+            case favourites
+            case edit
+            case delete
+            case unselected
+            
+            var get: UIColor {
+                switch self {
+                case .favourites:
+                    return UIColor(hex6: 0x7D3BB8)
+                case .edit:
+                    return UIColor(hex6: 0x09A723)
+                case .delete:
+                    return UIColor(hex6: 0xFB7670)
+                case .unselected:
+                    return .lightGray
+                }
+            }
+        }
     }
     
     convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat = 1.0) {

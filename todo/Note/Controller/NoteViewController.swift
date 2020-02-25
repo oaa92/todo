@@ -8,10 +8,6 @@
 
 import Floaty
 
-protocol TagsSelectionProtocol: class {
-    func tagsDidSelect(tags: [Tag])
-}
-
 class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
     var note: Note?
@@ -69,7 +65,16 @@ class NoteViewController: CustomViewController<NoteView> {
 // MARK: Layout
 
 extension NoteViewController {
-    func setFloatyItems() {
+    private func addActionBar() {
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
+        let bar = UIToolbar()
+        bar.items = [space, doneItem]
+        bar.sizeToFit()
+        customView.noteView.inputAccessoryView = bar
+    }
+    
+    private func setFloatyItems() {
         addFloatyItem(icon: UIImage(named: "tag"), handler: {
             _ in
             let tags = Array(self.note?.tags as! Set<Tag>)
@@ -80,53 +85,42 @@ extension NoteViewController {
             tagsTableController.tagsSelectionDelegate = self
             self.navigationController?.pushViewController(tagsTableController, animated: true)
         })
-        addFloatyItem(icon: UIImage(named: "notification"))
+        addFloatyItem(icon: UIImage(named: "notification")) {
+            _ in
+            let notificationController = NotificationController()
+            self.navigationController?.pushViewController(notificationController, animated: true)
+        }
     }
 
-    func addFloatyItem(title: String? = nil, icon: UIImage? = nil, handler: ((FloatyItem) -> Void)? = nil) {
+    private func addFloatyItem(title: String? = nil, icon: UIImage? = nil, handler: ((FloatyItem) -> Void)? = nil) {
         let item = FloatyItem()
         item.title = title
         item.icon = icon
         item.handler = handler
         customView.floaty.addItem(item: item)
     }
-
-    func addActionBar() {
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
-        let bar = UIToolbar()
-        bar.items = [space, doneItem]
-        bar.sizeToFit()
-        customView.noteView.inputAccessoryView = bar
-    }
-}
-
-// MARK: Actions
-
-extension NoteViewController {
-    @objc func doneTapped() {
-        view.endEditing(true)
-    }
 }
 
 // MARK: Helpers
 
 extension NoteViewController {
-    func updateTagsHeight() {
+    private func updateTagsHeight() {
         let height = customView.tagsView.collectionViewLayout.collectionViewContentSize.height
         customView.tagsViewHeight.constant = height < 50 ? 50 : height
     }
 
-    func updateUI() {
+    private func updateUI() {
         guard let note = note else {
             return
         }
 
         // title
         customView.titleView.text = note.title
-
+        
         // text
         customView.noteView.text = note.text
+        
+        //background
         if let layer = customView.noteView.layer as? CAGradientLayer,
             let startPointStr = note.background?.startPoint,
             let endPointStr = note.background?.endPoint,
@@ -140,51 +134,20 @@ extension NoteViewController {
         } else {
             customView.noteView.setupLayerParams()
         }
-
+        
         // tags
         let tags = note.tags as! Set<Tag>
         tagsProvider.tags = Array(tags)
         customView.tagsView.reloadData()
         customView.tagsView.isHidden = tags.count == 0 ? true : false
     }
+}
 
-    func saveNote() {
-        let title: String = customView.titleView.text ?? ""
-        let text: String = customView.noteView.text ?? ""
-        if note == nil, title.isEmpty, text.isEmpty {
-            return
-        }
-        guard let layer = customView.noteView.layer as? CAGradientLayer else {
-            return
-        }
+// MARK: Actions
 
-        if note == nil {
-            note = Note(context: coreDataStack.managedContext)
-            let background = GradientBackgroud(context: coreDataStack.managedContext)
-            note?.background = background
-        }
-
-        note?.title = title
-        note?.text = text
-
-        // background
-        let startPointStr = NSCoder.string(for: layer.startPoint)
-        let endPointStr = NSCoder.string(for: layer.endPoint)
-        note?.background?.startPoint = startPointStr
-        note?.background?.endPoint = endPointStr
-        note?.background?.cgColors = layer.colors as! [CGColor]
-
-        // tags
-        let tags = note?.tags as! Set<Tag>
-        let selectedTags = Set(tagsProvider.tags)
-        let tagsRem = tags.subtracting(selectedTags)
-        let tagsAdd = selectedTags.subtracting(tags)
-        if tagsRem != tagsAdd {
-            note?.removeFromTags(tagsRem as NSSet)
-            note?.addToTags(tagsAdd as NSSet)
-        }
-
-        coreDataStack.saveContext()
+extension NoteViewController {
+    @objc func doneTapped() {
+        view.endEditing(true)
     }
 }
 
@@ -217,11 +180,84 @@ extension NoteViewController {
     }
 }
 
-// MARK: keyboard notifications
+// MARK: TagsSelectionProtocol
 
 extension NoteViewController: TagsSelectionProtocol {
     func tagsDidSelect(tags: [Tag]) {
         tagsProvider.tags = tags
         customView.tagsView.reloadData()
+    }
+}
+
+// MARK: Core Data
+
+extension NoteViewController {
+    private func saveNote() {
+        guard let layer = customView.noteView.layer as? CAGradientLayer else {
+            return
+        }
+        let title: String = customView.titleView.text ?? ""
+        let text: String = customView.noteView.text ?? ""
+        let note: Note = self.note ?? Note(context: coreDataStack.managedContext)
+        note.title = title
+        note.text = text
+        
+        saveBackground(note: note, layer: layer)
+
+        // tags
+        let tags = note.tags as! Set<Tag>
+        let selectedTags = Set(tagsProvider.tags)
+        let tagsRem = tags.subtracting(selectedTags)
+        let tagsAdd = selectedTags.subtracting(tags)
+        if tagsRem != tagsAdd {
+            note.removeFromTags(tagsRem as NSSet)
+            note.addToTags(tagsAdd as NSSet)
+        }
+
+        coreDataStack.saveContext()
+    }
+    
+    private func saveBackground(note: Note, layer: CAGradientLayer) {
+        let selectedBackground = getBackground(layer: layer)
+        if let background = note.background,
+            selectedBackground.compare(with: background) {
+            return
+        }
+        // search background in core data
+        do {
+            let fetchRequest = selectedBackground.fetchEquals
+            let backgrounds = try coreDataStack.managedContext.fetch(fetchRequest)
+            if backgrounds.count > 0 {
+                deleteOldBackgroundIfNeeded(background: note.background)
+                note.background = backgrounds[0]
+                return
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+            return
+        }
+        // insert background to core data
+        coreDataStack.managedContext.insert(selectedBackground)
+        deleteOldBackgroundIfNeeded(background: note.background)
+        note.background = selectedBackground
+    }
+    
+    private func getBackground(layer: CAGradientLayer) -> GradientBackgroud {
+        let background = GradientBackgroud(entity: GradientBackgroud.entity(), insertInto: nil)
+        let startPointStr = NSCoder.string(for: layer.startPoint)
+        let endPointStr = NSCoder.string(for: layer.endPoint)
+        background.startPoint = startPointStr
+        background.endPoint = endPointStr
+        background.cgColors = layer.colors as! [CGColor]
+        return background
+    }
+    
+    private func deleteOldBackgroundIfNeeded(background: GradientBackgroud?) {
+        guard let background = background else {
+            return
+        }
+        if background.notes?.count == 1 {
+            coreDataStack.managedContext.delete(background)
+        }
     }
 }

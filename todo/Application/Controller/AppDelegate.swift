@@ -13,6 +13,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     lazy var coreDataStack = CoreDataStack(modelName: "todo")
+    let notifications = Notifications()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.makeKeyAndVisible()
             let rootController = NotesTableController()
             rootController.coreDataStack = coreDataStack
+            
             window?.rootViewController = UINavigationController(rootViewController: rootController)
         }
         return true
