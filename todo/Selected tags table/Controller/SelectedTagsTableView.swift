@@ -26,8 +26,8 @@ class SelectedTagsTableView: UIViewController, Panelable {
         tableView.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         view.curveTopCorners()
     }
 }

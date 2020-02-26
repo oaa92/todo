@@ -16,10 +16,15 @@ class NotificationPeriodView: PanelView {
         return picker
     }()
 
-    let weekdays: UIView = {
-        let view = UIView()
+    let weekdaysCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: 48, height: 48)
+        flowLayout.minimumInteritemSpacing = 4
+        flowLayout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .red
+        view.backgroundColor = UIColor.Palette.grayish_orange.get
+        view.allowsMultipleSelection = true
         return view
     }()
 
@@ -36,20 +41,20 @@ class NotificationPeriodView: PanelView {
     private func setupViews() {
         label.text = "Выберите период"
         addSubview(periodPickerView)
-        addSubview(weekdays)
+        addSubview(weekdaysCollectionView)
     }
 
     private func setupConstrains() {
         let periodPickerViewConstrains = [periodPickerView.topAnchor.constraint(equalTo: headerPanel.bottomAnchor),
                                           periodPickerView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
                                           periodPickerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                          periodPickerView.heightAnchor.constraint(equalToConstant: 100)]
+                                          periodPickerView.heightAnchor.constraint(equalToConstant: 200)]
         NSLayoutConstraint.activate(periodPickerViewConstrains)
 
-        let weekdaysConstrains = [weekdays.topAnchor.constraint(equalTo: periodPickerView.bottomAnchor),
-                                  weekdays.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-                                  weekdays.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                  weekdays.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)]
+        let weekdaysConstrains = [weekdaysCollectionView.topAnchor.constraint(equalTo: periodPickerView.bottomAnchor),
+                                  weekdaysCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                                  weekdaysCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                                  weekdaysCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)]
         NSLayoutConstraint.activate(weekdaysConstrains)
     }
 }

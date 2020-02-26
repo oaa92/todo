@@ -22,8 +22,8 @@ class NotificationDateController: CustomViewController<NotificationDateView>, Pa
         customView.datePickerView.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         view.curveTopCorners()
     }
 }

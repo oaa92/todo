@@ -108,11 +108,11 @@ extension TagViewController {
 
     private func showIcon() {
         UIView.animate(withDuration: 0.2,
-                       animations: { self.customView.iconView.isHidden = false },
-                       completion: { _ in
-                           UIView.animate(withDuration: 0.2,
-                                          animations: { self.customView.iconView.alpha = 1 })
-                       })
+                       animations: { self.customView.iconView.isHidden = false }) {
+                        _ in
+                        UIView.animate(withDuration: 0.2,
+                                       animations: { self.customView.iconView.alpha = 1 })
+        }
         TagViewAnimator.animateCollections(view: customView,
                                            hide: false,
                                            duration: 0.2).startAnimation()
@@ -120,11 +120,11 @@ extension TagViewController {
 
     private func hideIcon() {
         UIView.animate(withDuration: 0.2,
-                       animations: { self.customView.iconView.alpha = 0 },
-                       completion: { _ in
-                           UIView.animate(withDuration: 0.2,
-                                          animations: { self.customView.iconView.isHidden = true })
-                       })
+                       animations: { self.customView.iconView.alpha = 0 }) {
+                        _ in
+                        UIView.animate(withDuration: 0.2,
+                        animations: { self.customView.iconView.isHidden = true })
+        }
         TagViewAnimator.animateCollections(view: customView,
                                            hide: true,
                                            duration: 0.2).startAnimation()

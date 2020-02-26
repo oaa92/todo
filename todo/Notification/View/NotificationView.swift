@@ -29,6 +29,15 @@ class NotificationView: UIView {
         return stack
     }()
     
+    let notificationStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .center
+        stack.spacing = 8
+        return stack
+    }()
+    
     let notificationSwitchView: UISwitch = {
         let switchView = UISwitch()
         switchView.onTintColor = UIColor.Palette.blue_soft.get
@@ -40,6 +49,24 @@ class NotificationView: UIView {
         let label = UILabel()
         label.isUserInteractionEnabled = true
         label.textColor = .systemBlue
+        label.alpha = 0
+        return label
+    }()
+    
+    let periodStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.alignment = .center
+        stack.spacing = 8
+        stack.alpha = 0
+        return stack
+    }()
+    
+    let periodSwitchLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Повторять"
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -54,6 +81,7 @@ class NotificationView: UIView {
         let label = UILabel()
         label.isUserInteractionEnabled = true
         label.textColor = .systemBlue
+        label.alpha = 0
         return label
     }()
     
@@ -71,42 +99,22 @@ class NotificationView: UIView {
         backgroundColor = UIColor.Palette.grayish_orange.get
         setupNotificationSwitchStack()
         stackView.addArrangedSubview(dateLabel)
-        setupPeriodSwitchStack()
+        periodStack.addArrangedSubview(periodSwitchLabel)
+        periodStack.addArrangedSubview(periodSwitchView)
+        stackView.addArrangedSubview(periodStack)
         stackView.addArrangedSubview(periodLabel)
         scrollView.addSubview(stackView)
         addSubview(scrollView)
     }
     
     private func setupNotificationSwitchStack() {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.spacing = 8
-        
         let label = UILabel()
         label.text = "Напоминать"
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
-        stack.addArrangedSubview(label)
-        stack.addArrangedSubview(notificationSwitchView)
-        stackView.addArrangedSubview(stack)
-    }
-    
-    private func setupPeriodSwitchStack() {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
-        stack.spacing = 8
-        
-        let label = UILabel()
-        label.text = "Повторять"
-        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        
-        stack.addArrangedSubview(label)
-        stack.addArrangedSubview(periodSwitchView)
-        stackView.addArrangedSubview(stack)
+        notificationStack.addArrangedSubview(label)
+        notificationStack.addArrangedSubview(notificationSwitchView)
+        stackView.addArrangedSubview(notificationStack)
     }
     
     private func setupConstrains() {

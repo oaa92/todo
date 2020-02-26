@@ -41,7 +41,7 @@ class NotificationController: CustomViewController<NotificationView> {
         return view
     }()
 
-    var currentPanel: Panels?
+    private var currentPanel: Panels?
 
     // MARK: View Lifecycle
 
@@ -68,7 +68,7 @@ class NotificationController: CustomViewController<NotificationView> {
 // MARK: Helpers
 
 extension NotificationController {
-    func updateDateLabel() {
+    private func updateDateLabel() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
@@ -76,16 +76,16 @@ extension NotificationController {
         customView.dateLabel.text = dateString
     }
 
-    func updatePeriodLabel() {
+    private func updatePeriodLabel() {
         customView.periodLabel.text = "ежедневно"
     }
 
-    func insertOverlayView() {
+    private func insertOverlayView() {
         overlayView.frame = customView.frame
         customView.insertSubview(overlayView, at: 1)
     }
 
-    func panelDismiss(panelManager: Panels) {
+    private func panelDismiss(panelManager: Panels) {
         panelManager.dismiss()
         customView.gestureRecognizers?.forEach { customView.removeGestureRecognizer($0) }
         let controller = panelManager === datePanelManager ? notificationDateController : notificationPeriodController
@@ -95,26 +95,33 @@ extension NotificationController {
         }
         overlayView.removeFromSuperview()
     }
+
+    private func animatePeriodLabel(alpha: CGFloat) {
+        UIView.animate(withDuration: 0.2) {
+            self.customView.periodLabel.alpha = alpha
+        }
+    }
 }
 
 // MARK: Actions
 
 extension NotificationController {
     @objc private func notificationSwitchViewValueChanged() {
-        if customView.notificationSwitchView.isOn {
-            /*
-             var date = Date()
-             date.addTimeInterval(5)
-             let calendar = Calendar.current
-             let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-             notifications.authorization()
-             notifications.create(identifier: "1", body: "напоминание о заметке", dateInfo: components, repeats: false)
-             */
+        let alpha: CGFloat = customView.notificationSwitchView.isOn ? 1 : 0
+        UIView.animate(withDuration: 0.2) {
+            self.customView.dateLabel.alpha = alpha
+            self.customView.periodStack.alpha = alpha
+        }
+        if customView.notificationSwitchView.isOn, customView.periodSwitchView.isOn {
+            animatePeriodLabel(alpha: 1)
+        } else {
+            animatePeriodLabel(alpha: 0)
         }
     }
 
     @objc private func periodSwitchViewValueChanged() {
-        print("switch")
+        let alpha: CGFloat = customView.periodSwitchView.isOn ? 1 : 0
+        animatePeriodLabel(alpha: alpha)
     }
 
     @objc private func labelTapped(_ sender: UITapGestureRecognizer) {
@@ -132,11 +139,11 @@ extension NotificationController {
         switch sender.view {
         case customView.dateLabel:
             panel = datePanelManager
-            panelConfiguration = PanelConfiguration(size: .half, margin: 0, visibleArea: 50)
+            panelConfiguration = PanelConfiguration(size: .custom(300), margin: 0, visibleArea: 50)
             controller = notificationDateController
         case customView.periodLabel:
             panel = periodPanelManager
-            panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
+            panelConfiguration = PanelConfiguration(size: .custom(400), margin: 0, visibleArea: 50)
             controller = notificationPeriodController
         default:
             print("unknown view")
