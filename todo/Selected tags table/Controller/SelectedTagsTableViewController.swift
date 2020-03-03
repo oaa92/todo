@@ -8,7 +8,7 @@
 
 import Panels
 
-class SelectedTagsTableView: UIViewController, Panelable {
+class SelectedTagsTableViewController: UIViewController, Panelable {
     @IBOutlet var headerHeight: NSLayoutConstraint!
     @IBOutlet var headerPanel: UIView!
     @IBOutlet var tableView: UITableView!
@@ -34,7 +34,7 @@ class SelectedTagsTableView: UIViewController, Panelable {
 
 // MARK: Layout
 
-extension SelectedTagsTableView {
+extension SelectedTagsTableViewController {
     private func setupView() {
         view.backgroundColor = .clear
         headerPanel.backgroundColor = UIColor.Palette.orange_pale.get
@@ -45,7 +45,7 @@ extension SelectedTagsTableView {
 
 // MARK: Helpers
 
-extension SelectedTagsTableView {
+extension SelectedTagsTableViewController {
     func setTags(_ tags: [Tag]) {
         selectedTags = tags
     }
@@ -99,7 +99,7 @@ extension SelectedTagsTableView {
 
 // MARK: UITableViewDataSource
 
-extension SelectedTagsTableView: UITableViewDataSource {
+extension SelectedTagsTableViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -117,7 +117,7 @@ extension SelectedTagsTableView: UITableViewDataSource {
 
 // MARK: Table cell configuration
 
-extension SelectedTagsTableView {
+extension SelectedTagsTableViewController {
     private func configure(cell: TagTableCell, indexPath: IndexPath) {
         let index = indexPath.row
         let tag = selectedTags[index]
@@ -128,7 +128,7 @@ extension SelectedTagsTableView {
 
 // MARK: UITableViewDelegate
 
-extension SelectedTagsTableView: UITableViewDelegate {
+extension SelectedTagsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let unselectAction = getUnselectAction(cellForRowAt: indexPath)
@@ -146,7 +146,7 @@ extension SelectedTagsTableView: UITableViewDelegate {
 
 // MARK: Table content changed
 
-extension SelectedTagsTableView {
+extension SelectedTagsTableViewController {
     enum TagChangeType {
         case insert
         case delete

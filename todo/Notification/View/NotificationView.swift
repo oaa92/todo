@@ -82,6 +82,7 @@ class NotificationView: UIView {
         label.isUserInteractionEnabled = true
         label.textColor = .systemBlue
         label.alpha = 0
+        label.numberOfLines = 0
         return label
     }()
     

@@ -189,8 +189,15 @@ extension TagViewController {
         guard !name.isEmpty else {
             return
         }
+        
+        let tag: Tag
+        if let ctag = self.tag {
+            tag = ctag
+        } else {
+            tag = Tag(context: coreDataStack.managedContext)
+            self.tag = tag
+        }
 
-        let tag: Tag = self.tag ?? Tag(context: coreDataStack.managedContext)
         tag.name = name
         saveIcon(tag: tag)
         coreDataStack.saveContext()

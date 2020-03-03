@@ -15,9 +15,15 @@
 		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
 		8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */; };
 		8440038623F1370300B909CC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038523F1370300B909CC /* String.swift */; };
+		844AFF2E240C129500E1B551 /* NoteNotificationsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */; };
 		844CDC8C23F6C7B2004E9DAE /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */; };
 		844CDC8E23F6C7EE004E9DAE /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8D23F6C7EE004E9DAE /* TagView.swift */; };
 		844F70CE24064270003D5249 /* NotificationWeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */; };
+		846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */; };
+		846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */; };
+		846D688F240A2642006ED231 /* NoteNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */; };
+		846D6890240A2642006ED231 /* NoteNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D688D240A2642006ED231 /* NoteNotification+CoreDataProperties.swift */; };
+		846D6893240A2D1B006ED231 /* PeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6892240A2D1B006ED231 /* PeriodType.swift */; };
 		846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */; };
 		84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */; };
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
@@ -27,7 +33,7 @@
 		848CD5F023FE79BD008B1856 /* TagsSelectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CD5EF23FE79BD008B1856 /* TagsSelectionProtocol.swift */; };
 		848CD5F223FE79EE008B1856 /* TagUnselectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */; };
 		8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493913A23F4049F001BB07A /* TagsTableView.swift */; };
-		849EB0682402DFE8009D9DE8 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849EB0672402DFE8009D9DE8 /* Notifications.swift */; };
+		849EB0682402DFE8009D9DE8 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849EB0672402DFE8009D9DE8 /* NotificationsManager.swift */; };
 		84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5514623E02EF000E0CC1E /* AppDelegate.swift */; };
 		84A5514E23E02EF000E0CC1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A5514C23E02EF000E0CC1E /* Main.storyboard */; };
 		84A5515623E02EF100E0CC1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A5515423E02EF100E0CC1E /* LaunchScreen.storyboard */; };
@@ -45,9 +51,10 @@
 		84AFD8DF24055759002AB663 /* NotificationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8DE24055759002AB663 /* NotificationPeriodView.swift */; };
 		84AFD8E124055991002AB663 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E024055991002AB663 /* PanelView.swift */; };
 		84AFD8E324055B8D002AB663 /* NotificationPeriodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E224055B8D002AB663 /* NotificationPeriodController.swift */; };
-		84AFD8E524055D72002AB663 /* NotificationDateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E424055D72002AB663 /* NotificationDateProtocol.swift */; };
+		84AFD8E524055D72002AB663 /* NoteNotificationEditProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */; };
+		84BB57AF240A73A4007A8740 /* Locale+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BB57AE240A73A4007A8740 /* Locale+utils.swift */; };
 		84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A723F5445900BD4F9B /* TagsTableController.swift */; };
-		84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */; };
+		84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */; };
 		84BBE3AC23F559AA00BD4F9B /* SelectedTagsPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */; };
 		84BC01C023E1BC2D00ABA161 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01BF23E1BC2D00ABA161 /* ReusableView.swift */; };
 		84BC01C223E1BC7400ABA161 /* ReusableView ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */; };
@@ -107,9 +114,15 @@
 		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
 		8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudDataSource.swift; sourceTree = "<group>"; };
 		8440038523F1370300B909CC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteNotificationsProtocol.swift; sourceTree = "<group>"; };
 		844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		844CDC8D23F6C7EE004E9DAE /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWeekdayCell.swift; sourceTree = "<group>"; };
+		846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataClass.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		846D688D240A2642006ED231 /* NoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NoteNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/NoteNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NoteNotification+CoreDataClass.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/NoteNotification+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		846D6892240A2D1B006ED231 /* PeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodType.swift; sourceTree = "<group>"; };
 		846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewAnimator.swift; sourceTree = "<group>"; };
 		84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
@@ -119,7 +132,7 @@
 		848CD5EF23FE79BD008B1856 /* TagsSelectionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSelectionProtocol.swift; sourceTree = "<group>"; };
 		848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUnselectionProtocol.swift; sourceTree = "<group>"; };
 		8493913A23F4049F001BB07A /* TagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTableView.swift; sourceTree = "<group>"; };
-		849EB0672402DFE8009D9DE8 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		849EB0672402DFE8009D9DE8 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		84A5514323E02EF000E0CC1E /* todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A5514623E02EF000E0CC1E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A5514D23E02EF000E0CC1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,9 +156,10 @@
 		84AFD8DE24055759002AB663 /* NotificationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPeriodView.swift; sourceTree = "<group>"; };
 		84AFD8E024055991002AB663 /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
 		84AFD8E224055B8D002AB663 /* NotificationPeriodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPeriodController.swift; sourceTree = "<group>"; };
-		84AFD8E424055D72002AB663 /* NotificationDateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDateProtocol.swift; sourceTree = "<group>"; };
+		84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteNotificationEditProtocol.swift; sourceTree = "<group>"; };
+		84BB57AE240A73A4007A8740 /* Locale+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+utils.swift"; sourceTree = "<group>"; };
 		84BBE3A723F5445900BD4F9B /* TagsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableController.swift; sourceTree = "<group>"; };
-		84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableView.swift; sourceTree = "<group>"; };
+		84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableViewController.swift; sourceTree = "<group>"; };
 		84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectedTagsPanel.storyboard; sourceTree = "<group>"; };
 		84BC01BF23E1BC2D00ABA161 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReusableView ext.swift"; sourceTree = "<group>"; };
@@ -267,6 +281,14 @@
 			path = "Sound Files";
 			sourceTree = "<group>";
 		};
+		846D6891240A2D08006ED231 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				846D6892240A2D1B006ED231 /* PeriodType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		84787C3523E349F500D7C9DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +324,7 @@
 				84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */,
 				84BC01C323E1BC9500ABA161 /* UICollectionView+ReusableView.swift */,
 				84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */,
+				84BB57AE240A73A4007A8740 /* Locale+utils.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -498,7 +521,7 @@
 		84BBE3A423F53B4900BD4F9B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				84BBE3A923F552EC00BD4F9B /* SelectedTagsTableView.swift */,
+				84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -536,7 +559,8 @@
 				84BC01BF23E1BC2D00ABA161 /* ReusableView.swift */,
 				848CD5EF23FE79BD008B1856 /* TagsSelectionProtocol.swift */,
 				848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */,
-				84AFD8E424055D72002AB663 /* NotificationDateProtocol.swift */,
+				84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */,
+				844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -580,6 +604,7 @@
 		84E9ED002401133C00E6521C /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				846D6891240A2D08006ED231 /* Model */,
 				84E9ED012401139D00E6521C /* View */,
 				84E9ED02240113A900E6521C /* Controller */,
 			);
@@ -604,7 +629,7 @@
 				84E9ED062401221400E6521C /* NotificationController.swift */,
 				84F7B6682404FD4F00A38319 /* NotificationDateController.swift */,
 				84AFD8E224055B8D002AB663 /* NotificationPeriodController.swift */,
-				849EB0672402DFE8009D9DE8 /* Notifications.swift */,
+				849EB0672402DFE8009D9DE8 /* NotificationsManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -645,9 +670,13 @@
 				84F2435123EC066700B4438C /* Tag+CoreDataClass.swift */,
 				84F2435223EC066700B4438C /* Tag+CoreDataProperties.swift */,
 				84F2435323EC066700B4438C /* GradientBackgroud+CoreDataClass.swift */,
+				846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */,
+				846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */,
 				84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */,
 				84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */,
 				84F523CC23EC08600074AB3C /* Note+CoreDataProperties.swift */,
+				846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */,
+				846D688D240A2642006ED231 /* NoteNotification+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -884,7 +913,7 @@
 			files = (
 				848CD5F223FE79EE008B1856 /* TagUnselectionProtocol.swift in Sources */,
 				84BC01C023E1BC2D00ABA161 /* ReusableView.swift in Sources */,
-				84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableView.swift in Sources */,
+				84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableViewController.swift in Sources */,
 				84E9ED0524011C1500E6521C /* NotificationView.swift in Sources */,
 				847B286223E180F500F334E8 /* CustomViewController.swift in Sources */,
 				84C6DC6523F05BBB0092DF4B /* TagsCloudCell.swift in Sources */,
@@ -896,6 +925,7 @@
 				8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */,
 				84AFD8E124055991002AB663 /* PanelView.swift in Sources */,
 				84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */,
+				846D6890240A2642006ED231 /* NoteNotification+CoreDataProperties.swift in Sources */,
 				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
 				84AD073923F93683000C7588 /* TagIconCell.swift in Sources */,
 				846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */,
@@ -906,6 +936,7 @@
 				84BC84E223FABBE3007CF76D /* NotesTableDataSource.swift in Sources */,
 				84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */,
 				84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */,
+				846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */,
 				84BC01C223E1BC7400ABA161 /* ReusableView ext.swift in Sources */,
 				84AFD8DF24055759002AB663 /* NotificationPeriodView.swift in Sources */,
 				84F523CD23EC08600074AB3C /* Note+CoreDataProperties.swift in Sources */,
@@ -913,21 +944,25 @@
 				847B286823E189A900F334E8 /* NoteViewController.swift in Sources */,
 				84F2435823EC066700B4438C /* Icon+CoreDataClass.swift in Sources */,
 				84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */,
+				846D688F240A2642006ED231 /* NoteNotification+CoreDataClass.swift in Sources */,
 				84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */,
 				84C2CB3F23FBD89F00DC9958 /* NotesTableView.swift in Sources */,
-				849EB0682402DFE8009D9DE8 /* Notifications.swift in Sources */,
+				849EB0682402DFE8009D9DE8 /* NotificationsManager.swift in Sources */,
 				84F2435B23EC066700B4438C /* NoteBackgroud+CoreDataProperties.swift in Sources */,
 				84F2435C23EC066700B4438C /* Tag+CoreDataClass.swift in Sources */,
 				84C6DC5F23F0558F0092DF4B /* TagsCloudSettings.swift in Sources */,
+				844AFF2E240C129500E1B551 /* NoteNotificationsProtocol.swift in Sources */,
 				8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */,
 				84F7B6692404FD4F00A38319 /* NotificationDateController.swift in Sources */,
+				846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */,
 				84F2435D23EC066700B4438C /* Tag+CoreDataProperties.swift in Sources */,
 				84F7B66B2404FD8300A38319 /* NotificationDateView.swift in Sources */,
 				84F2435923EC066700B4438C /* Icon+CoreDataProperties.swift in Sources */,
 				847B286623E1855900F334E8 /* UIColor.swift in Sources */,
 				84AF8B2323E40C2F0019A4DB /* CoreDataStack.swift in Sources */,
 				84E9ED072401221400E6521C /* NotificationController.swift in Sources */,
-				84AFD8E524055D72002AB663 /* NotificationDateProtocol.swift in Sources */,
+				84AFD8E524055D72002AB663 /* NoteNotificationEditProtocol.swift in Sources */,
+				846D6893240A2D1B006ED231 /* PeriodType.swift in Sources */,
 				8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */,
 				84AD073723F92DC3000C7588 /* TagParamCell.swift in Sources */,
 				84AD073B23F937A9000C7588 /* TagIconDataSourse.swift in Sources */,
@@ -940,6 +975,7 @@
 				84C6DC6323F059F70092DF4B /* TagsCloudCollectionView.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
 				8440038623F1370300B909CC /* String.swift in Sources */,
+				84BB57AF240A73A4007A8740 /* Locale+utils.swift in Sources */,
 				84F2435E23EC066700B4438C /* GradientBackgroud+CoreDataClass.swift in Sources */,
 				848CD5F023FE79BD008B1856 /* TagsSelectionProtocol.swift in Sources */,
 				84AFD8E324055B8D002AB663 /* NotificationPeriodController.swift in Sources */,
@@ -1162,7 +1198,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D97475642F;
 				INFOPLIST_FILE = todoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1185,7 +1221,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D97475642F;
 				INFOPLIST_FILE = todoTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

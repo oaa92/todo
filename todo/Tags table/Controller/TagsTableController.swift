@@ -40,7 +40,7 @@ class TagsTableController: CustomViewController<TagsTableView> {
 
     private var panelIsShowing: Bool = false
     private lazy var panelManager = Panels(target: self)
-    var panel: SelectedTagsTableView = UIStoryboard.instantiatePanel(identifier: "SelectedTagsPanel") as! SelectedTagsTableView
+    var panel: SelectedTagsTableViewController = UIStoryboard.instantiatePanel(identifier: "SelectedTagsPanel") as! SelectedTagsTableViewController
     weak var tagsSelectionDelegate: TagsSelectionProtocol?
 
     // MARK: View Lifecycle

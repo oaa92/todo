@@ -22,6 +22,7 @@ class NoteViewController: CustomViewController<NoteView> {
                                      backgroundColor: UIColor(white: 0.9, alpha: 1.0),
                                      cornerRadius: 10)
     lazy var tagsProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: settings)
+    var notifications: Set<NoteNotification> = []
 
     // MARK: View Lifecycle
 
@@ -29,6 +30,8 @@ class NoteViewController: CustomViewController<NoteView> {
         super.viewDidLoad()
 
         print("viewDidLoad")
+        
+        notifications = (note?.notifications ?? []) as! Set<NoteNotification>
 
         addActionBar()
         setFloatyItems()
@@ -77,8 +80,8 @@ extension NoteViewController {
     private func setFloatyItems() {
         addFloatyItem(icon: UIImage(named: "tag"), handler: {
             _ in
-            let tags = Array(self.note?.tags as! Set<Tag>)
-
+            let tagsSet: Set<Tag> = (self.note?.tags ?? []) as! Set<Tag>
+            let tags: [Tag] = Array(tagsSet)
             let tagsTableController = TagsTableController()
             tagsTableController.coreDataStack = self.coreDataStack
             tagsTableController.panel.setTags(tags)
@@ -88,6 +91,9 @@ extension NoteViewController {
         addFloatyItem(icon: UIImage(named: "notification")) {
             _ in
             let notificationController = NotificationController()
+            notificationController.coreDataStack = self.coreDataStack
+            notificationController.notifications = self.notifications
+            notificationController.noteNotificationsDelegate = self
             self.navigationController?.pushViewController(notificationController, animated: true)
         }
     }
@@ -189,6 +195,14 @@ extension NoteViewController: TagsSelectionProtocol {
     }
 }
 
+// MARK: NoteNotificationsProtocol
+
+extension NoteViewController: NoteNotificationsProtocol {
+    func notificationsDidSet(notifications: Set<NoteNotification>) {
+        self.notifications = notifications
+    }
+}
+
 // MARK: Core Data
 
 extension NoteViewController {
@@ -198,12 +212,20 @@ extension NoteViewController {
         }
         let title: String = customView.titleView.text ?? ""
         let text: String = customView.noteView.text ?? ""
-        let note: Note = self.note ?? Note(context: coreDataStack.managedContext)
+        
+        let note: Note
+        if let cnote = self.note {
+            note = cnote
+        } else {
+            note = Note(context: coreDataStack.managedContext)
+            self.note = note
+        }
+        
         note.title = title
         note.text = text
         
         saveBackground(note: note, layer: layer)
-
+        
         // tags
         let tags = note.tags as! Set<Tag>
         let selectedTags = Set(tagsProvider.tags)
@@ -213,7 +235,10 @@ extension NoteViewController {
             note.removeFromTags(tagsRem as NSSet)
             note.addToTags(tagsAdd as NSSet)
         }
-
+        
+        //notifications
+        saveNotifications(note: note)
+        
         coreDataStack.saveContext()
     }
     
@@ -259,5 +284,43 @@ extension NoteViewController {
         if background.notes?.count == 1 {
             coreDataStack.managedContext.delete(background)
         }
+    }
+    
+    private func saveNotifications(note: Note) {
+        let currentNotifications = note.notifications as! Set<NoteNotification>
+        let savedNotifications = notifications
+
+        var notificationsRem: Set<NoteNotification> = []
+        var notificationsAdd: Set<NoteNotification> = []
+
+        let calendarCurrentNotifications = currentNotifications.compactMap { $0 as? CalendarNotification }
+        let calendarSavedNotifications = savedNotifications.compactMap { $0 as? CalendarNotification }
+        
+        //subtracting calendarSavedNotifications from calendarCurrentNotifications
+        let remArr = calendarNotificationsSubtracting(a: calendarCurrentNotifications, b: calendarSavedNotifications)
+        remArr.forEach { notificationsRem.insert($0) }
+        
+        //subtracting calendarCurrentNotifications from calendarSavedNotifications
+        let addArr = calendarNotificationsSubtracting(a: calendarSavedNotifications, b: calendarCurrentNotifications)
+        addArr.forEach{ notificationsAdd.insert($0) }
+
+        guard notificationsRem.count > 0 || notificationsAdd.count > 0 else {
+            return
+        }
+        notificationsAdd.forEach {self.coreDataStack.managedContext.insert($0)}
+        note.removeFromNotifications(notificationsRem as NSSet)
+        note.addToNotifications(notificationsAdd as NSSet)
+    }
+    
+    private func calendarNotificationsSubtracting(a: [CalendarNotification],
+                                                  b: [CalendarNotification]) -> [CalendarNotification] {
+        var result: [CalendarNotification] = []
+        for notification in a {
+            let isContains = b.contains { $0.compare(with: notification) }
+            if !isContains {
+                result.append(notification)
+            }
+        }
+        return result
     }
 }

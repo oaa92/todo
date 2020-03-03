@@ -100,7 +100,7 @@ extension NotesTableController {
         let title = "Delete"
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
-            note.detetedAt = Date()
+            note.deletedAt = Date()
             self.coreDataStack.saveContext()
             self.showDeleteNotification()
             completionHandler(true)
@@ -161,7 +161,7 @@ extension NotesTableController {
 
         if let paths = customView.tableView.indexPathsForSelectedRows {
             let notes = paths.map { tableDataSource.fetchedResultsController.object(at: $0) }
-            notes.forEach { $0.detetedAt = Date() }
+            notes.forEach { $0.deletedAt = Date() }
             coreDataStack.saveContext()
             showDeleteNotification()
         }
@@ -232,9 +232,7 @@ extension NotesTableController: UITableViewDelegate {
         guard !searchController.isActive else {
             return
         }
-
-        let note = tableDataSource.fetchedResultsController.object(at: indexPath)
-        tableDataSource.providers[note.uid!] = nil
+        tableDataSource.removeProvidersForNotVisibleNotes()
     }
 }
 
@@ -263,13 +261,7 @@ extension NotesTableController: UISearchResultsUpdating {
         tableDataSource.fetchedResultsController.fetchRequest.predicate = predicate
         fetch()
         customView.tableView.reloadData()
-
-        let uids: Set<UUID> = Set(tableDataSource.fetchedResultsController.fetchedObjects?.compactMap { $0.uid } ?? [])
-        for key in tableDataSource.providers.keys {
-            if !uids.contains(key) {
-                tableDataSource.providers.removeValue(forKey: key)
-            }
-        }
+        tableDataSource.removeProvidersForNotVisibleNotes()
     }
 }
 

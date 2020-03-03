@@ -12,7 +12,7 @@ import UIKit
 class NotesTableDataSource: NSObject {
     var coreDataStack: CoreDataStack!
 
-    let predicate = NSPredicate(format: "\(#keyPath(Note.detetedAt)) = nil")
+    let predicate = NSPredicate(format: "\(#keyPath(Note.deletedAt)) = nil")
 
     lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
         let sort = NSSortDescriptor(key: #keyPath(Note.createdAt), ascending: false)
@@ -38,6 +38,17 @@ class NotesTableDataSource: NSObject {
                                              cornerRadius: 5)
 
     var providers: [UUID: TagsCloudDataSource] = [:]
+}
+
+extension NotesTableDataSource {
+    func removeProvidersForNotVisibleNotes() {
+        let uids: Set<UUID> = Set(fetchedResultsController.fetchedObjects?.compactMap { $0.uid } ?? [])
+        for key in providers.keys {
+            if !uids.contains(key) {
+                providers.removeValue(forKey: key)
+            }
+        }
+    }
 }
 
 // MARK: UITableViewDataSource

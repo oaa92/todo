@@ -39,6 +39,7 @@ class NotificationPeriodView: PanelView {
     }
 
     private func setupViews() {
+        backgroundColor = UIColor.Palette.grayish_orange.get
         label.text = "Выберите период"
         addSubview(periodPickerView)
         addSubview(weekdaysCollectionView)
@@ -48,7 +49,7 @@ class NotificationPeriodView: PanelView {
         let periodPickerViewConstrains = [periodPickerView.topAnchor.constraint(equalTo: headerPanel.bottomAnchor),
                                           periodPickerView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
                                           periodPickerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                          periodPickerView.heightAnchor.constraint(equalToConstant: 200)]
+                                          periodPickerView.heightAnchor.constraint(equalToConstant: 120)]
         NSLayoutConstraint.activate(periodPickerViewConstrains)
 
         let weekdaysConstrains = [weekdaysCollectionView.topAnchor.constraint(equalTo: periodPickerView.bottomAnchor),

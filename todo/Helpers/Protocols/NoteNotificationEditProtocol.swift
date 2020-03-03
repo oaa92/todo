@@ -1,5 +1,5 @@
 //
-//  NotificationDateProtocol.swift
+//  NoteNotificationEditProtocol.swift
 //  todo
 //
 //  Created by Анатолий on 25/02/2020.
@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol NotificationDateProtocol: class {
+protocol NoteNotificationEditProtocol: class {
     func dateDidChange(date: Date)
+    func periodDidChange(period: PeriodType)
 }

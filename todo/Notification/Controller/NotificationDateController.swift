@@ -12,7 +12,7 @@ class NotificationDateController: CustomViewController<NotificationDateView>, Pa
     lazy var headerHeight: NSLayoutConstraint! = customView.headerHeight
     lazy var headerPanel: UIView! = customView.headerPanel
 
-    weak var delegate: NotificationDateProtocol?
+    weak var delegate: NoteNotificationEditProtocol?
 
     // MARK: View Lifecycle
 
