@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18CCFF35EAEB47EEF2F23B82 /* Pods_todoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA21984CE4FB2C586D244A78 /* Pods_todoUITests.framework */; };
-		57F0DC49BAFC6A788A97BE5F /* Pods_todo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5102574DCC446163745A0 /* Pods_todo.framework */; };
-		6F16A47D6D355DE26367CD2B /* Pods_todoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B95DADE022F9A5EE91B6CA9 /* Pods_todoTests.framework */; };
+		3B166D6929D420832C485F1F /* libPods-todoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6A8B4EE50FB8E5A04AECB7 /* libPods-todoTests.a */; };
+		42D2CC7C026555DFA4EA1E86 /* libPods-todoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA5EAC895DEF25C6765E3FCC /* libPods-todoUITests.a */; };
 		8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403703D23FA5F1B00D4CA4D /* ToastView.swift */; };
 		8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403704123FA628B00D4CA4D /* ToastManager.swift */; };
 		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
+		843AA848240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AA847240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift */; };
 		8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */; };
-		8440038623F1370300B909CC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038523F1370300B909CC /* String.swift */; };
+		8440038623F1370300B909CC /* String+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038523F1370300B909CC /* String+utils.swift */; };
 		844AFF2E240C129500E1B551 /* NoteNotificationsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */; };
 		844CDC8C23F6C7B2004E9DAE /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */; };
 		844CDC8E23F6C7EE004E9DAE /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844CDC8D23F6C7EE004E9DAE /* TagView.swift */; };
 		844F70CE24064270003D5249 /* NotificationWeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */; };
+		845172F324154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */; };
+		845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */; };
 		846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */; };
 		846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */; };
 		846D688F240A2642006ED231 /* NoteNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */; };
@@ -27,13 +29,15 @@
 		846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */; };
 		84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */; };
 		847B286223E180F500F334E8 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286123E180F500F334E8 /* CustomViewController.swift */; };
-		847B286623E1855900F334E8 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor.swift */; };
+		847B286623E1855900F334E8 /* UIColor+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286523E1855900F334E8 /* UIColor+utils.swift */; };
 		847B286823E189A900F334E8 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847B286723E189A900F334E8 /* NoteViewController.swift */; };
 		8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488C39523F3E31800C13882 /* TagTableCell.swift */; };
 		848CD5F023FE79BD008B1856 /* TagsSelectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CD5EF23FE79BD008B1856 /* TagsSelectionProtocol.swift */; };
 		848CD5F223FE79EE008B1856 /* TagUnselectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */; };
 		8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493913A23F4049F001BB07A /* TagsTableView.swift */; };
 		849EB0682402DFE8009D9DE8 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849EB0672402DFE8009D9DE8 /* NotificationsManager.swift */; };
+		84A30A34240F9D980018DF12 /* NoteTagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A30A33240F9D980018DF12 /* NoteTagsManager.swift */; };
+		84A30A36240FA0990018DF12 /* Date+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A30A35240FA0990018DF12 /* Date+utils.swift */; };
 		84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A5514623E02EF000E0CC1E /* AppDelegate.swift */; };
 		84A5514E23E02EF000E0CC1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A5514C23E02EF000E0CC1E /* Main.storyboard */; };
 		84A5515623E02EF100E0CC1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A5515423E02EF100E0CC1E /* LaunchScreen.storyboard */; };
@@ -57,7 +61,7 @@
 		84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */; };
 		84BBE3AC23F559AA00BD4F9B /* SelectedTagsPanel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */; };
 		84BC01C023E1BC2D00ABA161 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01BF23E1BC2D00ABA161 /* ReusableView.swift */; };
-		84BC01C223E1BC7400ABA161 /* ReusableView ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */; };
+		84BC01C223E1BC7400ABA161 /* ReusableView+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C123E1BC7400ABA161 /* ReusableView+utils.swift */; };
 		84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C323E1BC9500ABA161 /* UICollectionView+ReusableView.swift */; };
 		84BC01C623E1BCE400ABA161 /* UITableView+ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */; };
 		84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BC01C723E1BF0600ABA161 /* NoteCell.swift */; };
@@ -69,7 +73,12 @@
 		84C6DC6323F059F70092DF4B /* TagsCloudCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6223F059F70092DF4B /* TagsCloudCollectionView.swift */; };
 		84C6DC6523F05BBB0092DF4B /* TagsCloudCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6DC6423F05BBB0092DF4B /* TagsCloudCell.swift */; };
 		84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242023EC735A00C0E4DA /* todo.xcdatamodeld */; };
-		84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */; };
+		84E1E5652414DFFF0019FACA /* OverlayViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E5642414DFFF0019FACA /* OverlayViewProtocol.swift */; };
+		84E1E5672414E8610019FACA /* OverlayViewProtocol+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E5662414E8610019FACA /* OverlayViewProtocol+utils.swift */; };
+		84E1E56D2414F4050019FACA /* NoteBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E56C2414F4050019FACA /* NoteBackgroundView.swift */; };
+		84E1E56F2414F9DA0019FACA /* NoteBackgroundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E56E2414F9DA0019FACA /* NoteBackgroundController.swift */; };
+		84E1E5712414FAC00019FACA /* NoteBackgroundDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E5702414FAC00019FACA /* NoteBackgroundDataSource.swift */; };
+		84E1E5732414FC2D0019FACA /* NoteGradientBackgroundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1E5722414FC2D0019FACA /* NoteGradientBackgroundCell.swift */; };
 		84E9ED0524011C1500E6521C /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E9ED0424011C1500E6521C /* NotificationView.swift */; };
 		84E9ED072401221400E6521C /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E9ED062401221400E6521C /* NotificationController.swift */; };
 		84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EB09AD23E06E430016CC2B /* Assets.xcassets */; };
@@ -84,7 +93,9 @@
 		84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F523CE23EC0FFB0074AB3C /* RandomNoteGenerator.swift */; };
 		84F7B6692404FD4F00A38319 /* NotificationDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B6682404FD4F00A38319 /* NotificationDateController.swift */; };
 		84F7B66B2404FD8300A38319 /* NotificationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B66A2404FD8300A38319 /* NotificationDateView.swift */; };
-		84F7B66D2405278300A38319 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B66C2405278300A38319 /* UIView+Utils.swift */; };
+		84F7B66D2405278300A38319 /* UIView+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B66C2405278300A38319 /* UIView+utils.swift */; };
+		84FCC1B924152EC200F21E0A /* NoteBackgroundProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FCC1B824152EC200F21E0A /* NoteBackgroundProtocol.swift */; };
+		BEC7F1F7C14D0FC8039E7B92 /* libPods-todo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FA49AB1B57D149D584527F /* libPods-todo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,18 +117,23 @@
 
 /* Begin PBXFileReference section */
 		264900A6C735A367DF80B8A7 /* Pods-todoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-todoTests/Pods-todoTests.release.xcconfig"; sourceTree = "<group>"; };
-		2B95DADE022F9A5EE91B6CA9 /* Pods_todoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D6A8B4EE50FB8E5A04AECB7 /* libPods-todoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF0081C562FE9057E84B385 /* Pods-todoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-todoTests/Pods-todoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6FF5102574DCC446163745A0 /* Pods_todo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73FA49AB1B57D149D584527F /* libPods-todo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8403703D23FA5F1B00D4CA4D /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		8403704123FA628B00D4CA4D /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
+		843AA847240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GradientBackgroud+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/GradientBackgroud+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudDataSource.swift; sourceTree = "<group>"; };
-		8440038523F1370300B909CC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		8440038523F1370300B909CC /* String+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+utils.swift"; sourceTree = "<group>"; };
+		84484F822410E6790007596B /* Floaty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Floaty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84484F862410E67F0007596B /* Panels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Panels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteNotificationsProtocol.swift; sourceTree = "<group>"; };
 		844CDC8B23F6C7B2004E9DAE /* TagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		844CDC8D23F6C7EE004E9DAE /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWeekdayCell.swift; sourceTree = "<group>"; };
+		845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = mappingModel_v1_v2.xcmappingmodel; sourceTree = "<group>"; };
+		845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackgroundMigrationPolicy_v1_v2.swift; sourceTree = "<group>"; };
 		846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataClass.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		846D688D240A2642006ED231 /* NoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NoteNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/NoteNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
@@ -126,13 +142,15 @@
 		846E165C23F6EEF400D1ACC7 /* TagViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewAnimator.swift; sourceTree = "<group>"; };
 		84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		847B286123E180F500F334E8 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
-		847B286523E1855900F334E8 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		847B286523E1855900F334E8 /* UIColor+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+utils.swift"; sourceTree = "<group>"; };
 		847B286723E189A900F334E8 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		8488C39523F3E31800C13882 /* TagTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTableCell.swift; sourceTree = "<group>"; };
 		848CD5EF23FE79BD008B1856 /* TagsSelectionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsSelectionProtocol.swift; sourceTree = "<group>"; };
 		848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagUnselectionProtocol.swift; sourceTree = "<group>"; };
 		8493913A23F4049F001BB07A /* TagsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsTableView.swift; sourceTree = "<group>"; };
 		849EB0672402DFE8009D9DE8 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		84A30A33240F9D980018DF12 /* NoteTagsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTagsManager.swift; sourceTree = "<group>"; };
+		84A30A35240FA0990018DF12 /* Date+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+utils.swift"; sourceTree = "<group>"; };
 		84A5514323E02EF000E0CC1E /* todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A5514623E02EF000E0CC1E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A5514D23E02EF000E0CC1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -162,7 +180,7 @@
 		84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableViewController.swift; sourceTree = "<group>"; };
 		84BBE3AB23F559AA00BD4F9B /* SelectedTagsPanel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectedTagsPanel.storyboard; sourceTree = "<group>"; };
 		84BC01BF23E1BC2D00ABA161 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
-		84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReusableView ext.swift"; sourceTree = "<group>"; };
+		84BC01C123E1BC7400ABA161 /* ReusableView+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReusableView+utils.swift"; sourceTree = "<group>"; };
 		84BC01C323E1BC9500ABA161 /* UICollectionView+ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReusableView.swift"; sourceTree = "<group>"; };
 		84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+ReusableView.swift"; sourceTree = "<group>"; };
 		84BC01C723E1BF0600ABA161 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
@@ -173,8 +191,16 @@
 		84C6DC6023F059C40092DF4B /* TagsCloudLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudLayout.swift; sourceTree = "<group>"; };
 		84C6DC6223F059F70092DF4B /* TagsCloudCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudCollectionView.swift; sourceTree = "<group>"; };
 		84C6DC6423F05BBB0092DF4B /* TagsCloudCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudCell.swift; sourceTree = "<group>"; };
+		84C7D2A62410D445002A0ABB /* Floaty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Floaty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C7D2AB2410D86B002A0ABB /* Floaty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Floaty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C7D2AD2410D893002A0ABB /* Panels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Panels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84CC242123EC735A00C0E4DA /* todo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = todo.xcdatamodel; sourceTree = "<group>"; };
-		84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GradientBackgroud+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84E1E5642414DFFF0019FACA /* OverlayViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayViewProtocol.swift; sourceTree = "<group>"; };
+		84E1E5662414E8610019FACA /* OverlayViewProtocol+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OverlayViewProtocol+utils.swift"; sourceTree = "<group>"; };
+		84E1E56C2414F4050019FACA /* NoteBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteBackgroundView.swift; sourceTree = "<group>"; };
+		84E1E56E2414F9DA0019FACA /* NoteBackgroundController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteBackgroundController.swift; sourceTree = "<group>"; };
+		84E1E5702414FAC00019FACA /* NoteBackgroundDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteBackgroundDataSource.swift; sourceTree = "<group>"; };
+		84E1E5722414FC2D0019FACA /* NoteGradientBackgroundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteGradientBackgroundCell.swift; sourceTree = "<group>"; };
 		84E9ED0424011C1500E6521C /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		84E9ED062401221400E6521C /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		84EB09AD23E06E430016CC2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,10 +215,12 @@
 		84F523CE23EC0FFB0074AB3C /* RandomNoteGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNoteGenerator.swift; sourceTree = "<group>"; };
 		84F7B6682404FD4F00A38319 /* NotificationDateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDateController.swift; sourceTree = "<group>"; };
 		84F7B66A2404FD8300A38319 /* NotificationDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDateView.swift; sourceTree = "<group>"; };
-		84F7B66C2405278300A38319 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
+		84F7B66C2405278300A38319 /* UIView+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+utils.swift"; sourceTree = "<group>"; };
+		84FCC1B824152EC200F21E0A /* NoteBackgroundProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteBackgroundProtocol.swift; sourceTree = "<group>"; };
+		84FCC1BA24153EDB00F21E0A /* todo 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "todo 2.xcdatamodel"; sourceTree = "<group>"; };
 		9849AD89753C19B3D954A84E /* Pods-todo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todo.release.xcconfig"; path = "Pods/Target Support Files/Pods-todo/Pods-todo.release.xcconfig"; sourceTree = "<group>"; };
 		A7CE3AD98154E1F47F665AD3 /* Pods-todo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-todo/Pods-todo.debug.xcconfig"; sourceTree = "<group>"; };
-		CA21984CE4FB2C586D244A78 /* Pods_todoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_todoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA5EAC895DEF25C6765E3FCC /* libPods-todoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E68DDCAB04B8EA5415ED8BCF /* Pods-todoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-todoUITests/Pods-todoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F89B3A63B45FBE278AAEC2C6 /* Pods-todoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-todoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-todoUITests/Pods-todoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,7 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57F0DC49BAFC6A788A97BE5F /* Pods_todo.framework in Frameworks */,
+				BEC7F1F7C14D0FC8039E7B92 /* libPods-todo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,7 +238,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F16A47D6D355DE26367CD2B /* Pods_todoTests.framework in Frameworks */,
+				3B166D6929D420832C485F1F /* libPods-todoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +246,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18CCFF35EAEB47EEF2F23B82 /* Pods_todoUITests.framework in Frameworks */,
+				42D2CC7C026555DFA4EA1E86 /* libPods-todoUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,9 +256,14 @@
 		0B328E641144EBB11850536C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6FF5102574DCC446163745A0 /* Pods_todo.framework */,
-				2B95DADE022F9A5EE91B6CA9 /* Pods_todoTests.framework */,
-				CA21984CE4FB2C586D244A78 /* Pods_todoUITests.framework */,
+				84484F862410E67F0007596B /* Panels.framework */,
+				84484F822410E6790007596B /* Floaty.framework */,
+				84C7D2AD2410D893002A0ABB /* Panels.framework */,
+				84C7D2AB2410D86B002A0ABB /* Floaty.framework */,
+				84C7D2A62410D445002A0ABB /* Floaty.framework */,
+				73FA49AB1B57D149D584527F /* libPods-todo.a */,
+				3D6A8B4EE50FB8E5A04AECB7 /* libPods-todoTests.a */,
+				BA5EAC895DEF25C6765E3FCC /* libPods-todoUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -318,13 +351,15 @@
 		847B286323E1822800F334E8 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				847B286523E1855900F334E8 /* UIColor.swift */,
-				84F7B66C2405278300A38319 /* UIView+Utils.swift */,
-				8440038523F1370300B909CC /* String.swift */,
-				84BC01C123E1BC7400ABA161 /* ReusableView ext.swift */,
+				84A30A35240FA0990018DF12 /* Date+utils.swift */,
+				84BB57AE240A73A4007A8740 /* Locale+utils.swift */,
+				8440038523F1370300B909CC /* String+utils.swift */,
+				84F7B66C2405278300A38319 /* UIView+utils.swift */,
+				847B286523E1855900F334E8 /* UIColor+utils.swift */,
+				84BC01C123E1BC7400ABA161 /* ReusableView+utils.swift */,
 				84BC01C323E1BC9500ABA161 /* UICollectionView+ReusableView.swift */,
 				84BC01C523E1BCE400ABA161 /* UITableView+ReusableView.swift */,
-				84BB57AE240A73A4007A8740 /* Locale+utils.swift */,
+				84E1E5662414E8610019FACA /* OverlayViewProtocol+utils.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,13 +381,15 @@
 			path = "Tags table";
 			sourceTree = "<group>";
 		};
-		8488C38E23F3C9F800C13882 /* Tag */ = {
+		8488C38E23F3C9F800C13882 /* Tags */ = {
 			isa = PBXGroup;
 			children = (
-				8488C38F23F3CA0100C13882 /* View */,
-				8488C39023F3CA0E00C13882 /* Controller */,
+				84E1E5692414F2BF0019FACA /* Tag */,
+				8488C38D23F3C9D900C13882 /* Tags table */,
+				84BBE3A323F53B2E00BD4F9B /* Selected tags table */,
+				84C6DC5A23F0529C0092DF4B /* Tags cloud */,
 			);
-			path = Tag;
+			path = Tags;
 			sourceTree = "<group>";
 		};
 		8488C38F23F3CA0100C13882 /* View */ = {
@@ -432,14 +469,11 @@
 				84F2434823EC037000B4438C /* CoreData */,
 				847B285E23E1801A00F334E8 /* Helpers */,
 				8403703C23FA5D4E00D4CA4D /* Toast */,
-				8488C38E23F3C9F800C13882 /* Tag */,
-				8488C38D23F3C9D900C13882 /* Tags table */,
-				84BBE3A323F53B2E00BD4F9B /* Selected tags table */,
-				84C6DC5A23F0529C0092DF4B /* Tags cloud */,
 				84A5517C23E0467800E0CC1E /* Note */,
+				84E1E5682414F2790019FACA /* Note background */,
+				8488C38E23F3C9F800C13882 /* Tags */,
+				84E9ED002401133C00E6521C /* Notifications */,
 				84BC01BB23E1B9FA00ABA161 /* Notes table */,
-				84E9ED002401133C00E6521C /* Notification */,
-				84E9ED0324011BA000E6521C /* Calendar */,
 			);
 			path = todo;
 			sourceTree = "<group>";
@@ -509,6 +543,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		84B2428D24160DA20090F428 /* Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */,
+				845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */,
+			);
+			path = Mapping;
+			sourceTree = "<group>";
+		};
 		84BBE3A323F53B2E00BD4F9B /* Selected tags table */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,6 +604,8 @@
 				848CD5F123FE79EE008B1856 /* TagUnselectionProtocol.swift */,
 				84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */,
 				844AFF2D240C129500E1B551 /* NoteNotificationsProtocol.swift */,
+				84FCC1B824152EC200F21E0A /* NoteBackgroundProtocol.swift */,
+				84E1E5642414DFFF0019FACA /* OverlayViewProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -587,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */,
+				84A30A33240F9D980018DF12 /* NoteTagsManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -601,14 +647,50 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		84E9ED002401133C00E6521C /* Notification */ = {
+		84E1E5682414F2790019FACA /* Note background */ = {
+			isa = PBXGroup;
+			children = (
+				84E1E56B2414F3B20019FACA /* View */,
+				84E1E56A2414F3A90019FACA /* Controller */,
+			);
+			path = "Note background";
+			sourceTree = "<group>";
+		};
+		84E1E5692414F2BF0019FACA /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				8488C38F23F3CA0100C13882 /* View */,
+				8488C39023F3CA0E00C13882 /* Controller */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
+		84E1E56A2414F3A90019FACA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				84E1E56E2414F9DA0019FACA /* NoteBackgroundController.swift */,
+				84E1E5702414FAC00019FACA /* NoteBackgroundDataSource.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		84E1E56B2414F3B20019FACA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84E1E56C2414F4050019FACA /* NoteBackgroundView.swift */,
+				84E1E5722414FC2D0019FACA /* NoteGradientBackgroundCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84E9ED002401133C00E6521C /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
 				846D6891240A2D08006ED231 /* Model */,
 				84E9ED012401139D00E6521C /* View */,
 				84E9ED02240113A900E6521C /* Controller */,
 			);
-			path = Notification;
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		84E9ED012401139D00E6521C /* View */ = {
@@ -634,13 +716,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		84E9ED0324011BA000E6521C /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
 		84EB09AC23E06DF10016CC2B /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
@@ -653,8 +728,9 @@
 		84F2434823EC037000B4438C /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				84F2434B23EC048D00B4438C /* Controller */,
+				84F2434B23EC048D00B4438C /* CoreDataStack */,
 				84F2434A23EC045000B4438C /* Database model */,
+				84B2428D24160DA20090F428 /* Mapping */,
 				84F2434923EC040700B4438C /* Model */,
 			);
 			path = CoreData;
@@ -669,10 +745,10 @@
 				84F2435023EC066600B4438C /* NoteBackgroud+CoreDataProperties.swift */,
 				84F2435123EC066700B4438C /* Tag+CoreDataClass.swift */,
 				84F2435223EC066700B4438C /* Tag+CoreDataProperties.swift */,
-				84F2435323EC066700B4438C /* GradientBackgroud+CoreDataClass.swift */,
 				846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */,
 				846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */,
-				84CC242423EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift */,
+				84F2435323EC066700B4438C /* GradientBackgroud+CoreDataClass.swift */,
+				843AA847240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift */,
 				84787C3023E348B800D7C9DF /* Note+CoreDataClass.swift */,
 				84F523CC23EC08600074AB3C /* Note+CoreDataProperties.swift */,
 				846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */,
@@ -689,12 +765,12 @@
 			path = "Database model";
 			sourceTree = "<group>";
 		};
-		84F2434B23EC048D00B4438C /* Controller */ = {
+		84F2434B23EC048D00B4438C /* CoreDataStack */ = {
 			isa = PBXGroup;
 			children = (
 				84AF8B2223E40C2F0019A4DB /* CoreDataStack.swift */,
 			);
-			path = Controller;
+			path = CoreDataStack;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -708,7 +784,6 @@
 				84A5513F23E02EF000E0CC1E /* Sources */,
 				84A5514023E02EF000E0CC1E /* Frameworks */,
 				84A5514123E02EF000E0CC1E /* Resources */,
-				A5D53DD18484C50BCE2334CF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -866,26 +941,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A5D53DD18484C50BCE2334CF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-todo/Pods-todo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
-				"${BUILT_PRODUCTS_DIR}/Panels/Panels.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Panels.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-todo/Pods-todo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D370C5BF2F646BC461829122 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -918,26 +973,31 @@
 				847B286223E180F500F334E8 /* CustomViewController.swift in Sources */,
 				84C6DC6523F05BBB0092DF4B /* TagsCloudCell.swift in Sources */,
 				84CC242223EC735B00C0E4DA /* todo.xcdatamodeld in Sources */,
-				84F7B66D2405278300A38319 /* UIView+Utils.swift in Sources */,
+				84F7B66D2405278300A38319 /* UIView+utils.swift in Sources */,
+				84FCC1B924152EC200F21E0A /* NoteBackgroundProtocol.swift in Sources */,
 				84AD073523F92BDD000C7588 /* ColorSampleView.swift in Sources */,
-				84CC242623EC73F200C0E4DA /* GradientBackgroud+CoreDataProperties.swift in Sources */,
 				8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */,
 				8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */,
 				84AFD8E124055991002AB663 /* PanelView.swift in Sources */,
 				84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */,
 				846D6890240A2642006ED231 /* NoteNotification+CoreDataProperties.swift in Sources */,
+				845172F324154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel in Sources */,
 				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
 				84AD073923F93683000C7588 /* TagIconCell.swift in Sources */,
 				846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */,
+				845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */,
 				84F2435A23EC066700B4438C /* NoteBackgroud+CoreDataClass.swift in Sources */,
+				84E1E5732414FC2D0019FACA /* NoteGradientBackgroundCell.swift in Sources */,
 				84AD073123F92B17000C7588 /* TagColorDataSourse.swift in Sources */,
 				8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */,
 				84A5518123E047DD00E0CC1E /* NoteTextView.swift in Sources */,
+				84E1E5672414E8610019FACA /* OverlayViewProtocol+utils.swift in Sources */,
 				84BC84E223FABBE3007CF76D /* NotesTableDataSource.swift in Sources */,
 				84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */,
 				84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */,
 				846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */,
-				84BC01C223E1BC7400ABA161 /* ReusableView ext.swift in Sources */,
+				84BC01C223E1BC7400ABA161 /* ReusableView+utils.swift in Sources */,
+				84A30A34240F9D980018DF12 /* NoteTagsManager.swift in Sources */,
 				84AFD8DF24055759002AB663 /* NotificationPeriodView.swift in Sources */,
 				84F523CD23EC08600074AB3C /* Note+CoreDataProperties.swift in Sources */,
 				84A5517F23E0473100E0CC1E /* NoteView.swift in Sources */,
@@ -948,33 +1008,39 @@
 				84A5514723E02EF000E0CC1E /* AppDelegate.swift in Sources */,
 				84C2CB3F23FBD89F00DC9958 /* NotesTableView.swift in Sources */,
 				849EB0682402DFE8009D9DE8 /* NotificationsManager.swift in Sources */,
+				84E1E5652414DFFF0019FACA /* OverlayViewProtocol.swift in Sources */,
 				84F2435B23EC066700B4438C /* NoteBackgroud+CoreDataProperties.swift in Sources */,
 				84F2435C23EC066700B4438C /* Tag+CoreDataClass.swift in Sources */,
 				84C6DC5F23F0558F0092DF4B /* TagsCloudSettings.swift in Sources */,
 				844AFF2E240C129500E1B551 /* NoteNotificationsProtocol.swift in Sources */,
+				84E1E56F2414F9DA0019FACA /* NoteBackgroundController.swift in Sources */,
 				8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */,
 				84F7B6692404FD4F00A38319 /* NotificationDateController.swift in Sources */,
 				846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */,
 				84F2435D23EC066700B4438C /* Tag+CoreDataProperties.swift in Sources */,
 				84F7B66B2404FD8300A38319 /* NotificationDateView.swift in Sources */,
 				84F2435923EC066700B4438C /* Icon+CoreDataProperties.swift in Sources */,
-				847B286623E1855900F334E8 /* UIColor.swift in Sources */,
+				847B286623E1855900F334E8 /* UIColor+utils.swift in Sources */,
 				84AF8B2323E40C2F0019A4DB /* CoreDataStack.swift in Sources */,
+				84E1E5712414FAC00019FACA /* NoteBackgroundDataSource.swift in Sources */,
+				84E1E56D2414F4050019FACA /* NoteBackgroundView.swift in Sources */,
 				84E9ED072401221400E6521C /* NotificationController.swift in Sources */,
 				84AFD8E524055D72002AB663 /* NoteNotificationEditProtocol.swift in Sources */,
 				846D6893240A2D1B006ED231 /* PeriodType.swift in Sources */,
 				8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */,
 				84AD073723F92DC3000C7588 /* TagParamCell.swift in Sources */,
+				843AA848240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift in Sources */,
 				84AD073B23F937A9000C7588 /* TagIconDataSourse.swift in Sources */,
 				844CDC8C23F6C7B2004E9DAE /* TagViewController.swift in Sources */,
 				844CDC8E23F6C7EE004E9DAE /* TagView.swift in Sources */,
 				84C6DC6123F059C40092DF4B /* TagsCloudLayout.swift in Sources */,
 				844F70CE24064270003D5249 /* NotificationWeekdayCell.swift in Sources */,
+				84A30A36240FA0990018DF12 /* Date+utils.swift in Sources */,
 				84AD073323F92BB5000C7588 /* TagColorCell.swift in Sources */,
 				84787C3223E348B900D7C9DF /* Note+CoreDataClass.swift in Sources */,
 				84C6DC6323F059F70092DF4B /* TagsCloudCollectionView.swift in Sources */,
 				84BC01CA23E1CA0600ABA161 /* NotesTableController.swift in Sources */,
-				8440038623F1370300B909CC /* String.swift in Sources */,
+				8440038623F1370300B909CC /* String+utils.swift in Sources */,
 				84BB57AF240A73A4007A8740 /* Locale+utils.swift in Sources */,
 				84F2435E23EC066700B4438C /* GradientBackgroud+CoreDataClass.swift in Sources */,
 				848CD5F023FE79BD008B1856 /* TagsSelectionProtocol.swift in Sources */,
@@ -1322,9 +1388,10 @@
 		84CC242023EC735A00C0E4DA /* todo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				84FCC1BA24153EDB00F21E0A /* todo 2.xcdatamodel */,
 				84CC242123EC735A00C0E4DA /* todo.xcdatamodel */,
 			);
-			currentVersion = 84CC242123EC735A00C0E4DA /* todo.xcdatamodel */;
+			currentVersion = 84FCC1BA24153EDB00F21E0A /* todo 2.xcdatamodel */;
 			path = todo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

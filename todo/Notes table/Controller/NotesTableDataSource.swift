@@ -10,12 +10,13 @@ import CoreData
 import UIKit
 
 class NotesTableDataSource: NSObject {
+    var locale = Locale.autoupdatingCurrent
     var coreDataStack: CoreDataStack!
 
-    let predicate = NSPredicate(format: "\(#keyPath(Note.deletedAt)) = nil")
+    var predicate = NSPredicate(format: "\(#keyPath(Note.deletedAt)) = nil")
 
     lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
-        let sort = NSSortDescriptor(key: #keyPath(Note.createdAt), ascending: false)
+        let sort = NSSortDescriptor(key: #keyPath(Note.updatedAt), ascending: false)
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         fetchRequest.predicate = self.predicate
         fetchRequest.sortDescriptors = [sort]
@@ -97,14 +98,16 @@ extension NotesTableDataSource {
             layer.endPoint = endPoint
             layer.colors = background.cgColors
         } else {
-            cell.noteView.setupLayerParams()
+            cell.noteView.setupDefaultLayerParams()
         }
 
         configureTags(note: note, cell: cell)
     }
 
     private func configureTags(note: Note, cell: NoteCell) {
-        let uid = note.uid!
+        guard let uid = note.uid else {
+            return
+        }
         if providers[uid] == nil {
             providers[uid] = createProvider(note: note, cell: cell)
         }
@@ -117,35 +120,21 @@ extension NotesTableDataSource {
     }
 
     private func createProvider(note: Note, cell: NoteCell) -> TagsCloudDataSource? {
-        let tags = note.tags as! Set<Tag>
+        var tags = Array((note.tags as? Set<Tag>) ?? [])
         guard tags.count > 0 else {
             return nil
         }
+        tags.sort(by: { $0.name ?? "" < $1.name ?? "" })
         let provider = TagsCloudDataSource(cellSettings: settings)
         let collectionViewWidth = UIScreen.main.bounds.width -
             (cell.stack.layoutMargins.left + cell.stack.layoutMargins.right) -
             (settings.collectionSectionInset.left + settings.collectionSectionInset.right) - 50
-        var sumWidth: CGFloat = 0
-        var addTagsCount = 0
-        for tag in tags {
-            let size = provider.getSizeForTag(tag: tag,
-                                              sectionInset: settings.collectionSectionInset,
-                                              collectionViewWidth: collectionViewWidth)
-            sumWidth += size.width + settings.minimumInteritemSpacing
-            if sumWidth >= collectionViewWidth {
-                if addTagsCount > 0 {
-                    let otherTags = Tag(entity: Tag.entity(), insertInto: nil)
-                    otherTags.name = "+\(tags.count - addTagsCount)"
-                    provider.tags.append(otherTags)
-                } else {
-                    provider.tags.append(tag)
-                }
-                break
-            } else {
-                provider.tags.append(tag)
-                addTagsCount += 1
-            }
-        }
+        
+        let manager = NoteTagsManager()
+        manager.locale = locale
+        let notifications = (note.notifications ?? []) as! Set<NoteNotification>
+        let tagsWithNotifications = manager.addNotificationTag(tags: tags, notifications: notifications)
+        manager.tagsForMaxWidth(tags: tagsWithNotifications, provider: provider, maxWidth: collectionViewWidth)
         return provider
     }
 }

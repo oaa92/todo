@@ -26,4 +26,12 @@ extension Locale {
         }
         return index
     }
+    
+    func usesAMPM() -> Bool {
+        guard var dateFormat = DateFormatter.dateFormat(fromTemplate: "jj", options: 0, locale: self) else {
+            return false
+        }
+        dateFormat = dateFormat.lowercased()
+        return dateFormat.contains("a") || dateFormat.contains("p")
+    }
 }

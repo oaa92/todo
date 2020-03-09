@@ -9,7 +9,9 @@
 import Floaty
 
 class NoteViewController: CustomViewController<NoteView> {
+    var locale = Locale.autoupdatingCurrent
     var coreDataStack: CoreDataStack!
+    var notificationsManager: NotificationsManager!
     var note: Note?
     let settings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
                                      minimumInteritemSpacing: 10,
@@ -21,8 +23,21 @@ class NoteViewController: CustomViewController<NoteView> {
                                      textColor: .gray,
                                      backgroundColor: UIColor(white: 0.9, alpha: 1.0),
                                      cornerRadius: 10)
-    lazy var tagsProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: settings)
-    var notifications: Set<NoteNotification> = []
+    private lazy var tagsProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: settings)
+    
+    private var notifications: Set<NoteNotification> = []
+
+    private let infoSettings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 60),
+                                                 minimumInteritemSpacing: 10,
+                                                 stackMargins: UIEdgeInsets(top: 2.5, left: 2.5, bottom: 2.5, right: 2.5),
+                                                 stackSpacing: 3,
+                                                 iconSize: 10,
+                                                 fontSize: 12,
+                                                 textColor: .gray,
+                                                 backgroundColor: UIColor(white: 0.9, alpha: 1.0),
+                                                 cornerRadius: 5)
+
+    private lazy var infoProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: infoSettings)
 
     // MARK: View Lifecycle
 
@@ -30,7 +45,7 @@ class NoteViewController: CustomViewController<NoteView> {
         super.viewDidLoad()
 
         print("viewDidLoad")
-        
+
         notifications = (note?.notifications ?? []) as! Set<NoteNotification>
 
         addActionBar()
@@ -42,13 +57,24 @@ class NoteViewController: CustomViewController<NoteView> {
         customView.tagsView.dataSource = tagsProvider
         customView.tagsView.delegate = tagsProvider
 
+        customView.infoView.register(TagsCloudCell.self)
+        customView.infoView.dataSource = infoProvider
+        customView.infoView.delegate = infoProvider
+
         updateUI()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        updateTagsHeight()
+        updateTagsHeight(view: customView.tagsView, minHeight: 50)
+        updateTagsHeight(view: customView.infoView, minHeight: 25)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateNoteInfo()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -69,19 +95,31 @@ class NoteViewController: CustomViewController<NoteView> {
 
 extension NoteViewController {
     private func addActionBar() {
+        let palette = UIBarButtonItem(image: UIImage(named: "palette"), style: .plain, target: self, action: #selector(paletteTapped))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
-        let bar = UIToolbar()
-        bar.items = [space, doneItem]
+        let frame: CGRect
+
+        if #available(iOS 13, *) {
+            frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        } else {
+            frame = .zero
+        }
+        let bar = UIToolbar(frame: frame)
+        bar.backgroundColor = UIColor.Palette.grayish_orange.get
+        bar.items = [palette, space, doneItem]
         bar.sizeToFit()
         customView.noteView.inputAccessoryView = bar
     }
-    
+}
+
+// MARK: Floaty
+
+extension NoteViewController {
     private func setFloatyItems() {
         addFloatyItem(icon: UIImage(named: "tag"), handler: {
             _ in
-            let tagsSet: Set<Tag> = (self.note?.tags ?? []) as! Set<Tag>
-            let tags: [Tag] = Array(tagsSet)
+            let tags = NoteTagsManager().tagsWithoutTemp(tags: self.tagsProvider.tags)
             let tagsTableController = TagsTableController()
             tagsTableController.coreDataStack = self.coreDataStack
             tagsTableController.panel.setTags(tags)
@@ -90,7 +128,9 @@ extension NoteViewController {
         })
         addFloatyItem(icon: UIImage(named: "notification")) {
             _ in
+            self.notificationsManager.authorization()
             let notificationController = NotificationController()
+            notificationController.locale = self.locale
             notificationController.coreDataStack = self.coreDataStack
             notificationController.notifications = self.notifications
             notificationController.noteNotificationsDelegate = self
@@ -110,9 +150,18 @@ extension NoteViewController {
 // MARK: Helpers
 
 extension NoteViewController {
-    private func updateTagsHeight() {
-        let height = customView.tagsView.collectionViewLayout.collectionViewContentSize.height
-        customView.tagsViewHeight.constant = height < 50 ? 50 : height
+    private func updateTagsHeight(view: TagsCloudCollectionView, minHeight: CGFloat) {
+        let height = view.collectionViewLayout.collectionViewContentSize.height
+        let constraint: NSLayoutConstraint!
+        switch view {
+        case customView.tagsView:
+            constraint = customView.tagsViewHeight
+        case customView.infoView:
+            constraint = customView.infoViewHeight
+        default:
+            return
+        }
+        constraint.constant = height < minHeight ? minHeight : height
     }
 
     private func updateUI() {
@@ -122,38 +171,78 @@ extension NoteViewController {
 
         // title
         customView.titleView.text = note.title
-        
+
         // text
         customView.noteView.text = note.text
-        
-        //background
-        if let layer = customView.noteView.layer as? CAGradientLayer,
-            let startPointStr = note.background?.startPoint,
-            let endPointStr = note.background?.endPoint,
-            let cgColors = note.background?.cgColors,
-            cgColors.count > 1 {
-            let startPoint = NSCoder.cgPoint(for: startPointStr)
-            let endPoint = NSCoder.cgPoint(for: endPointStr)
-            layer.startPoint = startPoint
-            layer.endPoint = endPoint
-            layer.colors = cgColors
-        } else {
-            customView.noteView.setupLayerParams()
+
+        // background
+        if let background = note.background {
+            updateBackground(background: background)
         }
-        
+
         // tags
-        let tags = note.tags as! Set<Tag>
-        tagsProvider.tags = Array(tags)
+        if let tags = note.tags as? Set<Tag> {
+            tagsProvider.tags = Array(tags)
+            updateTags()
+        }
+    }
+    
+    private func updateBackground(background: GradientBackgroud) {
+        guard let layer = customView.noteView.layer as? CAGradientLayer else {
+            return
+        }
+        let isLoaded = background.loadToLayer(layer: layer)
+        if !isLoaded {
+            customView.noteView.setupDefaultLayerParams()
+        }
+    }
+
+    private func updateTags() {
+        let manager = NoteTagsManager()
+        manager.locale = locale
+        
+        var currentTags = manager.tagsWithoutTemp(tags: tagsProvider.tags)
+        currentTags.sort(by: { $0.name ?? "" < $1.name ?? "" })
+        
+        let tagsWithNotification = manager.addNotificationTag(tags: currentTags, notifications: notifications)
+        tagsProvider.tags = tagsWithNotification
         customView.tagsView.reloadData()
-        customView.tagsView.isHidden = tags.count == 0 ? true : false
+        customView.tagsView.isHidden = tagsWithNotification.count == 0 ? true : false
+    }
+
+    private func updateNoteInfo() {
+        guard let note = note else {
+            customView.infoView.isHidden = true
+            return
+        }
+        let manager = NoteTagsManager()
+        manager.locale = locale
+        let tags = manager.infoTags(from: note)
+        infoProvider.tags = tags
+        customView.infoView.reloadData()
+        customView.infoView.isHidden = tags.count == 0 ? true : false
     }
 }
 
 // MARK: Actions
 
 extension NoteViewController {
-    @objc func doneTapped() {
+    @objc private func doneTapped() {
         view.endEditing(true)
+    }
+    
+    @objc private func paletteTapped() {
+        let controller = NoteBackgroundController()
+        controller.backgroundSelectionDelegate = self
+        
+        if let background = note?.background {
+            controller.background = background
+        } else if let layer = customView.noteView.layer as? CAGradientLayer {
+            let background = GradientBackgroud.createFromLayer(layer: layer)
+            controller.background = background
+        }
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -167,10 +256,10 @@ extension NoteViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: keyboard notifications
+// MARK: Keyboard notifications
 
 extension NoteViewController {
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
             let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
@@ -180,7 +269,7 @@ extension NoteViewController {
         customView.floaty.isHidden = true
     }
 
-    @objc func keyboardWillHide(notification: Notification) {
+    @objc private func keyboardWillHide(notification: Notification) {
         customView.scrollView.contentInset = UIEdgeInsets.zero
         customView.floaty.isHidden = false
     }
@@ -191,7 +280,7 @@ extension NoteViewController {
 extension NoteViewController: TagsSelectionProtocol {
     func tagsDidSelect(tags: [Tag]) {
         tagsProvider.tags = tags
-        customView.tagsView.reloadData()
+        updateTags()
     }
 }
 
@@ -200,6 +289,15 @@ extension NoteViewController: TagsSelectionProtocol {
 extension NoteViewController: NoteNotificationsProtocol {
     func notificationsDidSet(notifications: Set<NoteNotification>) {
         self.notifications = notifications
+        updateTags()
+    }
+}
+
+// MARK: NoteBackgroundProtocol
+
+extension NoteViewController: NoteBackgroundProtocol {
+    func backgroundDidSet(background: GradientBackgroud) {
+        updateBackground(background: background)
     }
 }
 
@@ -212,38 +310,32 @@ extension NoteViewController {
         }
         let title: String = customView.titleView.text ?? ""
         let text: String = customView.noteView.text ?? ""
-        
-        let note: Note
-        if let cnote = self.note {
-            note = cnote
-        } else {
-            note = Note(context: coreDataStack.managedContext)
-            self.note = note
-        }
-        
+
+        let note: Note = self.note ?? Note(context: coreDataStack.managedContext)
         note.title = title
         note.text = text
-        
+
         saveBackground(note: note, layer: layer)
-        
+
         // tags
         let tags = note.tags as! Set<Tag>
-        let selectedTags = Set(tagsProvider.tags)
+        let selectedTagsArray = NoteTagsManager().tagsWithoutTemp(tags: tagsProvider.tags)
+        let selectedTags = Set(selectedTagsArray)
         let tagsRem = tags.subtracting(selectedTags)
         let tagsAdd = selectedTags.subtracting(tags)
         if tagsRem != tagsAdd {
             note.removeFromTags(tagsRem as NSSet)
             note.addToTags(tagsAdd as NSSet)
         }
-        
-        //notifications
+
+        // notifications
         saveNotifications(note: note)
-        
+
         coreDataStack.saveContext()
     }
-    
+
     private func saveBackground(note: Note, layer: CAGradientLayer) {
-        let selectedBackground = getBackground(layer: layer)
+        let selectedBackground = GradientBackgroud.createFromLayer(layer: layer)
         if let background = note.background,
             selectedBackground.compare(with: background) {
             return
@@ -266,17 +358,7 @@ extension NoteViewController {
         deleteOldBackgroundIfNeeded(background: note.background)
         note.background = selectedBackground
     }
-    
-    private func getBackground(layer: CAGradientLayer) -> GradientBackgroud {
-        let background = GradientBackgroud(entity: GradientBackgroud.entity(), insertInto: nil)
-        let startPointStr = NSCoder.string(for: layer.startPoint)
-        let endPointStr = NSCoder.string(for: layer.endPoint)
-        background.startPoint = startPointStr
-        background.endPoint = endPointStr
-        background.cgColors = layer.colors as! [CGColor]
-        return background
-    }
-    
+
     private func deleteOldBackgroundIfNeeded(background: GradientBackgroud?) {
         guard let background = background else {
             return
@@ -285,7 +367,7 @@ extension NoteViewController {
             coreDataStack.managedContext.delete(background)
         }
     }
-    
+
     private func saveNotifications(note: Note) {
         let currentNotifications = note.notifications as! Set<NoteNotification>
         let savedNotifications = notifications
@@ -295,23 +377,34 @@ extension NoteViewController {
 
         let calendarCurrentNotifications = currentNotifications.compactMap { $0 as? CalendarNotification }
         let calendarSavedNotifications = savedNotifications.compactMap { $0 as? CalendarNotification }
-        
-        //subtracting calendarSavedNotifications from calendarCurrentNotifications
+
+        // subtracting calendarSavedNotifications from calendarCurrentNotifications
         let remArr = calendarNotificationsSubtracting(a: calendarCurrentNotifications, b: calendarSavedNotifications)
         remArr.forEach { notificationsRem.insert($0) }
-        
-        //subtracting calendarCurrentNotifications from calendarSavedNotifications
+
+        // subtracting calendarCurrentNotifications from calendarSavedNotifications
         let addArr = calendarNotificationsSubtracting(a: calendarSavedNotifications, b: calendarCurrentNotifications)
-        addArr.forEach{ notificationsAdd.insert($0) }
+        addArr.forEach { notificationsAdd.insert($0) }
 
         guard notificationsRem.count > 0 || notificationsAdd.count > 0 else {
             return
         }
-        notificationsAdd.forEach {self.coreDataStack.managedContext.insert($0)}
+
+        notificationsAdd.forEach { self.coreDataStack.managedContext.insert($0) }
         note.removeFromNotifications(notificationsRem as NSSet)
         note.addToNotifications(notificationsAdd as NSSet)
+
+        coreDataStack.saveContext()
+
+        notificationsManager.register(notifications: notificationsAdd.compactMap { $0 as? CalendarNotification })
+        notificationsManager.deregister(notifications: notificationsRem)
+
+        notificationsRem.forEach {
+            coreDataStack.managedContext.delete($0)
+        }
+        coreDataStack.saveContext()
     }
-    
+
     private func calendarNotificationsSubtracting(a: [CalendarNotification],
                                                   b: [CalendarNotification]) -> [CalendarNotification] {
         var result: [CalendarNotification] = []

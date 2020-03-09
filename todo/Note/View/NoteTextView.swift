@@ -9,6 +9,9 @@
 import UIKit
 
 class NoteTextView: UITextView {
+    let defaultColors = [UIColor.Palette.yellow_soft.get.cgColor,
+                         UIColor.Palette.orange_pale.get.cgColor]
+    
     override class var layerClass: AnyClass {
         return CAGradientLayer.self
     }
@@ -38,15 +41,14 @@ class NoteTextView: UITextView {
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = .byTruncatingTail
         
-        setupLayerParams()
+        setupDefaultLayerParams()
     }
     
-    func setupLayerParams() {
+    func setupDefaultLayerParams() {
         if let layer = layer as? CAGradientLayer {
             layer.startPoint = CGPoint(x: 0, y: 1)
             layer.endPoint = CGPoint(x: 1, y: 0)
-            layer.colors = [UIColor.Palette.yellow_soft.get.cgColor,
-                            UIColor.Palette.orange_pale.get.cgColor]
+            layer.colors = defaultColors
         }
     }
 }

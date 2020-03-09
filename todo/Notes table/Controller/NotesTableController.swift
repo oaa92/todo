@@ -11,29 +11,40 @@ import CoreData
 import UIKit
 
 class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerDelegate {
-    lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                             target: self,
-                                             action: #selector(addNote))
-    lazy var customEditButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
-                                                    target: self,
-                                                    action: #selector(editButtonPressed))
-    lazy var deleteButtonItem = UIBarButtonItem(image: UIImage(named: "trash"),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(deleteButtonPressed))
-    lazy var cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                target: self,
-                                                action: #selector(cancelButtonPressed))
-
-    let searchController = UISearchController(searchResultsController: nil)
-
+    var locale = Locale.autoupdatingCurrent
     var coreDataStack: CoreDataStack!
+    var notificationsManager: NotificationsManager!
 
-    var tableDataSource = NotesTableDataSource()
+    private lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                     target: self,
+                                                     action: #selector(addNote))
+    private lazy var customEditButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                            target: self,
+                                                            action: #selector(editButtonPressed))
+    private lazy var deleteButtonItem = UIBarButtonItem(image: UIImage(named: "trash"),
+                                                        style: .plain,
+                                                        target: self,
+                                                        action: #selector(deleteButtonPressed))
+    private lazy var cancelButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                        target: self,
+                                                        action: #selector(cancelButtonPressed))
+    private lazy var menuButtonItem = UIBarButtonItem(image: UIImage(named: "menu"),
+                                                      style: .plain,
+                                                      target: self,
+                                                      action: #selector(menuButtonPressed))
 
-    var audioPlayer: AVAudioPlayer?
+    private let searchController = UISearchController(searchResultsController: nil)
 
-    let toastManager = ToastManager()
+    private lazy var tableDataSource: NotesTableDataSource = {
+        let dataSource = NotesTableDataSource()
+        dataSource.coreDataStack = coreDataStack
+        dataSource.fetchedResultsController.delegate = self
+        return dataSource
+    }()
+
+    private var audioPlayer: AVAudioPlayer?
+
+    private let toastManager = ToastManager()
 
     // MARK: View Lifecycle
 
@@ -44,7 +55,7 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
             let url = Bundle.main.url(forResource: "crumpled paper", withExtension: "wav")
             audioPlayer = try AVAudioPlayer(contentsOf: url!)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
 
         setupNavigationBar()
@@ -54,14 +65,7 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
         customView.tableView.dataSource = tableDataSource
         customView.tableView.delegate = self
 
-        tableDataSource.coreDataStack = coreDataStack
-        tableDataSource.fetchedResultsController.delegate = self
         fetch()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("viewWillAppear")
     }
 }
 
@@ -71,8 +75,8 @@ extension NotesTableController {
     private func setupNavigationBar() {
         navigationItem.title = "Notes"
         navigationItem.leftItemsSupplementBackButton = true
-        navigationItem.setLeftBarButton(customEditButtonItem, animated: false)
-        navigationItem.setRightBarButton(addButtonItem, animated: false)
+        navigationItem.leftBarButtonItems = [menuButtonItem, customEditButtonItem]
+        navigationItem.rightBarButtonItem = addButtonItem
     }
 
     private func setupSearchController() {
@@ -88,7 +92,6 @@ extension NotesTableController {
 
 extension NotesTableController {
     private func fetch() {
-        print("FETCH")
         do {
             try tableDataSource.fetchedResultsController.performFetch()
         } catch let error as NSError {
@@ -100,25 +103,13 @@ extension NotesTableController {
         let title = "Delete"
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
-            note.deletedAt = Date()
+            note.moveToTrash(coreDataStack: self.coreDataStack, notificationsManager: self.notificationsManager)
             self.coreDataStack.saveContext()
             self.showDeleteNotification()
             completionHandler(true)
         }
         action.backgroundColor = UIColor.Palette.Buttons.delete.get
         action.image = UIImage(named: "trash")
-        return action
-    }
-
-    private func getFavouritesAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Favourites"
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            // let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
-            // self.coreDataStack.saveContext()
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor.Palette.Buttons.favourites.get
-        action.image = UIImage(named: "favourite")
         return action
     }
 
@@ -129,8 +120,17 @@ extension NotesTableController {
 
     private func exitFromEditMode() {
         customView.tableView.setEditing(false, animated: true)
-        navigationItem.setLeftBarButton(customEditButtonItem, animated: true)
+        navigationItem.setLeftBarButtonItems([menuButtonItem, customEditButtonItem], animated: true)
         navigationItem.setRightBarButton(addButtonItem, animated: true)
+    }
+
+    private func createNoteController(note: Note) -> NoteViewController {
+        let noteController = NoteViewController()
+        noteController.locale = locale
+        noteController.coreDataStack = coreDataStack
+        noteController.notificationsManager = notificationsManager
+        noteController.note = note
+        return noteController
     }
 }
 
@@ -138,15 +138,14 @@ extension NotesTableController {
 
 extension NotesTableController {
     @objc private func addNote() {
-        let noteController = NoteViewController()
-        noteController.coreDataStack = coreDataStack
+        let noteController = createNoteController(note: Note(context: coreDataStack.managedContext))
         navigationController?.pushViewController(noteController, animated: true)
     }
 
     @objc private func editButtonPressed() {
         customView.tableView.setEditing(true, animated: true)
         deleteButtonItem.isEnabled = false
-        navigationItem.setLeftBarButton(deleteButtonItem, animated: true)
+        navigationItem.setLeftBarButtonItems([deleteButtonItem], animated: true)
         navigationItem.setRightBarButton(cancelButtonItem, animated: true)
     }
 
@@ -161,12 +160,17 @@ extension NotesTableController {
 
         if let paths = customView.tableView.indexPathsForSelectedRows {
             let notes = paths.map { tableDataSource.fetchedResultsController.object(at: $0) }
-            notes.forEach { $0.deletedAt = Date() }
+            notes.forEach {
+                $0.moveToTrash(coreDataStack: self.coreDataStack,
+                               notificationsManager: self.notificationsManager)
+            }
             coreDataStack.saveContext()
             showDeleteNotification()
         }
         exitFromEditMode()
     }
+
+    @objc private func menuButtonPressed() {}
 }
 
 // MARK: Random notes generator
@@ -178,12 +182,15 @@ extension NotesTableController {
 
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
-            print(customView.tableView.isEditing)
-            for _ in 0..<1 {
-                let generator = RandomNoteGenerator()
-                _ = generator.generate(context: coreDataStack.managedContext)
-                coreDataStack.saveContext()
-            }
+            print("motionShake")
+            notificationsManager.printNextDate()
+            /*
+             for _ in 0..<1 {
+                 let generator = RandomNoteGenerator()
+                 _ = generator.generate(context: coreDataStack.managedContext)
+                 coreDataStack.saveContext()
+             }
+             */
         }
     }
 }
@@ -193,9 +200,8 @@ extension NotesTableController {
 extension NotesTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let favouritesAction = getFavouritesAction(cellForRowAt: indexPath)
         let deleteAction = getDeleteAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [favouritesAction, deleteAction])
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
@@ -210,21 +216,19 @@ extension NotesTableController: UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             let note = tableDataSource.fetchedResultsController.object(at: indexPath)
-            let noteController = NoteViewController()
-            noteController.coreDataStack = coreDataStack
-            noteController.note = note
+            let noteController = createNoteController(note: note)
             navigationController?.pushViewController(noteController, animated: true)
         }
     }
 
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        navigationItem.leftBarButtonItem?.isEnabled = false
+        navigationItem.leftBarButtonItems?.forEach {$0.isEnabled = false }
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         exitFromEditMode()
-        navigationItem.leftBarButtonItem?.isEnabled = true
+        navigationItem.leftBarButtonItems?.forEach {$0.isEnabled = true }
         navigationItem.rightBarButtonItem?.isEnabled = true
     }
 
@@ -293,7 +297,9 @@ extension NotesTableController: NSFetchedResultsControllerDelegate {
                 break
             }
             let note = tableDataSource.fetchedResultsController.object(at: indexPath)
-            tableDataSource.providers[note.uid!] = nil
+            if let uid = note.uid {
+                tableDataSource.providers[uid] = nil
+            }
             if let cell = customView.tableView.cellForRow(at: indexPath) as? NoteCell {
                 tableDataSource.configure(cell: cell, indexPath: indexPath)
             }

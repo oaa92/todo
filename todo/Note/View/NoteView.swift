@@ -54,7 +54,16 @@ class NoteView: UIView {
     
     var tagsViewHeight: NSLayoutConstraint!
     
-    let floaty = Floaty()
+    let infoView: TagsCloudCollectionView = {
+        let tagsView = TagsCloudCollectionView(frame: .zero, collectionViewLayout: TagsCloudLayout())
+        tagsView.translatesAutoresizingMaskIntoConstraints = false
+        tagsView.isHidden = true
+        return tagsView
+    }()
+    
+    var infoViewHeight: NSLayoutConstraint!
+    
+    lazy var floaty = Floaty()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,6 +80,7 @@ class NoteView: UIView {
         stackView.addArrangedSubview(titleView)
         stackView.addArrangedSubview(noteView)
         stackView.addArrangedSubview(tagsView)
+        stackView.addArrangedSubview(infoView)
         scrollView.addSubview(stackView)
         addSubview(scrollView)
         addSubview(floaty)
@@ -92,5 +102,8 @@ class NoteView: UIView {
         
         tagsViewHeight = tagsView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
         tagsViewHeight.isActive = true
+        
+        infoViewHeight = infoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 50)
+        infoViewHeight.isActive = true
     }
 }

@@ -17,6 +17,5 @@ extension CalendarNotification {
     }
 
     @NSManaged public var date: Date?
-    @NSManaged public var uid: String?
     @NSManaged public var period: Data?
 }

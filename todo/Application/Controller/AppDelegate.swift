@@ -13,14 +13,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     lazy var coreDataStack = CoreDataStack(modelName: "todo")
-    let notifications = NotificationsManager()
+    lazy var notificationsManager = NotificationsManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
             let rootController = NotesTableController()
             rootController.coreDataStack = coreDataStack
-            
+            rootController.notificationsManager = notificationsManager
             window?.rootViewController = UINavigationController(rootViewController: rootController)
         return true
     }

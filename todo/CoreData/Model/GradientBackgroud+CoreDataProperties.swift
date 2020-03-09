@@ -1,9 +1,8 @@
 //
 //  GradientBackgroud+CoreDataProperties.swift
-//  todo
+//  
 //
-//  Created by Анатолий on 06/02/2020.
-//  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
+//  Created by Анатолий on 09/03/2020.
 //
 //
 
@@ -17,7 +16,7 @@ extension GradientBackgroud {
         return NSFetchRequest<GradientBackgroud>(entityName: "GradientBackgroud")
     }
 
-    @NSManaged public var colors: [Int32]?
+    @NSManaged public var colors: String?
     @NSManaged public var endPoint: String?
     @NSManaged public var startPoint: String?
     @NSManaged public var notes: NSSet?

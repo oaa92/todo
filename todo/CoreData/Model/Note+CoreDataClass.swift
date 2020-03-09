@@ -19,12 +19,19 @@ public class Note: NSManagedObject {
     }
     
     override public func willSave() {
+        let now = Date()
         if let updated = updatedAt {
-            if updated.timeIntervalSince(Date()) > 10.0 {
-                self.updatedAt = Date()
+            if now.timeIntervalSince(updated) > 10.0 {
+                updatedAt = now
             }
         } else {
-            self.updatedAt = Date()
+            updatedAt = now
         }
+    }
+    
+    func moveToTrash(coreDataStack: CoreDataStack, notificationsManager: NotificationsManager) {
+        deletedAt = Date()
+        let notifications = (self.notifications ?? []) as! Set<NoteNotification>
+        notificationsManager.deregister(notifications: notifications)
     }
 }

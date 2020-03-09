@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="v1">
     <entity name="CalendarNotification" representedClassName="CalendarNotification" parentEntity="NoteNotification" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO" customClassName="DateComponents"/>
         <attribute name="period" attributeType="Binary"/>
-        <attribute name="uid" attributeType="String"/>
     </entity>
     <entity name="GradientBackgroud" representedClassName="GradientBackgroud" syncable="YES">
-        <attribute name="colors" attributeType="Transformable" customClassName="[Int32]"/>
+        <attribute name="colors" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int32]"/>
         <attribute name="endPoint" attributeType="String"/>
         <attribute name="startPoint" attributeType="String"/>
         <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="background" inverseEntity="Note"/>
@@ -28,6 +27,7 @@
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="notes" inverseEntity="Tag"/>
     </entity>
     <entity name="NoteNotification" representedClassName="NoteNotification" isAbstract="YES" syncable="YES">
+        <attribute name="uid" attributeType="String"/>
         <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="notifications" inverseEntity="Note"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
@@ -36,11 +36,11 @@
         <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="tags" inverseEntity="Note"/>
     </entity>
     <elements>
-        <element name="CalendarNotification" positionX="-123.5703125" positionY="246.21484375" width="128" height="88"/>
+        <element name="CalendarNotification" positionX="-123.5703125" positionY="246.21484375" width="128" height="73"/>
         <element name="GradientBackgroud" positionX="-125.41015625" positionY="-257.7734375" width="128" height="103"/>
         <element name="Icon" positionX="266.51171875" positionY="-12.53515625" width="128" height="88"/>
         <element name="Note" positionX="-122.57421875" positionY="-73.12109375" width="128" height="178"/>
-        <element name="NoteNotification" positionX="-124.6953125" positionY="152.73828125" width="128" height="58"/>
+        <element name="NoteNotification" positionX="-124.6953125" positionY="152.73828125" width="128" height="73"/>
         <element name="Tag" positionX="70.81640625" positionY="2.45703125" width="128" height="88"/>
     </elements>
 </model>

@@ -73,7 +73,7 @@ class RandomNoteGenerator {
         b.endPoint = NSCoder.string(for: CGPoint(x: 1, y: 0))
         let colors = [getRandomColor().rgb!,
                       getRandomColor().rgb!]
-        b.colors = colors
+        b.colors = (colors.map { String($0) }).joined(separator: ",")
         return b
     }
     
