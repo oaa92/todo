@@ -37,8 +37,8 @@ class TagViewController: CustomViewController<TagView> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateIconsAndColorsHeight()
         customView.layoutIfNeeded()
+        updateIconsAndColorsHeight()
     }
     
     override func viewDidAppear(_ animated: Bool) {
