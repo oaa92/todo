@@ -11,6 +11,9 @@
 		42D2CC7C026555DFA4EA1E86 /* libPods-todoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA5EAC895DEF25C6765E3FCC /* libPods-todoUITests.a */; };
 		8403703E23FA5F1B00D4CA4D /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403703D23FA5F1B00D4CA4D /* ToastView.swift */; };
 		8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403704123FA628B00D4CA4D /* ToastManager.swift */; };
+		840FFDA124169A62001E762B /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FFDA024169A62001E762B /* MenuView.swift */; };
+		840FFDA324169D4D001E762B /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FFDA224169D4D001E762B /* MenuController.swift */; };
+		840FFDA52416B19F001E762B /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840FFDA42416B19F001E762B /* SectionView.swift */; };
 		843668A923E99C9800618B96 /* crumpled paper.wav in Resources */ = {isa = PBXBuildFile; fileRef = 843668A823E99C9800618B96 /* crumpled paper.wav */; };
 		843AA848240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AA847240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift */; };
 		8440038223F12F3F00B909CC /* TagsCloudDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */; };
@@ -21,6 +24,7 @@
 		844F70CE24064270003D5249 /* NotificationWeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */; };
 		845172F324154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */; };
 		845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */; };
+		8468EBDB24180757000E80F9 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468EBDA24180757000E80F9 /* MenuItem.swift */; };
 		846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */; };
 		846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */; };
 		846D688F240A2642006ED231 /* NoteNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D688E240A2642006ED231 /* NoteNotification+CoreDataClass.swift */; };
@@ -122,6 +126,9 @@
 		73FA49AB1B57D149D584527F /* libPods-todo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-todo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8403703D23FA5F1B00D4CA4D /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		8403704123FA628B00D4CA4D /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
+		840FFDA024169A62001E762B /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		840FFDA224169D4D001E762B /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		840FFDA42416B19F001E762B /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		843668A823E99C9800618B96 /* crumpled paper.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "crumpled paper.wav"; sourceTree = "<group>"; };
 		843AA847240EAA850060ECC0 /* GradientBackgroud+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GradientBackgroud+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/GradientBackgroud+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		8440038123F12F3F00B909CC /* TagsCloudDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsCloudDataSource.swift; sourceTree = "<group>"; };
@@ -134,6 +141,7 @@
 		844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWeekdayCell.swift; sourceTree = "<group>"; };
 		845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = mappingModel_v1_v2.xcmappingmodel; sourceTree = "<group>"; };
 		845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackgroundMigrationPolicy_v1_v2.swift; sourceTree = "<group>"; };
+		8468EBDA24180757000E80F9 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataClass.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		846D688D240A2642006ED231 /* NoteNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NoteNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/NoteNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
@@ -306,12 +314,47 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		840FFD9D24169A0E001E762B /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				8468EBD924180749000E80F9 /* Model */,
+				840FFD9F24169A2A001E762B /* View */,
+				840FFD9E24169A1F001E762B /* Controller */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		840FFD9E24169A1F001E762B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				840FFDA224169D4D001E762B /* MenuController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		840FFD9F24169A2A001E762B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				840FFDA024169A62001E762B /* MenuView.swift */,
+				840FFDA42416B19F001E762B /* SectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		843668A723E99C5600618B96 /* Sound Files */ = {
 			isa = PBXGroup;
 			children = (
 				843668A823E99C9800618B96 /* crumpled paper.wav */,
 			);
 			path = "Sound Files";
+			sourceTree = "<group>";
+		};
+		8468EBD924180749000E80F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8468EBDA24180757000E80F9 /* MenuItem.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		846D6891240A2D08006ED231 /* Model */ = {
@@ -474,6 +517,7 @@
 				8488C38E23F3C9F800C13882 /* Tags */,
 				84E9ED002401133C00E6521C /* Notifications */,
 				84BC01BB23E1B9FA00ABA161 /* Notes table */,
+				840FFD9D24169A0E001E762B /* Menu */,
 			);
 			path = todo;
 			sourceTree = "<group>";
@@ -978,6 +1022,7 @@
 				84AD073523F92BDD000C7588 /* ColorSampleView.swift in Sources */,
 				8488C39623F3E31800C13882 /* TagTableCell.swift in Sources */,
 				8403704223FA628B00D4CA4D /* ToastManager.swift in Sources */,
+				840FFDA52416B19F001E762B /* SectionView.swift in Sources */,
 				84AFD8E124055991002AB663 /* PanelView.swift in Sources */,
 				84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */,
 				846D6890240A2642006ED231 /* NoteNotification+CoreDataProperties.swift in Sources */,
@@ -986,13 +1031,16 @@
 				84AD073923F93683000C7588 /* TagIconCell.swift in Sources */,
 				846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */,
 				845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */,
+				8468EBDB24180757000E80F9 /* MenuItem.swift in Sources */,
 				84F2435A23EC066700B4438C /* NoteBackgroud+CoreDataClass.swift in Sources */,
 				84E1E5732414FC2D0019FACA /* NoteGradientBackgroundCell.swift in Sources */,
 				84AD073123F92B17000C7588 /* TagColorDataSourse.swift in Sources */,
 				8493913B23F4049F001BB07A /* TagsTableView.swift in Sources */,
 				84A5518123E047DD00E0CC1E /* NoteTextView.swift in Sources */,
+				840FFDA124169A62001E762B /* MenuView.swift in Sources */,
 				84E1E5672414E8610019FACA /* OverlayViewProtocol+utils.swift in Sources */,
 				84BC84E223FABBE3007CF76D /* NotesTableDataSource.swift in Sources */,
+				840FFDA324169D4D001E762B /* MenuController.swift in Sources */,
 				84BC01C423E1BC9500ABA161 /* UICollectionView+ReusableView.swift in Sources */,
 				84BC01C823E1BF0600ABA161 /* NoteCell.swift in Sources */,
 				846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */,

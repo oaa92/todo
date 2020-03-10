@@ -7,13 +7,13 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(Tag)
 public class Tag: NSManagedObject {
     var isTemp: Bool = false
-    
+
     func delete(coreDataStack: CoreDataStack) {
         if let icon = icon {
             if icon.tags?.count == 1 {
@@ -22,17 +22,20 @@ public class Tag: NSManagedObject {
         }
         coreDataStack.managedContext.delete(self)
     }
-    
-    static func createTemp(name: String, icon: String, color: Int32) -> Tag {
-        let tagIcon = Icon(entity: Icon.entity(), insertInto: nil)
-        tagIcon.name = icon
-        tagIcon.color = color
-        
+
+    static func createTemp(name: String, icon: String?, color: Int32?) -> Tag {
         let tag = Tag(entity: Tag.entity(), insertInto: nil)
         tag.name = name
-        tag.icon = tagIcon
-        
         tag.isTemp = true
+
+        if let icon = icon,
+            let color = color {
+            let tagIcon = Icon(entity: Icon.entity(), insertInto: nil)
+            tagIcon.name = icon
+            tagIcon.color = color
+            tag.icon = tagIcon
+        }
+
         return tag
     }
 }

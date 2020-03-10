@@ -15,6 +15,7 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
     var coreDataStack: CoreDataStack!
     var notificationsManager: NotificationsManager!
 
+    var showAddButton = true
     private lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                      target: self,
                                                      action: #selector(addNote))
@@ -35,10 +36,11 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
 
     private let searchController = UISearchController(searchResultsController: nil)
 
-    private lazy var tableDataSource: NotesTableDataSource = {
+    lazy var tableDataSource: NotesTableDataSource = {
         let dataSource = NotesTableDataSource()
+        dataSource.locale = locale
         dataSource.coreDataStack = coreDataStack
-        dataSource.fetchedResultsController.delegate = self
+        dataSource.predicate = NSPredicate(format: "%K = nil", #keyPath(Note.deletedAt))
         return dataSource
     }()
 
@@ -64,7 +66,8 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
         customView.tableView.register(NoteCell.self)
         customView.tableView.dataSource = tableDataSource
         customView.tableView.delegate = self
-
+        
+        tableDataSource.fetchedResultsController.delegate = self
         fetch()
     }
 }
@@ -73,10 +76,14 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
 
 extension NotesTableController {
     private func setupNavigationBar() {
-        navigationItem.title = "Notes"
+        if title ?? "" == "" {
+            title = "Notes"
+        }
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.leftBarButtonItems = [menuButtonItem, customEditButtonItem]
-        navigationItem.rightBarButtonItem = addButtonItem
+        if showAddButton {
+            navigationItem.rightBarButtonItem = addButtonItem
+        }
     }
 
     private func setupSearchController() {
@@ -121,7 +128,9 @@ extension NotesTableController {
     private func exitFromEditMode() {
         customView.tableView.setEditing(false, animated: true)
         navigationItem.setLeftBarButtonItems([menuButtonItem, customEditButtonItem], animated: true)
-        navigationItem.setRightBarButton(addButtonItem, animated: true)
+        if showAddButton {
+            navigationItem.setRightBarButton(addButtonItem, animated: true)
+        }
     }
 
     private func createNoteController(note: Note) -> NoteViewController {
@@ -170,7 +179,13 @@ extension NotesTableController {
         exitFromEditMode()
     }
 
-    @objc private func menuButtonPressed() {}
+    @objc private func menuButtonPressed() {
+        let menuController = MenuController()
+        menuController.locale = locale
+        menuController.coreDataStack = coreDataStack
+        menuController.notificationsManager = notificationsManager
+        navigationController?.pushViewController(menuController, animated: true)
+    }
 }
 
 // MARK: Random notes generator

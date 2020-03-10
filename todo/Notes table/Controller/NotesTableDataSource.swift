@@ -10,10 +10,9 @@ import CoreData
 import UIKit
 
 class NotesTableDataSource: NSObject {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     var coreDataStack: CoreDataStack!
-
-    var predicate = NSPredicate(format: "\(#keyPath(Note.deletedAt)) = nil")
+    var predicate: NSPredicate!
 
     lazy var fetchedResultsController: NSFetchedResultsController<Note> = {
         let sort = NSSortDescriptor(key: #keyPath(Note.updatedAt), ascending: false)
