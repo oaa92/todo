@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  todo
+
+  Created by Анатолий on 11/03/2020.
+  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
+*/
+
+"Notes" = "Notes";
+"Notifications" = "Notifications";
+"Trash" = "Trash";
+"Tags" = "Tags";
+"Tag title" = "Tag title";
+"Search" = "Search";
+"Delete" = "Delete";
+"Edit" = "Edit";
+"Unselect" = "Unselect";
+"Moved to trash" = "Moved to trash";
+"Done" = "Done";
+"Title" = "Title";
+"Show icon" = "Show icon";
+"none" = "none";
+"daily" = "daily";
+"weekly" = "weekly";
+"monthly" = "monthly";
+"annually" = "annually";
+"Repeat" = "Repeat";
+"Remind" = "Remind";
+"Select date" = "Select date";
+"Select period" = "Select period";
+"Weekday's not selected" = "Weekday's not selected";

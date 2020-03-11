@@ -94,7 +94,7 @@ class TagsTableController: CustomViewController<TagsTableView>, OverlayViewProto
 
 extension TagsTableController {
     private func setupNavigationBar() {
-        navigationItem.title = "Tags"
+        navigationItem.title = NSLocalizedString("Tags", comment: "")
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.setLeftBarButton(customEditButtonItem, animated: false)
         navigationItem.setRightBarButton(addButtonItem, animated: false)
@@ -103,7 +103,7 @@ extension TagsTableController {
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "")
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -113,7 +113,7 @@ extension TagsTableController {
 
 extension TagsTableController {
     private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Delete"
+        let title = NSLocalizedString("Delete", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let tag = self.fetchedResultsController.object(at: indexPath)
             tag.delete(coreDataStack: self.coreDataStack)
@@ -126,7 +126,7 @@ extension TagsTableController {
     }
 
     private func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Edit"
+        let title = NSLocalizedString("Edit", comment: "")
         let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
             let tag = self.fetchedResultsController.object(at: indexPath)
             let tagController = TagViewController()
@@ -141,7 +141,6 @@ extension TagsTableController {
     }
 
     private func fetch() {
-        print("FETCH")
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {

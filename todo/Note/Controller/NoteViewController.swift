@@ -9,10 +9,11 @@
 import Floaty
 
 class NoteViewController: CustomViewController<NoteView> {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     var coreDataStack: CoreDataStack!
     var notificationsManager: NotificationsManager!
     var note: Note?
+    
     let settings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
                                      minimumInteritemSpacing: 10,
                                      stackMargins: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10),
@@ -43,8 +44,6 @@ class NoteViewController: CustomViewController<NoteView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("viewDidLoad")
 
         notifications = (note?.notifications ?? []) as! Set<NoteNotification>
 
@@ -97,7 +96,8 @@ extension NoteViewController {
     private func addActionBar() {
         let palette = UIBarButtonItem(image: UIImage(named: "palette"), style: .plain, target: self, action: #selector(paletteTapped))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneTapped))
+        let doneTitle = NSLocalizedString("Done", comment: "")
+        let doneItem = UIBarButtonItem(title: doneTitle, style: .plain, target: self, action: #selector(doneTapped))
         let frame: CGRect
 
         if #available(iOS 13, *) {

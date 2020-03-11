@@ -31,7 +31,7 @@ class NoteView: UIView {
     
     let titleView: UITextField = {
         let titleView = UITextField()
-        titleView.placeholder = "Title"
+        titleView.placeholder = NSLocalizedString("Title", comment: "")
         titleView.font = UIFont.systemFont(ofSize: 24)
         titleView.returnKeyType = .done
         return titleView

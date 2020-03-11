@@ -11,7 +11,7 @@ import CoreData
 import UIKit
 
 class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerDelegate {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     var coreDataStack: CoreDataStack!
     var notificationsManager: NotificationsManager!
 
@@ -77,7 +77,7 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
 extension NotesTableController {
     private func setupNavigationBar() {
         if title ?? "" == "" {
-            title = "Notes"
+            title = NSLocalizedString("Notes", comment: "")
         }
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.leftBarButtonItems = [menuButtonItem, customEditButtonItem]
@@ -89,7 +89,7 @@ extension NotesTableController {
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "")
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -107,7 +107,7 @@ extension NotesTableController {
     }
 
     private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Delete"
+        let title = NSLocalizedString("Delete", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
             note.moveToTrash(coreDataStack: self.coreDataStack, notificationsManager: self.notificationsManager)
@@ -121,7 +121,8 @@ extension NotesTableController {
     }
 
     private func showDeleteNotification() {
-        toastManager.show(message: "Перенесено в корзину", image: UIImage(named: "trash"), controller: self)
+        let message = NSLocalizedString("Moved to trash", comment: "")
+        toastManager.show(message: message, image: UIImage(named: "trash"), controller: self)
         audioPlayer?.play()
     }
 
@@ -185,28 +186,6 @@ extension NotesTableController {
         menuController.coreDataStack = coreDataStack
         menuController.notificationsManager = notificationsManager
         navigationController?.pushViewController(menuController, animated: true)
-    }
-}
-
-// MARK: Random notes generator
-
-extension NotesTableController {
-    override func becomeFirstResponder() -> Bool {
-        return true
-    }
-
-    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            print("motionShake")
-            notificationsManager.printNextDate()
-            /*
-             for _ in 0..<1 {
-                 let generator = RandomNoteGenerator()
-                 _ = generator.generate(context: coreDataStack.managedContext)
-                 coreDataStack.saveContext()
-             }
-             */
-        }
     }
 }
 

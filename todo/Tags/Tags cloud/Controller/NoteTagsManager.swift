@@ -9,7 +9,7 @@
 import UIKit
 
 class NoteTagsManager: NSObject {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     
     func tagsWithoutTemp(tags: [Tag]) -> [Tag] {
         let tags = tags.filter { !$0.isTemp }

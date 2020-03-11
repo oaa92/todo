@@ -19,7 +19,7 @@ class TagViewController: CustomViewController<TagView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("TagViewController viewDidLoad")
+
         customView.showIconView.addTarget(self, action: #selector(showIconValueChanged), for: .valueChanged)
         
         customView.nameView.delegate = self

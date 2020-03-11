@@ -40,7 +40,7 @@ class NotificationPeriodView: PanelView {
 
     private func setupViews() {
         backgroundColor = UIColor.Palette.grayish_orange.get
-        label.text = "Выберите период"
+        label.text = NSLocalizedString("Select period", comment: "")
         addSubview(periodPickerView)
         addSubview(weekdaysCollectionView)
     }

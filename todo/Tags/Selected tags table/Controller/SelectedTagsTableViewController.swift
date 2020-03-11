@@ -53,7 +53,7 @@ extension SelectedTagsTableViewController {
     }
 
     private func getUnselectAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Unselect"
+        let title = NSLocalizedString("Unselect", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let index = indexPath.row
             let tag = self.selectedTags[index]
@@ -68,7 +68,7 @@ extension SelectedTagsTableViewController {
     }
 
     private func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Edit"
+        let title = NSLocalizedString("Edit", comment: "")
         let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
             let index = indexPath.row
             let tag = self.selectedTags[index]
@@ -84,7 +84,7 @@ extension SelectedTagsTableViewController {
     }
 
     private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = "Delete"
+        let title = NSLocalizedString("Delete", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let index = indexPath.row
             let tag = self.selectedTags[index]

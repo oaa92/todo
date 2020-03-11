@@ -24,6 +24,7 @@
 		844F70CE24064270003D5249 /* NotificationWeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */; };
 		845172F324154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */; };
 		845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */; };
+		84523A972418E92400577169 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84523A952418E92400577169 /* Localizable.strings */; };
 		8468EBDB24180757000E80F9 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8468EBDA24180757000E80F9 /* MenuItem.swift */; };
 		846D688A240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */; };
 		846D688C240A24FC006ED231 /* CalendarNotification+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */; };
@@ -60,6 +61,7 @@
 		84AFD8E124055991002AB663 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E024055991002AB663 /* PanelView.swift */; };
 		84AFD8E324055B8D002AB663 /* NotificationPeriodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E224055B8D002AB663 /* NotificationPeriodController.swift */; };
 		84AFD8E524055D72002AB663 /* NoteNotificationEditProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */; };
+		84AFE2D824191B0D00947F45 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84AFE2D624191B0D00947F45 /* InfoPlist.strings */; };
 		84BB57AF240A73A4007A8740 /* Locale+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BB57AE240A73A4007A8740 /* Locale+utils.swift */; };
 		84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A723F5445900BD4F9B /* TagsTableController.swift */; };
 		84BBE3AA23F552EC00BD4F9B /* SelectedTagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */; };
@@ -94,7 +96,6 @@
 		84F2435D23EC066700B4438C /* Tag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2435223EC066700B4438C /* Tag+CoreDataProperties.swift */; };
 		84F2435E23EC066700B4438C /* GradientBackgroud+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2435323EC066700B4438C /* GradientBackgroud+CoreDataClass.swift */; };
 		84F523CD23EC08600074AB3C /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F523CC23EC08600074AB3C /* Note+CoreDataProperties.swift */; };
-		84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F523CE23EC0FFB0074AB3C /* RandomNoteGenerator.swift */; };
 		84F7B6692404FD4F00A38319 /* NotificationDateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B6682404FD4F00A38319 /* NotificationDateController.swift */; };
 		84F7B66B2404FD8300A38319 /* NotificationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B66A2404FD8300A38319 /* NotificationDateView.swift */; };
 		84F7B66D2405278300A38319 /* UIView+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F7B66C2405278300A38319 /* UIView+utils.swift */; };
@@ -141,6 +142,13 @@
 		844F70CD24064270003D5249 /* NotificationWeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationWeekdayCell.swift; sourceTree = "<group>"; };
 		845172F224154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = mappingModel_v1_v2.xcmappingmodel; sourceTree = "<group>"; };
 		845172F424155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackgroundMigrationPolicy_v1_v2.swift; sourceTree = "<group>"; };
+		84523A912418E82800577169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		84523A922418E82800577169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84523A932418E89F00577169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		84523A942418E89F00577169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		84523A962418E92400577169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
+		84523A982418E92A00577169 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84523A992418E92A00577169 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ../ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8468EBDA24180757000E80F9 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		846D6886240A24FB006ED231 /* CalendarNotification+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataProperties.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		846D6887240A24FC006ED231 /* CalendarNotification+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CalendarNotification+CoreDataClass.swift"; path = "/Users/admin/Documents/xcode projects/todo/todo/CoreData/Model/CalendarNotification+CoreDataClass.swift"; sourceTree = "<absolute>"; };
@@ -161,8 +169,6 @@
 		84A30A35240FA0990018DF12 /* Date+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+utils.swift"; sourceTree = "<group>"; };
 		84A5514323E02EF000E0CC1E /* todo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = todo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A5514623E02EF000E0CC1E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		84A5514D23E02EF000E0CC1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		84A5515523E02EF100E0CC1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84A5515723E02EF100E0CC1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84A5515C23E02EF100E0CC1E /* todoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = todoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A5516023E02EF100E0CC1E /* todoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = todoTests.swift; sourceTree = "<group>"; };
@@ -183,6 +189,8 @@
 		84AFD8E024055991002AB663 /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
 		84AFD8E224055B8D002AB663 /* NotificationPeriodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPeriodController.swift; sourceTree = "<group>"; };
 		84AFD8E424055D72002AB663 /* NoteNotificationEditProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteNotificationEditProtocol.swift; sourceTree = "<group>"; };
+		84AFE2D724191B0D00947F45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = InfoPlist.strings; sourceTree = "<group>"; };
+		84AFE2DA24191B1700947F45 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ../ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84BB57AE240A73A4007A8740 /* Locale+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+utils.swift"; sourceTree = "<group>"; };
 		84BBE3A723F5445900BD4F9B /* TagsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableController.swift; sourceTree = "<group>"; };
 		84BBE3A923F552EC00BD4F9B /* SelectedTagsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsTableViewController.swift; sourceTree = "<group>"; };
@@ -220,7 +228,6 @@
 		84F2435223EC066700B4438C /* Tag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84F2435323EC066700B4438C /* GradientBackgroud+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GradientBackgroud+CoreDataClass.swift"; sourceTree = "<group>"; };
 		84F523CC23EC08600074AB3C /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		84F523CE23EC0FFB0074AB3C /* RandomNoteGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNoteGenerator.swift; sourceTree = "<group>"; };
 		84F7B6682404FD4F00A38319 /* NotificationDateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDateController.swift; sourceTree = "<group>"; };
 		84F7B66A2404FD8300A38319 /* NotificationDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDateView.swift; sourceTree = "<group>"; };
 		84F7B66C2405278300A38319 /* UIView+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+utils.swift"; sourceTree = "<group>"; };
@@ -349,6 +356,18 @@
 			path = "Sound Files";
 			sourceTree = "<group>";
 		};
+		84523A902418E80E00577169 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				84A5514C23E02EF000E0CC1E /* Main.storyboard */,
+				84A5515423E02EF100E0CC1E /* LaunchScreen.storyboard */,
+				84523A952418E92400577169 /* Localizable.strings */,
+				84AFE2D624191B0D00947F45 /* InfoPlist.strings */,
+			);
+			name = Base.lproj;
+			path = todo/Base.lproj;
+			sourceTree = SOURCE_ROOT;
+		};
 		8468EBD924180749000E80F9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,14 +380,6 @@
 			isa = PBXGroup;
 			children = (
 				846D6892240A2D1B006ED231 /* PeriodType.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		84787C3523E349F500D7C9DF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				84F523CE23EC0FFB0074AB3C /* RandomNoteGenerator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -543,7 +554,6 @@
 		84A5517923E035EE00E0CC1E /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				84A5517B23E0360C00E0CC1E /* View */,
 				84A5517A23E035FE00E0CC1E /* Controller */,
 				84EB09AC23E06DF10016CC2B /* Supporting files */,
 				84A5515723E02EF100E0CC1E /* Info.plist */,
@@ -559,19 +569,9 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		84A5517B23E0360C00E0CC1E /* View */ = {
-			isa = PBXGroup;
-			children = (
-				84A5514C23E02EF000E0CC1E /* Main.storyboard */,
-				84A5515423E02EF100E0CC1E /* LaunchScreen.storyboard */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		84A5517C23E0467800E0CC1E /* Note */ = {
 			isa = PBXGroup;
 			children = (
-				84787C3523E349F500D7C9DF /* Model */,
 				84A5517D23E0468200E0CC1E /* View */,
 				847B285D23E17FBE00F334E8 /* Controller */,
 			);
@@ -763,6 +763,7 @@
 		84EB09AC23E06DF10016CC2B /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				84523A902418E80E00577169 /* Base.lproj */,
 				84EB09AD23E06E430016CC2B /* Assets.xcassets */,
 				843668A723E99C5600618B96 /* Sound Files */,
 			);
@@ -905,6 +906,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 				Base,
 			);
 			mainGroup = 84A5513A23E02EF000E0CC1E;
@@ -925,6 +927,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A5515623E02EF100E0CC1E /* LaunchScreen.storyboard in Resources */,
+				84AFE2D824191B0D00947F45 /* InfoPlist.strings in Resources */,
+				84523A972418E92400577169 /* Localizable.strings in Resources */,
 				84BBE3AC23F559AA00BD4F9B /* SelectedTagsPanel.storyboard in Resources */,
 				84EB09AE23E06E430016CC2B /* Assets.xcassets in Resources */,
 				843668A923E99C9800618B96 /* crumpled paper.wav in Resources */,
@@ -1027,7 +1031,6 @@
 				84BBE3A823F5445900BD4F9B /* TagsTableController.swift in Sources */,
 				846D6890240A2642006ED231 /* NoteNotification+CoreDataProperties.swift in Sources */,
 				845172F324154F1600EFD4E0 /* mappingModel_v1_v2.xcmappingmodel in Sources */,
-				84F523CF23EC0FFB0074AB3C /* RandomNoteGenerator.swift in Sources */,
 				84AD073923F93683000C7588 /* TagIconCell.swift in Sources */,
 				846E165D23F6EEF400D1ACC7 /* TagViewAnimator.swift in Sources */,
 				845172F524155D6C00EFD4E0 /* GradientBackgroundMigrationPolicy_v1_v2.swift in Sources */,
@@ -1128,10 +1131,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		84523A952418E92400577169 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84523A962418E92400577169 /* Base */,
+				84523A982418E92A00577169 /* en */,
+				84523A992418E92A00577169 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		84A5514C23E02EF000E0CC1E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				84A5514D23E02EF000E0CC1E /* Base */,
+				84523A912418E82800577169 /* Base */,
+				84523A932418E89F00577169 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1139,9 +1153,19 @@
 		84A5515423E02EF100E0CC1E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				84A5515523E02EF100E0CC1E /* Base */,
+				84523A922418E82800577169 /* Base */,
+				84523A942418E89F00577169 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		84AFE2D624191B0D00947F45 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84AFE2D724191B0D00947F45 /* Base */,
+				84AFE2DA24191B1700947F45 /* ru */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1151,6 +1175,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1211,6 +1236,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

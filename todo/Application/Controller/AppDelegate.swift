@@ -12,13 +12,18 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    var locale: Locale!
     lazy var coreDataStack = CoreDataStack(modelName: "todo")
     lazy var notificationsManager = NotificationsManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
+            locale = Locale.autoupdatingCurrent
+            notificationsManager.locale = locale
+            notificationsManager.center.removeAllDeliveredNotifications()
             let rootController = NotesTableController()
+            rootController.locale = locale
             rootController.coreDataStack = coreDataStack
             rootController.notificationsManager = notificationsManager
             window?.rootViewController = UINavigationController(rootViewController: rootController)

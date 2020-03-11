@@ -18,15 +18,15 @@ enum PeriodType: Equatable {
     var name: String {
         switch self {
         case .none:
-            return "none"
+            return NSLocalizedString("none", comment: "")
         case .daily:
-            return "daily"
+            return NSLocalizedString("daily", comment: "")
         case .weekly:
-            return "weekly"
+            return NSLocalizedString("weekly", comment: "")
         case .monthly:
-            return "monthly"
+            return NSLocalizedString("monthly", comment: "")
         case .annually:
-            return "annually"
+            return NSLocalizedString("annually", comment: "")
         }
     }
 

@@ -9,10 +9,10 @@
 import UserNotifications
 
 class NotificationsManager: NSObject {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     
     private var notificationGranted: Bool = false
-    private let center = UNUserNotificationCenter.current()
+    let center = UNUserNotificationCenter.current()
 
     override init() {
         super.init()

@@ -27,7 +27,7 @@ class NotificationDateView: PanelView {
     }
     
     private func setupViews() {
-        label.text = "Выберите дату"
+        label.text = NSLocalizedString("Select date", comment: "")
         addSubview(datePickerView)
     }
     

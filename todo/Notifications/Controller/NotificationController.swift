@@ -9,7 +9,7 @@
 import Panels
 
 class NotificationController: CustomViewController<NotificationView>, OverlayViewProtocol {
-    var locale = Locale.autoupdatingCurrent
+    var locale: Locale!
     var coreDataStack: CoreDataStack!
     var notifications: Set<NoteNotification> = []
     weak var noteNotificationsDelegate: NoteNotificationsProtocol?
@@ -344,7 +344,8 @@ extension NotificationController: PanelNotifications {
         if currentPanel === periodPanelManager,
             case let .weekly(weekdays: weekdays) = period,
             weekdays?.count ?? 0 == 0 {
-            toastManager.show(message: "Weekday's not selected", controller: self)
+            let message = NSLocalizedString("Weekday's not selected", comment: "")
+            toastManager.show(message: message, controller: self)
         }
     }
 }

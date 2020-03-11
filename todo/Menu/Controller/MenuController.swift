@@ -45,7 +45,7 @@ extension MenuController {
     }
 
     private func addNotes() {
-        let item = MenuItem(tag: Tag.createTemp(name: "Заметки",
+        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Notes", comment: ""),
                                                 icon: nil,
                                                 color: nil),
                             predicate: NSPredicate(format: "%K = nil", #keyPath(Note.deletedAt)),
@@ -54,7 +54,7 @@ extension MenuController {
     }
 
     private func addNotifications() {
-        let item = MenuItem(tag: Tag.createTemp(name: "Напоминания",
+        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Notifications", comment: ""),
                                                 icon: "notification",
                                                 color: UIColor.Palette.blue_soft.get.rgb),
                             predicate: NSPredicate(format: "%K.@count > 0", #keyPath(Note.notifications)),
@@ -63,7 +63,7 @@ extension MenuController {
     }
 
     private func addTrash() {
-        let item = MenuItem(tag: Tag.createTemp(name: "Корзина",
+        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Trash", comment: ""),
         icon: "trash",
         color: UIColor.Palette.Buttons.delete.get.rgb),
                             predicate: NSPredicate(format: "%K != nil", #keyPath(Note.deletedAt)),
@@ -96,7 +96,6 @@ extension MenuController {
 
 extension MenuController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        print("numberOfSections \(items.count)")
         return items.count
     }
 
@@ -128,7 +127,7 @@ extension MenuController: UITableViewDelegate {
         switch section {
         case tagsSection:
             let view = SectionView()
-            view.label.text = "Tags"
+            view.label.text = NSLocalizedString("Tags", comment: "")
             return view
         default:
             return nil

@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  todo
+
+  Created by Анатолий on 11/03/2020.
+  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
+*/
+
+"Notes" = "Заметки";
+"Notifications" = "Напоминания";
+"Trash" = "Корзина";
+"Tags" = "Метки";
+"Tag title" = "Название метки";
+"Search" = "Поиск";
+"Delete" = "Удалить";
+"Edit" = "Править";
+"Unselect" = "Снять выделение";
+"Moved to trash" = "Перенесено в корзину";
+"Done" = "Готово";
+"Title" = "Заголовок";
+"Show icon" = "Показывать иконку";
+"none" = "нет";
+"daily" = "ежедневно";
+"weekly" = "еженедельно";
+"monthly" = "ежемесячно";
+"annually" = "ежегодно";
+"Repeat" = "Повторять";
+"Remind" = "Напоминать";
+"Select date" = "Выберите дату";
+"Select period" = "Выберите период";
+"Weekday's not selected" = "День недели не выбран";

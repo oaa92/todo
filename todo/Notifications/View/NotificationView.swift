@@ -65,7 +65,7 @@ class NotificationView: UIView {
     
     let periodSwitchLabel: UILabel = {
         let label = UILabel()
-        label.text = "Повторять"
+        label.text = NSLocalizedString("Repeat", comment: "")
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
     }()
@@ -110,7 +110,7 @@ class NotificationView: UIView {
     
     private func setupNotificationSwitchStack() {
         let label = UILabel()
-        label.text = "Напоминать"
+        label.text = NSLocalizedString("Remind", comment: "")
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         notificationStack.addArrangedSubview(label)

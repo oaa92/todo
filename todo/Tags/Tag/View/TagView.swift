@@ -47,7 +47,7 @@ class TagView: UIView {
     
     let nameView: UITextField = {
         let name = UITextField()
-        name.placeholder = "Название метки"
+        name.placeholder = NSLocalizedString("Tag title", comment: "")
         name.font = UIFont.systemFont(ofSize: 24)
         name.returnKeyType = .done
         name.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -113,7 +113,7 @@ class TagView: UIView {
         stack.spacing = 8
         
         let label = UILabel()
-        label.text = "Показывать иконку"
+        label.text = NSLocalizedString("Show icon", comment: "")
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         
         stack.addArrangedSubview(label)
