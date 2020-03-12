@@ -20,7 +20,8 @@ class TagColorDataSourse: NSObject {
         UIColor.Palette.blue.get,
         UIColor.Palette.blue_pale.get,
         UIColor.Palette.violet.get,
-        UIColor.Palette.pink.get
+        UIColor.Palette.pink.get,
+        UIColor(hex6: 0x5D737E)
     ]
 }
 

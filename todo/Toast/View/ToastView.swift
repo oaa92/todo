@@ -33,6 +33,7 @@ class ToastView: UIView {
     let label: UILabel = {
         let label = UILabel()
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.textColor = UIColor.Palette.text.get
         return label
     }()
     

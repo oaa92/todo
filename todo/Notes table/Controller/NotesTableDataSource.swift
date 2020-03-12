@@ -120,9 +120,6 @@ extension NotesTableDataSource {
 
     private func createProvider(note: Note, cell: NoteCell) -> TagsCloudDataSource? {
         var tags = Array((note.tags as? Set<Tag>) ?? [])
-        guard tags.count > 0 else {
-            return nil
-        }
         tags.sort(by: { $0.name ?? "" < $1.name ?? "" })
         let provider = TagsCloudDataSource(cellSettings: settings)
         let collectionViewWidth = UIScreen.main.bounds.width -
@@ -133,6 +130,11 @@ extension NotesTableDataSource {
         manager.locale = locale
         let notifications = (note.notifications ?? []) as! Set<NoteNotification>
         let tagsWithNotifications = manager.addNotificationTag(tags: tags, notifications: notifications)
+        
+        guard tagsWithNotifications.count > 0 else {
+            return nil
+        }
+        
         manager.tagsForMaxWidth(tags: tagsWithNotifications, provider: provider, maxWidth: collectionViewWidth)
         return provider
     }

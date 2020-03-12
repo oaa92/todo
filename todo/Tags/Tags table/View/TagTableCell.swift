@@ -13,6 +13,7 @@ class TagTableCell: UITableViewCell, ReusableView {
         backgroundColor = .clear
         separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 10)
         textLabel?.text = text
+        textLabel?.textColor = UIColor.Palette.text.get
         if let imageName = imageName,
             let image = UIImage(named: imageName),
             let color = color {

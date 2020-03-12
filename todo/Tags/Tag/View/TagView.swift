@@ -49,6 +49,7 @@ class TagView: UIView {
         let name = UITextField()
         name.placeholder = NSLocalizedString("Tag title", comment: "")
         name.font = UIFont.systemFont(ofSize: 24)
+        name.textColor = UIColor.Palette.text.get
         name.returnKeyType = .done
         name.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return name
@@ -113,6 +114,7 @@ class TagView: UIView {
         stack.spacing = 8
         
         let label = UILabel()
+        label.textColor = UIColor.Palette.text.get
         label.text = NSLocalizedString("Show icon", comment: "")
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         

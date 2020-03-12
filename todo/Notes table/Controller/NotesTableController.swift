@@ -66,7 +66,7 @@ class NotesTableController: CustomViewController<NotesTableView>, AVAudioPlayerD
         customView.tableView.register(NoteCell.self)
         customView.tableView.dataSource = tableDataSource
         customView.tableView.delegate = self
-        
+
         tableDataSource.fetchedResultsController.delegate = self
         fetch()
     }
@@ -110,9 +110,10 @@ extension NotesTableController {
         let title = NSLocalizedString("Delete", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
             let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
-            note.moveToTrash(coreDataStack: self.coreDataStack, notificationsManager: self.notificationsManager)
+            let message = note.deletedAt == nil ? NSLocalizedString("Moved to trash", comment: "") : NSLocalizedString("Deleted", comment: "")
+            self.deleteNote(note: note)
             self.coreDataStack.saveContext()
-            self.showDeleteNotification()
+            self.showDeleteNotification(message: message)
             completionHandler(true)
         }
         action.backgroundColor = UIColor.Palette.Buttons.delete.get
@@ -120,8 +121,20 @@ extension NotesTableController {
         return action
     }
 
-    private func showDeleteNotification() {
-        let message = NSLocalizedString("Moved to trash", comment: "")
+    private func getRecoverAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+        let title = NSLocalizedString("Recover", comment: "")
+        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
+            let note = self.tableDataSource.fetchedResultsController.object(at: indexPath)
+            note.deletedAt = nil
+            self.coreDataStack.saveContext()
+            completionHandler(true)
+        }
+        action.backgroundColor = UIColor.Palette.green.get
+        action.image = UIImage(named: "recover")
+        return action
+    }
+
+    private func showDeleteNotification(message: String) {
         toastManager.show(message: message, image: UIImage(named: "trash"), controller: self)
         audioPlayer?.play()
     }
@@ -141,6 +154,14 @@ extension NotesTableController {
         noteController.notificationsManager = notificationsManager
         noteController.note = note
         return noteController
+    }
+
+    private func deleteNote(note: Note) {
+        if note.deletedAt == nil {
+            note.moveToTrash(coreDataStack: coreDataStack, notificationsManager: notificationsManager)
+        } else {
+            note.delete(coreDataStack: coreDataStack)
+        }
     }
 }
 
@@ -170,12 +191,18 @@ extension NotesTableController {
 
         if let paths = customView.tableView.indexPathsForSelectedRows {
             let notes = paths.map { tableDataSource.fetchedResultsController.object(at: $0) }
+            let deleteDates = notes.compactMap { $0.deletedAt }
+            let message: String
+            if deleteDates.count > 0 {
+                message = NSLocalizedString("Deleted", comment: "")
+            } else {
+                message = NSLocalizedString("Moved to trash", comment: "")
+            }
             notes.forEach {
-                $0.moveToTrash(coreDataStack: self.coreDataStack,
-                               notificationsManager: self.notificationsManager)
+                self.deleteNote(note: $0)
             }
             coreDataStack.saveContext()
-            showDeleteNotification()
+            showDeleteNotification(message: message)
         }
         exitFromEditMode()
     }
@@ -194,8 +221,14 @@ extension NotesTableController {
 extension NotesTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let note = tableDataSource.fetchedResultsController.object(at: indexPath)
         let deleteAction = getDeleteAction(cellForRowAt: indexPath)
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        var actions: [UIContextualAction] = [deleteAction]
+        if note.deletedAt != nil {
+            let recoverAction = getRecoverAction(cellForRowAt: indexPath)
+            actions.append(recoverAction)
+        }
+        let configuration = UISwipeActionsConfiguration(actions: actions)
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
@@ -216,13 +249,13 @@ extension NotesTableController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        navigationItem.leftBarButtonItems?.forEach {$0.isEnabled = false }
+        navigationItem.leftBarButtonItems?.forEach { $0.isEnabled = false }
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
         exitFromEditMode()
-        navigationItem.leftBarButtonItems?.forEach {$0.isEnabled = true }
+        navigationItem.leftBarButtonItems?.forEach { $0.isEnabled = true }
         navigationItem.rightBarButtonItem?.isEnabled = true
     }
 

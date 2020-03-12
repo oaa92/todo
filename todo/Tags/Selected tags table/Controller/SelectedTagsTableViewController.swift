@@ -14,6 +14,7 @@ class SelectedTagsTableViewController: UIViewController, Panelable {
     
     @IBOutlet var headerHeight: NSLayoutConstraint!
     @IBOutlet var headerPanel: UIView!
+    @IBOutlet var headerLabel: UILabel!
     @IBOutlet var tableView: UITableView!
     
     private(set) var selectedTags: [Tag] = []
@@ -26,6 +27,8 @@ class SelectedTagsTableViewController: UIViewController, Panelable {
         tableView.register(TagTableCell.self)
         tableView.dataSource = self
         tableView.delegate = self
+        
+        headerLabel.textColor = UIColor.Palette.text.get
     }
     
     override func viewWillLayoutSubviews() {

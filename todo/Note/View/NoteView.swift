@@ -33,15 +33,17 @@ class NoteView: UIView {
         let titleView = UITextField()
         titleView.placeholder = NSLocalizedString("Title", comment: "")
         titleView.font = UIFont.systemFont(ofSize: 24)
+        titleView.textColor = UIColor.Palette.text.get
         titleView.returnKeyType = .done
         return titleView
     }()
     
     let noteView: NoteTextView = {
         let noteView = NoteTextView()
-        noteView.font = UIFont.systemFont(ofSize: 20)
         noteView.translatesAutoresizingMaskIntoConstraints = false
         noteView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
+        noteView.font = UIFont.systemFont(ofSize: 20)
+        noteView.textColor = UIColor.Palette.text.get
         return noteView
     }()
     

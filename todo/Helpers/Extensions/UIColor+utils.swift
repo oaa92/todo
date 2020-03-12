@@ -23,6 +23,7 @@ extension UIColor {
         case blue
         case violet
         case pink
+        case text
         
         var get: UIColor {
             switch self {
@@ -37,7 +38,7 @@ extension UIColor {
             case .red:
                 return UIColor(hex6: 0xFFB0A2)
             case .green:
-                return UIColor(hex6: 0xD9FDDF)
+                return UIColor(hex6: 0xBBDFC1)
             case .cyan_pale:
                 return UIColor(hex6: 0xD9FEFF)
             case .cyan:
@@ -52,6 +53,8 @@ extension UIColor {
                 return UIColor(hex6: 0xF1CBFF)
             case .pink:
                 return UIColor(hex6: 0xFDC6D2)
+            case .text:
+                return UIColor(hex6: 0x424C55)
             }
         }
         

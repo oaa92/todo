@@ -33,5 +33,15 @@ public class Note: NSManagedObject {
         deletedAt = Date()
         let notifications = (self.notifications ?? []) as! Set<NoteNotification>
         notificationsManager.deregister(notifications: notifications)
+        notifications.forEach { coreDataStack.managedContext.delete($0) }
+    }
+    
+    func delete(coreDataStack: CoreDataStack) {
+        if let background = background {
+            if background.notes?.count == 1 {
+                coreDataStack.managedContext.delete(background)
+            }
+        }
+        coreDataStack.managedContext.delete(self)
     }
 }

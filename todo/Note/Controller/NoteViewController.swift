@@ -312,8 +312,9 @@ extension NoteViewController {
         let text: String = customView.noteView.text ?? ""
 
         let note: Note = self.note ?? Note(context: coreDataStack.managedContext)
-        note.title = title
-        note.text = text
+        
+        if note.title != title { note.title = title }
+        if note.text != text { note.text = text }
 
         saveBackground(note: note, layer: layer)
 

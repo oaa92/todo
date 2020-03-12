@@ -21,6 +21,7 @@ class PanelView: UIView {
     let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.Palette.text.get
         return label
     }()
     

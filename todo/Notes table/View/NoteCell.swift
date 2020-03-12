@@ -23,7 +23,7 @@ class NoteCell: UITableViewCell, ReusableView {
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 17)
-        titleLabel.textColor = .gray
+        titleLabel.textColor = UIColor.Palette.text.get
         return titleLabel
     }()
     
@@ -33,7 +33,7 @@ class NoteCell: UITableViewCell, ReusableView {
         noteView.heightAnchor.constraint(lessThanOrEqualToConstant: 110).isActive = true
         noteView.isUserInteractionEnabled = false
         noteView.font = UIFont.systemFont(ofSize: 15)
-        noteView.textColor = UIColor(hex6: 0x424C55)
+        noteView.textColor = UIColor.Palette.text.get
         return noteView
     }()
     
