@@ -19,9 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.makeKeyAndVisible()
+            
             locale = Locale.autoupdatingCurrent
+            
             notificationsManager.locale = locale
-            notificationsManager.center.removeAllDeliveredNotifications()
+            notificationsManager.coreDataStack = coreDataStack
+            notificationsManager.window = window
+
             let rootController = NotesTableController()
             rootController.locale = locale
             rootController.coreDataStack = coreDataStack

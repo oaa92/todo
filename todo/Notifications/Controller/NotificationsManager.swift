@@ -7,9 +7,13 @@
 //
 
 import UserNotifications
+import CoreData
+import UIKit
 
 class NotificationsManager: NSObject {
     var locale: Locale!
+    var coreDataStack: CoreDataStack!
+    var window: UIWindow?
     
     private var notificationGranted: Bool = false
     let center = UNUserNotificationCenter.current()
@@ -60,7 +64,28 @@ class NotificationsManager: NSObject {
 extension NotificationsManager: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {}
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let identifier = response.notification.request.identifier
+        do {
+            let fetchRequest: NSFetchRequest<CalendarNotification> = CalendarNotification.fetchRequest()
+            let predicate = NSPredicate(format: "%K = %@", #keyPath(CalendarNotification.uid), identifier)
+            fetchRequest.predicate = predicate
+            let notifications = try coreDataStack.managedContext.fetch(fetchRequest)
+            if let note = notifications.first?.note {
+                let noteController = NoteViewController()
+                noteController.locale = locale
+                noteController.coreDataStack = coreDataStack
+                noteController.notificationsManager = self
+                noteController.note = note
+                if let navigationController = window?.rootViewController as? UINavigationController {
+                    navigationController.pushViewController(noteController, animated: true)
+                }
+            }
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+            return
+        }
+    }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
