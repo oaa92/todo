@@ -72,12 +72,13 @@ class NotificationController: CustomViewController<NotificationView>, OverlayVie
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let delegate = noteNotificationsDelegate {
-            if !customView.periodSwitchView.isOn {
-                period = .none
-            }
             notifications.removeAll()
-            saveCalendarNotifications()
-            
+            if customView.notificationSwitchView.isOn {
+                if !customView.periodSwitchView.isOn {
+                    period = .none
+                }
+                saveCalendarNotifications()
+            }
             delegate.notificationsDidSet(notifications: notifications)
         }
     }
