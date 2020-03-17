@@ -14,28 +14,51 @@ import Foundation
 public class Tag: NSManagedObject {
     var isTemp: Bool = false
 
-    func delete(coreDataStack: CoreDataStack) {
-        if let icon = icon {
-            if icon.tags?.count == 1 {
-                coreDataStack.managedContext.delete(icon)
-            }
+    private func deleteIconIfNeeded(_ coreDataStack: CoreDataStack) {
+        guard let icon = icon else {
+            return
         }
+        self.icon = nil
+        icon.deleteIfNeeded(coreDataStack)
+    }
+
+    func delete(coreDataStack: CoreDataStack) {
+        deleteIconIfNeeded(coreDataStack)
         coreDataStack.managedContext.delete(self)
     }
 
-    static func createTemp(name: String, icon: String?, color: Int32?) -> Tag {
-        let tag = Tag(entity: Tag.entity(), insertInto: nil)
-        tag.name = name
-        tag.isTemp = true
-
+    func setIcon(_ coreDataStack: CoreDataStack, icon newIcon: Icon?) {
+        guard let newIcon = newIcon else {
+            deleteIconIfNeeded(coreDataStack)
+            return
+        }
         if let icon = icon,
-            let color = color {
-            let tagIcon = Icon(entity: Icon.entity(), insertInto: nil)
-            tagIcon.name = icon
-            tagIcon.color = color
-            tag.icon = tagIcon
+            newIcon.compare(with: icon) {
+            return
         }
 
+        let setIcon: Icon
+        if let equalIcon = newIcon.searchEqualIcon(coreDataStack) {
+            setIcon = equalIcon
+        } else {
+            coreDataStack.managedContext.insert(newIcon)
+            setIcon = newIcon
+        }
+        deleteIconIfNeeded(coreDataStack)
+        icon = setIcon
+    }
+}
+
+extension Tag {
+    static func createWithParams(entity: NSEntityDescription? = nil,
+                                 context: NSManagedObjectContext? = nil,
+                                 name: String,
+                                 icon: Icon? = nil,
+                                 isTemp: Bool = false) -> Tag {
+        let tag = Tag(entity: entity ?? Tag.entity(), insertInto: context)
+        tag.name = name
+        tag.icon = icon
+        tag.isTemp = isTemp
         return tag
     }
 }

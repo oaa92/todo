@@ -10,23 +10,28 @@ import Foundation
 
 extension Locale {
     func getShortStandaloneWeekday(index: Int) -> String {
-        let index = getWeekdayIndex(index: index)
+        let index = self.getWeekdayIndex(index: index)
         return self.calendar.shortStandaloneWeekdaySymbols[index]
     }
     
+    func getShortWeekday(index: Int) -> String {
+        let index = self.getWeekdayIndex(index: index)
+        return self.calendar.shortWeekdaySymbols[index]
+    }
+
     func getWeekday(index: Int) -> String {
-        let index = getWeekdayIndex(index: index)
+        let index = self.getWeekdayIndex(index: index)
         return self.calendar.weekdaySymbols[index]
     }
-    
-    private func getWeekdayIndex(index: Int) -> Int {
+
+    func getWeekdayIndex(index: Int) -> Int {
         var index = index + self.calendar.firstWeekday - 1
         if index == 7 {
             index = 0
         }
         return index
     }
-    
+
     func usesAMPM() -> Bool {
         guard var dateFormat = DateFormatter.dateFormat(fromTemplate: "jj", options: 0, locale: self) else {
             return false

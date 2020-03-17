@@ -31,9 +31,10 @@ class ToastManager {
                                toast.trailingAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.trailingAnchor),
                                toast.bottomAnchor.constraint(equalTo: controller.view.safeAreaLayoutGuide.bottomAnchor)]
         NSLayoutConstraint.activate(toastConstrains)
-
+        toast.layoutIfNeeded()
         UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
             toast.alpha = 0.0
+            toast.layoutIfNeeded()
         }, completion: { _ in
             toast.removeFromSuperview()
         })

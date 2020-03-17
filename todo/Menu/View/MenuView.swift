@@ -9,19 +9,6 @@
 import UIKit
 
 class MenuView: UIView {
-    let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.spacing = 16
-        
-        stack.isLayoutMarginsRelativeArrangement = true
-        
-        return stack
-    }()
-    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -41,15 +28,14 @@ class MenuView: UIView {
     
     private func setupViews() {
         backgroundColor = UIColor.Palette.grayish_orange.get
-        stackView.addArrangedSubview(tableView)
-        addSubview(stackView)
+        addSubview(tableView)
     }
     
     private func setupConstrains() {
-        let stackViewConstrains = [stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                                    stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-                                    stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                    stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)]
-        NSLayoutConstraint.activate(stackViewConstrains)
+        let constrains = [tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                          tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                          tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                          tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)]
+        NSLayoutConstraint.activate(constrains)
     }
 }

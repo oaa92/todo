@@ -27,7 +27,7 @@ extension TagsCloudDataSource: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tags.count
     }
-	
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: TagsCloudCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         cell.configure(with: settings)

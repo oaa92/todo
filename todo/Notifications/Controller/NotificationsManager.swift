@@ -6,15 +6,15 @@
 //  Copyright © 2020 Anatoliy Odinetskiy. All rights reserved.
 //
 
-import UserNotifications
 import CoreData
 import UIKit
+import UserNotifications
 
 class NotificationsManager: NSObject {
     var locale: Locale!
     var coreDataStack: CoreDataStack!
     var window: UIWindow?
-    
+
     private var notificationGranted: Bool = false
     let center = UNUserNotificationCenter.current()
 
@@ -22,7 +22,7 @@ class NotificationsManager: NSObject {
         super.init()
         center.delegate = self
     }
-    
+
     func authorization() {
         center.requestAuthorization(options: [.alert, .sound, .badge]) {
             granted, error in
@@ -40,7 +40,10 @@ class NotificationsManager: NSObject {
                 let trigger = notification.trigger as! UNCalendarNotificationTrigger
                 var nextDateStr = "?"
                 if let nextDate = trigger.nextTriggerDate() {
-                    nextDateStr = DateFormatter.localizedString(from: nextDate, dateStyle: .full, timeStyle: .full)
+                    let formatter = DateFormatter()
+                    formatter.locale = self.locale
+                    formatter.setLocalizedDateFormatFromTemplate("MMMMddhhmmEEEE")
+                    nextDateStr = formatter.string(from: nextDate)
                 }
                 print("NND id: \(notification.identifier) next date: \(nextDateStr)")
             }
@@ -101,24 +104,22 @@ extension NotificationsManager {
         guard notificationGranted else {
             return
         }
-        
+
         for notification in notifications {
             if let uid = notification.uid,
                 let date = notification.date,
-                let data = notification.period,
-                let period = try? JSONDecoder().decode(PeriodType.self, from: data) {
-                
+                let period = notification.getPeriod {
                 let message = "🔔"
                 let dateInfo = getDateComponents(date: date, period: period)
                 let repeats = period == .none ? false : true
-
                 create(identifier: uid, body: message, dateInfo: dateInfo, repeats: repeats)
             }
         }
     }
-    
+
     private func getDateComponents(date: Date, period: PeriodType) -> DateComponents {
         var newComponents = DateComponents()
+        newComponents.calendar = locale.calendar
         let components = locale.calendar.dateComponents([.day, .month, .year, .hour, .minute, .weekday], from: date)
         switch period {
         case .none:
@@ -127,7 +128,7 @@ extension NotificationsManager {
             newComponents.year = components.year
         case let .weekly(weekdays: weekdays):
             if let weekdays = weekdays {
-                newComponents.weekday = weekdays[0]
+                newComponents.weekday = locale.getWeekdayIndex(index: weekdays[0]) + 1
             }
         case .monthly:
             newComponents.day = components.day
@@ -141,9 +142,8 @@ extension NotificationsManager {
         newComponents.minute = components.minute
         return newComponents
     }
-    
-    func deregister(notifications: Set<NoteNotification>) {
-        let ids = notifications.compactMap { $0.uid }
+
+    func deregister(ids: [String]) {
         center.removePendingNotificationRequests(withIdentifiers: ids)
     }
 }

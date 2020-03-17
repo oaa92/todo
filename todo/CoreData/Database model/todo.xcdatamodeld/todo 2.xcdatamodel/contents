@@ -8,12 +8,12 @@
         <attribute name="colors" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int32]"/>
         <attribute name="endPoint" attributeType="String"/>
         <attribute name="startPoint" attributeType="String"/>
-        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="background" inverseEntity="Note"/>
+        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Note" inverseName="background" inverseEntity="Note"/>
     </entity>
     <entity name="Icon" representedClassName="Icon" syncable="YES">
         <attribute name="color" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="icon" inverseEntity="Tag"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Tag" inverseName="icon" inverseEntity="Tag"/>
     </entity>
     <entity name="Note" representedClassName="Note" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
@@ -39,8 +39,8 @@
         <element name="CalendarNotification" positionX="-123.5703125" positionY="246.21484375" width="128" height="73"/>
         <element name="GradientBackgroud" positionX="-125.41015625" positionY="-257.7734375" width="128" height="103"/>
         <element name="Icon" positionX="266.51171875" positionY="-12.53515625" width="128" height="88"/>
-        <element name="Note" positionX="-122.57421875" positionY="-73.12109375" width="128" height="178"/>
+        <element name="Note" positionX="-122.6640625" positionY="-71.35546875" width="128" height="178"/>
         <element name="NoteNotification" positionX="-124.6953125" positionY="152.73828125" width="128" height="73"/>
-        <element name="Tag" positionX="70.81640625" positionY="2.45703125" width="128" height="88"/>
+        <element name="Tag" positionX="77.23828125" positionY="1.67578125" width="128" height="88"/>
     </elements>
 </model>

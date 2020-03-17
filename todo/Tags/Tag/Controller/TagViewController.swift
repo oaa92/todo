@@ -12,6 +12,8 @@ import UIKit
 class TagViewController: CustomViewController<TagView> {
     var coreDataStack: CoreDataStack!
     var tag: Tag?
+    weak var tagEditDelegate: TagEditProtocol?
+
     let iconsDataSourse = TagIconDataSourse()
     let colorsDataSourse = TagColorDataSourse()
 
@@ -21,7 +23,7 @@ class TagViewController: CustomViewController<TagView> {
         super.viewDidLoad()
 
         customView.showIconView.addTarget(self, action: #selector(showIconValueChanged), for: .valueChanged)
-        
+
         customView.nameView.delegate = self
 
         customView.iconsCollectionView.register(TagIconCell.self)
@@ -40,7 +42,7 @@ class TagViewController: CustomViewController<TagView> {
         customView.layoutIfNeeded()
         updateIconsAndColorsHeight()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -51,6 +53,12 @@ class TagViewController: CustomViewController<TagView> {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveTag()
+
+        if let tag = tag,
+            let delegate = tagEditDelegate {
+            delegate.tagDidChange(tag: tag)
+        }
+
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -116,11 +124,19 @@ extension TagViewController {
     }
 
     private func showIcon() {
+        customView.layoutIfNeeded()
         UIView.animate(withDuration: 0.2,
-                       animations: { self.customView.iconView.isHidden = false }) {
-                        _ in
-                        UIView.animate(withDuration: 0.2,
-                                       animations: { self.customView.iconView.alpha = 1 })
+                       animations: {
+                           self.customView.iconView.isHidden = false
+                           self.customView.layoutIfNeeded()
+                       })
+        {
+            _ in
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                               self.customView.iconView.alpha = 1
+                               self.customView.layoutIfNeeded()
+                           })
         }
         TagViewAnimator.animateCollections(view: customView,
                                            hide: false,
@@ -128,11 +144,19 @@ extension TagViewController {
     }
 
     private func hideIcon() {
+        customView.layoutIfNeeded()
         UIView.animate(withDuration: 0.2,
-                       animations: { self.customView.iconView.alpha = 0 }) {
-                        _ in
-                        UIView.animate(withDuration: 0.2,
-                        animations: { self.customView.iconView.isHidden = true })
+                       animations: {
+                           self.customView.iconView.alpha = 0
+                           self.customView.layoutIfNeeded()
+                       })
+        {
+            _ in
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                               self.customView.iconView.isHidden = true
+                               self.customView.layoutIfNeeded()
+                            })
         }
         TagViewAnimator.animateCollections(view: customView,
                                            hide: true,
@@ -145,9 +169,7 @@ extension TagViewController {
             customView.showIconView.isOn {
             let name = iconsDataSourse.iconNames[iconIndex]
             let color = colorsDataSourse.colors[colorIndex]
-            let icon = Icon(entity: Icon.entity(), insertInto: nil)
-            icon.name = name
-            icon.color = color.rgb!
+            let icon = Icon.createWithParams(name: name, color: color.rgb!)
             return icon
         }
         return nil
@@ -164,9 +186,8 @@ extension TagViewController {
                 (customView.iconsCollectionView.indexPathsForSelectedItems?.count ?? 0) == 0,
                 (customView.colorsCollectionView.indexPathsForSelectedItems?.count ?? 0) == 0,
                 iconsDataSourse.iconNames.count > 0, colorsDataSourse.colors.count > 0 {
-                let icon = Icon(entity: Icon.entity(), insertInto: nil)
-                icon.name = iconsDataSourse.iconNames[0]
-                icon.color = colorsDataSourse.colors[0].rgb!
+                let icon = Icon.createWithParams(name: iconsDataSourse.iconNames[0],
+                                                 color: colorsDataSourse.colors[0].rgb!)
                 setIcon(icon: icon)
             }
         } else {
@@ -225,7 +246,7 @@ extension TagViewController {
         guard !name.isEmpty else {
             return
         }
-        
+
         let tag: Tag = self.tag ?? Tag(context: coreDataStack.managedContext)
         tag.name = name
         saveIcon(tag: tag)
@@ -235,8 +256,7 @@ extension TagViewController {
     private func saveIcon(tag: Tag) {
         // icon is off
         guard customView.showIconView.isOn else {
-            deleteOldIconIfNeeded(icon: tag.icon)
-            tag.icon = nil
+            tag.setIcon(coreDataStack, icon: nil)
             return
         }
         // not selected
@@ -245,36 +265,6 @@ extension TagViewController {
             !selectedIconName.isEmpty else {
             return
         }
-        // equal
-        if let icon = tag.icon,
-            selectedIcon.compare(with: icon) {
-            return
-        }
-        // search icon in core data
-        do {
-            let fetchRequest = selectedIcon.fetchEquals
-            let icons = try coreDataStack.managedContext.fetch(fetchRequest)
-            if icons.count > 0 {
-                deleteOldIconIfNeeded(icon: tag.icon)
-                tag.icon = icons[0]
-                return
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-            return
-        }
-        // insert icon to core data
-        coreDataStack.managedContext.insert(selectedIcon)
-        deleteOldIconIfNeeded(icon: tag.icon)
-        tag.icon = selectedIcon
-    }
-
-    private func deleteOldIconIfNeeded(icon: Icon?) {
-        guard let icon = icon else {
-            return
-        }
-        if icon.tags?.count == 1 {
-            coreDataStack.managedContext.delete(icon)
-        }
+        tag.setIcon(coreDataStack, icon: selectedIcon)
     }
 }

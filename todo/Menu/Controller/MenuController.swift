@@ -22,7 +22,6 @@ class MenuController: CustomViewController<MenuView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         customView.tableView.register(TagTableCell.self)
         customView.tableView.dataSource = self
         customView.tableView.delegate = self
@@ -45,27 +44,29 @@ extension MenuController {
     }
 
     private func addNotes() {
-        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Notes", comment: ""),
-                                                icon: nil,
-                                                color: nil),
+        let tag = Tag.createWithParams(name: NSLocalizedString("Notes", comment: ""))
+        let item = MenuItem(tag: tag,
                             predicate: NSPredicate(format: "%K = nil", #keyPath(Note.deletedAt)),
                             showAddButton: true)
         items[headersSection].append(item)
     }
 
     private func addNotifications() {
-        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Notifications", comment: ""),
-                                                icon: "notification",
-                                                color: UIColor.Palette.blue_soft.get.rgb),
+        let icon = Icon.createWithParams(name: "notification",
+                                         color: UIColor.Palette.blue_soft.get.rgb!)
+        let tag = Tag.createWithParams(name: NSLocalizedString("Notifications", comment: ""),
+                                       icon: icon)
+        let item = MenuItem(tag: tag,
                             predicate: NSPredicate(format: "%K.@count > 0", #keyPath(Note.notifications)),
                             showAddButton: true)
         items[headersSection].append(item)
     }
 
     private func addTrash() {
-        let item = MenuItem(tag: Tag.createTemp(name: NSLocalizedString("Trash", comment: ""),
-        icon: "trash",
-        color: UIColor.Palette.Buttons.delete.get.rgb),
+        let icon = Icon.createWithParams(name: "trash",
+                                         color: UIColor.Palette.Buttons.delete.get.rgb!)
+        let tag = Tag.createWithParams(name: NSLocalizedString("Trash", comment: ""), icon: icon)
+        let item = MenuItem(tag: tag,
                             predicate: NSPredicate(format: "%K != nil", #keyPath(Note.deletedAt)),
                             showAddButton: false)
         items[headersSection].append(item)
@@ -74,21 +75,25 @@ extension MenuController {
     private func fetchTags() {
         do {
             let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
-            let predicate = NSPredicate(format: "notes.@count > 0")
+            let predicate = NSPredicate(format: "SUBQUERY(%K, $n, $n.%K = nil).@count > 0",
+                                        #keyPath(Tag.notes),
+                                        #keyPath(Note.deletedAt))
             fetchRequest.predicate = predicate
             let tags = try coreDataStack.managedContext.fetch(fetchRequest)
-            
             for tag in tags {
                 let item = MenuItem(tag: tag,
-                                    predicate: NSPredicate(format: "SOME %K = %@", #keyPath(Note.tags), tag),
+                                    predicate: predicateForTag(tag: tag),
                                     showAddButton: true)
-                self.items[tagsSection].append(item)
+                items[tagsSection].append(item)
             }
-            
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
             return
         }
+    }
+
+    private func predicateForTag(tag: Tag) -> NSPredicate {
+        return NSPredicate(format: "%K = nil && SOME %K = %@", #keyPath(Note.deletedAt), #keyPath(Note.tags), tag)
     }
 }
 
@@ -127,7 +132,7 @@ extension MenuController: UITableViewDelegate {
         switch section {
         case tagsSection:
             let view = SectionView()
-            view.label.text = NSLocalizedString("Tags", comment: "")
+            view.label.text = NSLocalizedString("By tags", comment: "")
             return view
         default:
             return nil
@@ -168,16 +173,57 @@ extension MenuController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.section][indexPath.row]
         let controller = NotesTableController()
-        
         controller.locale = locale
         controller.coreDataStack = coreDataStack
         controller.notificationsManager = notificationsManager
-        
+
         controller.title = item.tag.name
         controller.showAddButton = item.showAddButton
         controller.tableDataSource.predicate = item.predicate
-        
+
         let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
+    }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard indexPath.section == tagsSection else {
+            return nil
+        }
+
+        let tag = items[indexPath.section][indexPath.row].tag
+        let actionManager = TagActionCreator()
+        actionManager.coreDataStack = coreDataStack
+
+        let editAction = actionManager.getEditAction(tag: tag,
+                                                     navigationController: navigationController,
+                                                     tagEditDelegate: self)
+
+        let deleteAction = actionManager.getDeleteAction(tag: tag) {
+            self.items[indexPath.section].remove(at: indexPath.row)
+            self.customView.tableView.beginUpdates()
+            self.customView.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.customView.tableView.endUpdates()
+        }
+
+        let configuration = UISwipeActionsConfiguration(actions: [editAction, deleteAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
+    }
+}
+
+// MARK: TagEditProtocol
+
+extension MenuController: TagEditProtocol {
+    func tagDidChange(tag: Tag) {
+        if let index = items[tagsSection].firstIndex(where: { $0.tag == tag }) {
+            customView.tableView.beginUpdates()
+            let indexPath = IndexPath(row: index, section: tagsSection)
+            if let cell = customView.tableView.cellForRow(at: indexPath) as? TagTableCell {
+                configure(cell: cell, indexPath: indexPath)
+            }
+            customView.tableView.endUpdates()
+        }
     }
 }

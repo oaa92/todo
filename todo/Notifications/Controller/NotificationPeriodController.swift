@@ -22,12 +22,13 @@ class NotificationPeriodController: CustomViewController<NotificationPeriodView>
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        customView.layoutIfNeeded()
         customView.periodPickerView.dataSource = self
         customView.periodPickerView.delegate = self
+        customView.backButton.addTarget(self, action: #selector(tapBackButton), for: .touchUpInside)
         customView.weekdaysCollectionView.register(NotificationWeekdayCell.self)
         customView.weekdaysCollectionView.dataSource = self
         customView.weekdaysCollectionView.delegate = self
-        customView.layoutIfNeeded()
     }
 
     override func viewWillLayoutSubviews() {
@@ -68,7 +69,23 @@ extension NotificationPeriodController {
                 hideWeekdaysTable = false
             }
         }
-        customView.weekdaysCollectionView.isHidden = hideWeekdaysTable ? true : false
+
+        customView.layoutIfNeeded()
+        if hideWeekdaysTable {
+            customView.periodPickerView.isHidden = false
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.customView.periodPickerView.isHidden = true
+                self.customView.layoutIfNeeded()
+            }) {
+                _ in
+                UIView.animate(withDuration: 0.2) {
+                    self.customView.backButton.isHidden = false
+                    self.customView.weekdaysCollectionView.isHidden = false
+                    self.customView.layoutIfNeeded()
+                }
+            }
+        }
     }
 
     private func updatePeriod() {
@@ -111,6 +128,25 @@ extension NotificationPeriodController {
 
         customView.periodPickerView.selectRow(index, inComponent: 0, animated: false)
         rowDidSelectInPeriodPickerView(didSelectRow: index, inComponent: 0)
+    }
+}
+
+// MARK: Actions
+
+extension NotificationPeriodController {
+    @objc func tapBackButton() {
+        customView.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.customView.backButton.isHidden = true
+            self.customView.weekdaysCollectionView.isHidden = true
+            self.customView.layoutIfNeeded()
+        }) {
+            _ in
+            UIView.animate(withDuration: 0.2) {
+                self.customView.periodPickerView.isHidden = false
+                self.customView.layoutIfNeeded()
+            }
+        }
     }
 }
 

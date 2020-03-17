@@ -17,11 +17,11 @@ class TagsTableController: CustomViewController<TagsTableView>, OverlayViewProto
         panel.tagUnselectionDelegate = self
         return panel
     }()
-    
+
     var overlayView = UIView()
-        
+
     weak var tagsSelectionDelegate: TagsSelectionProtocol?
-    
+
     private lazy var addButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                      target: self,
                                                      action: #selector(addTag))
@@ -37,7 +37,6 @@ class TagsTableController: CustomViewController<TagsTableView>, OverlayViewProto
                                                         action: #selector(cancelButtonPressed))
     private let searchController = UISearchController(searchResultsController: nil)
 
-    
     private lazy var fetchedResultsController: NSFetchedResultsController<Tag> = {
         let sort = NSSortDescriptor(key: #keyPath(Tag.name), ascending: true)
         let fetchRequest: NSFetchRequest<Tag> = Tag.fetchRequest()
@@ -61,7 +60,7 @@ class TagsTableController: CustomViewController<TagsTableView>, OverlayViewProto
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupOverlayView()
         setupNavigationBar()
         setupSearchController()
@@ -112,34 +111,6 @@ extension TagsTableController {
 // MARK: Helpers
 
 extension TagsTableController {
-    private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = NSLocalizedString("Delete", comment: "")
-        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
-            let tag = self.fetchedResultsController.object(at: indexPath)
-            tag.delete(coreDataStack: self.coreDataStack)
-            self.coreDataStack.saveContext()
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor.Palette.Buttons.delete.get
-        action.image = UIImage(named: "trash")
-        return action
-    }
-
-    private func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = NSLocalizedString("Edit", comment: "")
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            let tag = self.fetchedResultsController.object(at: indexPath)
-            let tagController = TagViewController()
-            tagController.coreDataStack = self.coreDataStack
-            tagController.tag = tag
-            self.navigationController?.pushViewController(tagController, animated: true)
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor.Palette.Buttons.edit.get
-        action.image = UIImage(named: "edit")
-        return action
-    }
-
     private func fetch() {
         do {
             try fetchedResultsController.performFetch()
@@ -149,8 +120,7 @@ extension TagsTableController {
     }
 
     private func showPanel() {
-        var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
-        panelConfiguration.animateEntry = true
+        let panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
         panelManager.show(panel: panel, config: panelConfiguration)
     }
 
@@ -233,8 +203,11 @@ extension TagsTableController {
 extension TagsTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editAction = getEditAction(cellForRowAt: indexPath)
-        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
+        let tag = fetchedResultsController.object(at: indexPath)
+        let actionManager = TagActionCreator()
+        actionManager.coreDataStack = coreDataStack
+        let editAction = actionManager.getEditAction(tag: tag, navigationController: navigationController)
+        let deleteAction = actionManager.getDeleteAction(tag: tag)
         let configuration = UISwipeActionsConfiguration(actions: [editAction, deleteAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration

@@ -7,10 +7,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(NoteBackgroud)
-public class NoteBackgroud: NSManagedObject {
-
-}
+public class NoteBackgroud: NSManagedObject {}

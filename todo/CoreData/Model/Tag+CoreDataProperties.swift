@@ -7,12 +7,10 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Tag {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Tag> {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
@@ -20,12 +18,11 @@ extension Tag {
     @NSManaged public var name: String?
     @NSManaged public var icon: Icon?
     @NSManaged public var notes: NSSet?
-
 }
 
 // MARK: Generated accessors for notes
-extension Tag {
 
+extension Tag {
     @objc(addNotesObject:)
     @NSManaged public func addToNotes(_ value: Note)
 
@@ -37,5 +34,4 @@ extension Tag {
 
     @objc(removeNotes:)
     @NSManaged public func removeFromNotes(_ values: NSSet)
-
 }

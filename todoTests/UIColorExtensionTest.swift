@@ -9,8 +9,7 @@
 @testable import todo
 import XCTest
 
-class todoTests: XCTestCase {
-    
+class UIColorExtensionTest: XCTestCase {
     func testHexWhiteColor() {
         testColor(hex: 0xFFFFFF)
     }

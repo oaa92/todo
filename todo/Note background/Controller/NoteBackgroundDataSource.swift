@@ -21,50 +21,28 @@ class NoteBackgroundDataSource: NSObject {
 
 extension NoteBackgroundDataSource {
     private func initBackgrounds() {
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 0),
-                                          end: CGPoint(x: 1, y: 1),
-                                          colors: [0xfdfbfb, 0xeaedee]))
-        
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 0),
-                                          end: CGPoint(x: 1, y: 1),
-                                          colors: [0xfdfcfb, 0xe2d1c3]))
-        
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [UIColor.Palette.yellow_soft.get.rgb!,
-                                                   UIColor.Palette.orange_pale.get.rgb!]))
-        
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [0xfad0c4, 0xff9a9e]))
-        
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [UIColor.Palette.blue.get.lighter(diff: 0.1)!.rgb!,
-                                                   UIColor.Palette.blue.get.rgb!]))
-
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [UIColor.Palette.cyan.get.lighter(diff: 0.1)!.rgb!,
-                                                   UIColor.Palette.cyan.get.rgb!]))
-
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [UIColor.Palette.violet.get.lighter(diff: 0.05)!.rgb!,
-                                                   UIColor.Palette.violet.get.rgb!]))
-
-        backgrounds.append(createGradient(start: CGPoint(x: 0, y: 1),
-                                          end: CGPoint(x: 1, y: 0),
-                                          colors: [UIColor.Palette.pink.get.lighter(diff: 0.05)!.rgb!,
-                                                   UIColor.Palette.pink.get.rgb!]))
+        createBackground(colors: [0xfdfbfb, 0xeaedee])
+        createBackground(colors: [0xfdfcfb, 0xe2d1c3])
+        createBackground(colors: [UIColor.Palette.yellow_soft.get.rgb!,
+                                  UIColor.Palette.orange_pale.get.rgb!])
+        createBackground(colors: [0xfad0c4, 0xff9a9e])
+        createBackground(colors: [UIColor.Palette.blue.get.lighter(diff: 0.1)!.rgb!,
+                                  UIColor.Palette.blue.get.rgb!])
+        createBackground(colors: [UIColor.Palette.cyan.get.lighter(diff: 0.1)!.rgb!,
+                                  UIColor.Palette.cyan.get.rgb!])
+        createBackground(colors: [UIColor.Palette.violet.get.lighter(diff: 0.05)!.rgb!,
+                                  UIColor.Palette.violet.get.rgb!])
+        createBackground(colors: [UIColor.Palette.pink.get.lighter(diff: 0.05)!.rgb!,
+                                  UIColor.Palette.pink.get.rgb!])
     }
 
-    func createGradient(start: CGPoint, end: CGPoint, colors: [Int32]) -> GradientBackgroud {
-        let background = GradientBackgroud(entity: GradientBackgroud.entity(), insertInto: nil)
-        background.startPoint = NSCoder.string(for: start)
-        background.endPoint = NSCoder.string(for: end)
-        background.colors = "[" + (colors.map { String($0) }).joined(separator: ",") + "]"
-        return background
+    private func createBackground(colors: [Int32]) {
+        let start = CGPoint(x: 0, y: 1)
+        let end = CGPoint(x: 1, y: 0)
+        let background = GradientBackgroud.createWithParams(start: start,
+                                                            end: end,
+                                                            colors: colors)
+        backgrounds.append(background)
     }
 
     func getBackground(index: Int) -> GradientBackgroud {

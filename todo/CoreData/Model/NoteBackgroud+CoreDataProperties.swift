@@ -7,23 +7,20 @@
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension NoteBackgroud {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<NoteBackgroud> {
         return NSFetchRequest<NoteBackgroud>(entityName: "NoteBackgroud")
     }
 
     @NSManaged public var notes: NSSet?
-
 }
 
 // MARK: Generated accessors for notes
-extension NoteBackgroud {
 
+extension NoteBackgroud {
     @objc(addNotesObject:)
     @NSManaged public func addToNotes(_ value: Note)
 
@@ -35,5 +32,4 @@ extension NoteBackgroud {
 
     @objc(removeNotes:)
     @NSManaged public func removeFromNotes(_ values: NSSet)
-
 }

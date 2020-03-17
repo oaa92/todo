@@ -9,7 +9,9 @@
 "Notes" = "Заметки";
 "Notifications" = "Напоминания";
 "Trash" = "Корзина";
+"By tags" = "По меткам";
 "Tags" = "Метки";
+"Selected tags" = "Выбранные метки";
 "Tag title" = "Название метки";
 "Search" = "Поиск";
 "Delete" = "Удалить";

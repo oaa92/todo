@@ -15,42 +15,97 @@ class NoteTagsManager: NSObject {
         let tags = tags.filter { !$0.isTemp }
         return tags
     }
+
+    func getNotificationString(notifications: Set<NoteNotification>) -> String? {
+        var notificationInfo: [(date: Date, period: PeriodType)] = []
+        let notifications = notifications.compactMap({ $0 as? CalendarNotification })
+        for notification in notifications {
+            if let date = notification.date,
+                let data = notification.period,
+                let period = try? JSONDecoder().decode(PeriodType.self, from: data) {
+                notificationInfo.append((date, period))
+            }
+        }
+        
+        guard let info = notificationInfo.first else {
+            return nil
+        }
+        
+        let format: String
+        let hours = locale.usesAMPM() ? "hh" : "HH"
+        switch info.period {
+        case .none:
+            return DateFormatter.localizedString(from: info.date, dateStyle: .medium, timeStyle: .short)
+        case .daily, .weekly:
+            format = "\(hours)mm"
+        case .monthly:
+            format = "dd\(hours)mm"
+        case .annually:
+            format = "MMMMdd\(hours)mm"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        formatter.setLocalizedDateFormatFromTemplate(format)
+        var notificationsString = formatter.string(from: info.date)
+        
+        if case .weekly = info.period {
+            var weekdays: [Int] = []
+            for info in notificationInfo {
+                if case let .weekly(weekdays: weekdaysT) = info.period {
+                    weekdays.append(contentsOf: weekdaysT ?? [])
+                }
+            }
+            if weekdays.count > 0 {
+                weekdays.sort()
+                let weekdaysArrStr = weekdays.map { locale.getShortWeekday(index: $0) }
+                let weekdaysStr = weekdaysArrStr.joined(separator: ", ")
+                notificationsString.append(": \(weekdaysStr)")
+                return notificationsString
+            }
+        } else {
+            return notificationsString
+        }
+        return nil
+    }
     
     func addNotificationTag(tags: [Tag], notifications: Set<NoteNotification>) -> [Tag] {
-        var tagsWithNotification = tags
-        var dates = notifications.compactMap { ($0 as? CalendarNotification)?.date }
-        dates.sort()
-        if let tag = createTempTag(date: dates.first, icon: "notification") {
-            tagsWithNotification.insert(tag, at: 0)
+        guard let notificationsString = getNotificationString(notifications: notifications) else {
+            return tags
         }
+        var tagsWithNotification = tags
+        let tag = Tag.createWithParams(name: notificationsString,
+                                       icon: Icon.createWithParams(name: "notification",
+                                                                   color: UIColor.Palette.blue_soft.get.rgb!),
+                                       isTemp: true)
+        tagsWithNotification.insert(tag, at: 0)
         return tagsWithNotification
     }
     
     func infoTags(from note: Note) -> [Tag] {
         var tags: [Tag] = []
-        if let tag = createTempTag(date: note.createdAt, icon: "plus", color: UIColor.Palette.cyan.get.rgb ?? 0) {
-            tags.append(tag)
-        }
-        if let tag = createTempTag(date: note.updatedAt, icon: "edit", color: UIColor.Palette.Buttons.edit.get.rgb ?? 0) {
-            tags.append(tag)
-        }
-        if let tag = createTempTag(date: note.deletedAt, icon: "trash", color: UIColor.Palette.Buttons.delete.get.rgb ?? 0) {
-            tags.append(tag)
-        }
+        addInfoTag(tags: &tags,
+                   date: note.createdAt,
+                   icon: Icon.createWithParams(name: "plus",
+                                               color: UIColor.Palette.cyan.get.rgb!))
+        addInfoTag(tags: &tags,
+                   date: note.updatedAt,
+                   icon: Icon.createWithParams(name: "edit",
+                                               color: UIColor.Palette.Buttons.edit.get.rgb!))
+        addInfoTag(tags: &tags,
+                   date: note.deletedAt,
+                   icon: Icon.createWithParams(name: "trash",
+                                               color: UIColor.Palette.Buttons.delete.get.rgb!))
         return tags
     }
     
-    private func createTempTag(date: Date?,
-                               icon: String,
-                               color: Int32 = UIColor.Palette.blue_soft.get.rgb ?? 0) -> Tag? {
+    private func addInfoTag(tags: inout [Tag], date: Date?, icon: Icon?) {
         guard let date = date else {
-            return nil
+            return
         }
-        
-        let tag = Tag.createTemp(name: date.shortFormat(with: locale),
-                                 icon: icon,
-                                 color: color)
-        return tag
+        let tag = Tag.createWithParams(name: date.shortFormat(with: locale),
+                                       icon: icon)
+        tags.append(tag)
     }
     
     func tagsForMaxWidth(tags: [Tag], provider: TagsCloudDataSource, maxWidth: CGFloat) {
@@ -62,9 +117,7 @@ class NoteTagsManager: NSObject {
             sumWidth += size.width + settings.minimumInteritemSpacing
             if sumWidth >= maxWidth {
                 if addTagsCount > 0 {
-                    let otherTags = Tag(entity: Tag.entity(), insertInto: nil)
-                    otherTags.name = "+\(tags.count - addTagsCount)"
-                    otherTags.isTemp = true
+                    let otherTags = Tag.createWithParams(name: "+\(tags.count - addTagsCount)")
                     provider.tags.append(otherTags)
                 } else {
                     provider.tags.append(tag)

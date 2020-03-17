@@ -11,14 +11,10 @@ import UIKit
 extension UIColor {
     enum Palette {
         case grayish_orange
-        case yellow_pale
         case yellow_soft
         case orange_pale
-        case red
         case green
-        case cyan_pale
         case cyan
-        case blue_pale
         case blue_soft
         case blue
         case violet
@@ -29,22 +25,14 @@ extension UIColor {
             switch self {
             case .grayish_orange:
                 return UIColor(hex6: 0xF7ECE1)
-            case .yellow_pale:
-                return UIColor(hex6: 0xFFFECF)
             case .yellow_soft:
                 return UIColor(hex6: 0xFBE6A1)
             case .orange_pale:
                 return UIColor(hex6: 0xFFCAAF)
-            case .red:
-                return UIColor(hex6: 0xFFB0A2)
             case .green:
-                return UIColor(hex6: 0xBBDFC1)
-            case .cyan_pale:
-                return UIColor(hex6: 0xD9FEFF)
+                return UIColor(hex6: 0xA3DBAD)
             case .cyan:
                 return UIColor(hex6: 0x6ECEDA)
-            case .blue_pale:
-                return UIColor(hex6: 0xC9C9FF)
             case .blue_soft:
                 return UIColor(hex6: 0x4997F1)
             case .blue:
@@ -124,7 +112,7 @@ extension UIColor {
         guard getRed(&redCGF, green: &greenCGF, blue: &blueCGF, alpha: &alphaCGF) else {
             return nil
         }
-
+        
         redCGF = min(redCGF + diff, 1.0)
         greenCGF = min(greenCGF + diff, 1.0)
         blueCGF = min(blueCGF + diff, 1.0)

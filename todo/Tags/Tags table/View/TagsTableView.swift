@@ -34,10 +34,10 @@ class TagsTableView: UIView {
     }
     
     private func setupConstrains() {
-        let tableViewConstrains = [tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                                   tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-                                   tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-                                   tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40)]
-        NSLayoutConstraint.activate(tableViewConstrains)
+        let constrains = [tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                          tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+                          tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+                          tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -40)]
+        NSLayoutConstraint.activate(constrains)
     }
 }

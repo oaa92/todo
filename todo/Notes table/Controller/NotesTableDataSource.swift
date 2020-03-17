@@ -40,6 +40,8 @@ class NotesTableDataSource: NSObject {
     var providers: [UUID: TagsCloudDataSource] = [:]
 }
 
+// MARK: Helpers
+
 extension NotesTableDataSource {
     func removeProvidersForNotVisibleNotes() {
         let uids: Set<UUID> = Set(fetchedResultsController.fetchedObjects?.compactMap { $0.uid } ?? [])
@@ -86,16 +88,11 @@ extension NotesTableDataSource {
 
         // text
         cell.noteView.text = note.text
+
+        // background
         if let layer = cell.noteView.layer as? CAGradientLayer,
-            let background = note.background,
-            let startPointStr = background.startPoint,
-            let endPointStr = background.endPoint,
-            background.cgColors.count > 1 {
-            let startPoint = NSCoder.cgPoint(for: startPointStr)
-            let endPoint = NSCoder.cgPoint(for: endPointStr)
-            layer.startPoint = startPoint
-            layer.endPoint = endPoint
-            layer.colors = background.cgColors
+            let background = note.background {
+            background.loadToLayer(layer: layer)
         } else {
             cell.noteView.setupDefaultLayerParams()
         }
@@ -119,22 +116,22 @@ extension NotesTableDataSource {
     }
 
     private func createProvider(note: Note, cell: NoteCell) -> TagsCloudDataSource? {
-        var tags = Array((note.tags as? Set<Tag>) ?? [])
-        tags.sort(by: { $0.name ?? "" < $1.name ?? "" })
         let provider = TagsCloudDataSource(cellSettings: settings)
         let collectionViewWidth = UIScreen.main.bounds.width -
             (cell.stack.layoutMargins.left + cell.stack.layoutMargins.right) -
             (settings.collectionSectionInset.left + settings.collectionSectionInset.right) - 50
-        
+
         let manager = NoteTagsManager()
         manager.locale = locale
+        var tags = Array((note.tags as? Set<Tag>) ?? [])
+        tags.sort(by: { $0.name ?? "" < $1.name ?? "" })
         let notifications = (note.notifications ?? []) as! Set<NoteNotification>
         let tagsWithNotifications = manager.addNotificationTag(tags: tags, notifications: notifications)
-        
+
         guard tagsWithNotifications.count > 0 else {
             return nil
         }
-        
+
         manager.tagsForMaxWidth(tags: tagsWithNotifications, provider: provider, maxWidth: collectionViewWidth)
         return provider
     }

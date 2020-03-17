@@ -22,6 +22,7 @@ class PanelView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.Palette.text.get
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -37,7 +38,7 @@ class PanelView: UIView {
     
     private func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .clear
+        backgroundColor = UIColor.Palette.grayish_orange.get
         addSubview(headerPanel)
         headerPanel.addSubview(label)
     }

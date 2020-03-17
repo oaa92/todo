@@ -12,7 +12,7 @@ class NotificationDateView: PanelView {
     let datePickerView: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.backgroundColor = UIColor.Palette.grayish_orange.get
+        datePicker.backgroundColor = .clear
         return datePicker
     }()
     

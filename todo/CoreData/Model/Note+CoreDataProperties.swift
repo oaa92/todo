@@ -1,17 +1,15 @@
 //
 //  Note+CoreDataProperties.swift
-//  
+//
 //
 //  Created by Анатолий on 29/02/2020.
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension Note {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Note> {
         return NSFetchRequest<Note>(entityName: "Note")
     }
@@ -25,12 +23,11 @@ extension Note {
     @NSManaged public var background: GradientBackgroud?
     @NSManaged public var tags: NSSet?
     @NSManaged public var notifications: NSSet?
-
 }
 
 // MARK: Generated accessors for tags
-extension Note {
 
+extension Note {
     @objc(addTagsObject:)
     @NSManaged public func addToTags(_ value: Tag)
 
@@ -42,12 +39,11 @@ extension Note {
 
     @objc(removeTags:)
     @NSManaged public func removeFromTags(_ values: NSSet)
-
 }
 
 // MARK: Generated accessors for notifications
-extension Note {
 
+extension Note {
     @objc(addNotificationsObject:)
     @NSManaged public func addToNotifications(_ value: NoteNotification)
 
@@ -59,5 +55,4 @@ extension Note {
 
     @objc(removeNotifications:)
     @NSManaged public func removeFromNotifications(_ values: NSSet)
-
 }

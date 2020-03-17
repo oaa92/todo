@@ -11,14 +11,14 @@ import Panels
 class SelectedTagsTableViewController: UIViewController, Panelable {
     var coreDataStack: CoreDataStack!
     weak var tagUnselectionDelegate: TagUnselectionProtocol?
-    
+
     @IBOutlet var headerHeight: NSLayoutConstraint!
     @IBOutlet var headerPanel: UIView!
     @IBOutlet var headerLabel: UILabel!
     @IBOutlet var tableView: UITableView!
-    
+
     private(set) var selectedTags: [Tag] = []
-    
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
@@ -27,10 +27,11 @@ class SelectedTagsTableViewController: UIViewController, Panelable {
         tableView.register(TagTableCell.self)
         tableView.dataSource = self
         tableView.delegate = self
-        
+
         headerLabel.textColor = UIColor.Palette.text.get
+        headerLabel.text = NSLocalizedString("Selected tags", comment: "")
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         view.curveTopCorners()
@@ -55,11 +56,9 @@ extension SelectedTagsTableViewController {
         selectedTags = tags
     }
 
-    private func getUnselectAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
+    private func getUnselectAction(tag: Tag) -> UIContextualAction {
         let title = NSLocalizedString("Unselect", comment: "")
         let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
-            let index = indexPath.row
-            let tag = self.selectedTags[index]
             self.deleteTag(tag)
             if let delegate = self.tagUnselectionDelegate {
                 delegate.tagDidUnselect(tag: tag)
@@ -67,37 +66,6 @@ extension SelectedTagsTableViewController {
             completionHandler(true)
         }
         action.backgroundColor = UIColor.Palette.Buttons.unselected.get
-        return action
-    }
-
-    private func getEditAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = NSLocalizedString("Edit", comment: "")
-        let action = UIContextualAction(style: .normal, title: title) { _, _, completionHandler in
-            let index = indexPath.row
-            let tag = self.selectedTags[index]
-            let tagController = TagViewController()
-            tagController.coreDataStack = self.coreDataStack
-            tagController.tag = tag
-            self.navigationController?.pushViewController(tagController, animated: true)
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor.Palette.Buttons.edit.get
-        action.image = UIImage(named: "edit")
-        return action
-    }
-
-    private func getDeleteAction(cellForRowAt indexPath: IndexPath) -> UIContextualAction {
-        let title = NSLocalizedString("Delete", comment: "")
-        let action = UIContextualAction(style: .destructive, title: title) { _, _, completionHandler in
-            let index = indexPath.row
-            let tag = self.selectedTags[index]
-            self.selectedTags.remove(at: index)
-            tag.delete(coreDataStack: self.coreDataStack)
-            self.coreDataStack.saveContext()
-            completionHandler(true)
-        }
-        action.backgroundColor = UIColor.Palette.Buttons.delete.get
-        action.image = UIImage(named: "trash")
         return action
     }
 }
@@ -136,9 +104,14 @@ extension SelectedTagsTableViewController {
 extension SelectedTagsTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let unselectAction = getUnselectAction(cellForRowAt: indexPath)
-        let editAction = getEditAction(cellForRowAt: indexPath)
-        let deleteAction = getDeleteAction(cellForRowAt: indexPath)
+        let tag = selectedTags[indexPath.row]
+        let unselectAction = getUnselectAction(tag: tag)
+        let actionManager = TagActionCreator()
+        actionManager.coreDataStack = coreDataStack
+        let editAction = actionManager.getEditAction(tag: tag,
+                                                     navigationController: navigationController,
+                                                     tagEditDelegate: self)
+        let deleteAction = actionManager.getDeleteAction(tag: tag) { self.deleteTag(tag) }
         let configuration = UISwipeActionsConfiguration(actions: [unselectAction, editAction, deleteAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
@@ -191,5 +164,13 @@ extension SelectedTagsTableViewController {
             }
         }
         tableView.endUpdates()
+    }
+}
+
+// MARK: TagEditProtocol
+
+extension SelectedTagsTableViewController: TagEditProtocol {
+    func tagDidChange(tag: Tag) {
+        updateTag(tag)
     }
 }

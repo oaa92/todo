@@ -10,7 +10,7 @@ import UIKit
 
 protocol OverlayViewProtocol: UIViewController {
     var overlayView: UIView { get }
-    
+
     func setupOverlayView()
     func showOverlayView(parent: UIView)
     func hideOverlayView()

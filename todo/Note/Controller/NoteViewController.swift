@@ -13,7 +13,8 @@ class NoteViewController: CustomViewController<NoteView> {
     var coreDataStack: CoreDataStack!
     var notificationsManager: NotificationsManager!
     var note: Note?
-    
+    weak var noteDelegate: NoteProtocol?
+
     let settings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
                                      minimumInteritemSpacing: 10,
                                      stackMargins: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10),
@@ -25,7 +26,7 @@ class NoteViewController: CustomViewController<NoteView> {
                                      backgroundColor: UIColor(white: 0.9, alpha: 1.0),
                                      cornerRadius: 10)
     private lazy var tagsProvider: TagsCloudDataSource = TagsCloudDataSource(cellSettings: settings)
-    
+
     private var notifications: Set<NoteNotification> = []
 
     private let infoSettings = TagsCloudSettings(collectionSectionInset: UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 60),
@@ -86,6 +87,12 @@ class NoteViewController: CustomViewController<NoteView> {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveNote()
+        
+        if let note = note,
+            let delegate = noteDelegate {
+            delegate.updateNote(note: note)
+        }
+        
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -186,7 +193,7 @@ extension NoteViewController {
             updateTags()
         }
     }
-    
+
     private func updateBackground(background: GradientBackgroud) {
         guard let layer = customView.noteView.layer as? CAGradientLayer else {
             return
@@ -200,10 +207,10 @@ extension NoteViewController {
     private func updateTags() {
         let manager = NoteTagsManager()
         manager.locale = locale
-        
+
         var currentTags = manager.tagsWithoutTemp(tags: tagsProvider.tags)
         currentTags.sort(by: { $0.name ?? "" < $1.name ?? "" })
-        
+
         let tagsWithNotification = manager.addNotificationTag(tags: currentTags, notifications: notifications)
         tagsProvider.tags = tagsWithNotification
         customView.tagsView.reloadData()
@@ -230,18 +237,18 @@ extension NoteViewController {
     @objc private func doneTapped() {
         view.endEditing(true)
     }
-    
+
     @objc private func paletteTapped() {
         let controller = NoteBackgroundController()
         controller.backgroundSelectionDelegate = self
-        
+
         if let background = note?.background {
             controller.background = background
         } else if let layer = customView.noteView.layer as? CAGradientLayer {
             let background = GradientBackgroud.createFromLayer(layer: layer)
             controller.background = background
         }
-        
+
         navigationController?.pushViewController(controller, animated: true)
     }
 }
@@ -305,116 +312,30 @@ extension NoteViewController: NoteBackgroundProtocol {
 
 extension NoteViewController {
     private func saveNote() {
-        guard let layer = customView.noteView.layer as? CAGradientLayer else {
-            return
-        }
-        let title: String = customView.titleView.text ?? ""
-        let text: String = customView.noteView.text ?? ""
-
         let note: Note = self.note ?? Note(context: coreDataStack.managedContext)
-        
+
+        let title: String = customView.titleView.text ?? ""
         if note.title != title { note.title = title }
+
+        let text: String = customView.noteView.text ?? ""
         if note.text != text { note.text = text }
 
-        saveBackground(note: note, layer: layer)
-
-        // tags
-        let tags = note.tags as! Set<Tag>
-        let selectedTagsArray = NoteTagsManager().tagsWithoutTemp(tags: tagsProvider.tags)
-        let selectedTags = Set(selectedTagsArray)
-        let tagsRem = tags.subtracting(selectedTags)
-        let tagsAdd = selectedTags.subtracting(tags)
-        if tagsRem != tagsAdd {
-            note.removeFromTags(tagsRem as NSSet)
-            note.addToTags(tagsAdd as NSSet)
-        }
-
-        // notifications
-        saveNotifications(note: note)
-
+        saveBackground(note, layer: customView.noteView.layer as! CAGradientLayer)
+        saveTags(note)
+        let (addArr, remArr) = note.setNotifications(coreDataStack, notifications: notifications)
         coreDataStack.saveContext()
+
+        notificationsManager.register(notifications: addArr)
+        notificationsManager.deregister(ids: remArr)
     }
 
-    private func saveBackground(note: Note, layer: CAGradientLayer) {
+    private func saveBackground(_ note: Note, layer: CAGradientLayer) {
         let selectedBackground = GradientBackgroud.createFromLayer(layer: layer)
-        if let background = note.background,
-            selectedBackground.compare(with: background) {
-            return
-        }
-        // search background in core data
-        do {
-            let fetchRequest = selectedBackground.fetchEquals
-            let backgrounds = try coreDataStack.managedContext.fetch(fetchRequest)
-            if backgrounds.count > 0 {
-                deleteOldBackgroundIfNeeded(background: note.background)
-                note.background = backgrounds[0]
-                return
-            }
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-            return
-        }
-        // insert background to core data
-        coreDataStack.managedContext.insert(selectedBackground)
-        deleteOldBackgroundIfNeeded(background: note.background)
-        note.background = selectedBackground
+        note.setBackground(coreDataStack, background: selectedBackground)
     }
 
-    private func deleteOldBackgroundIfNeeded(background: GradientBackgroud?) {
-        guard let background = background else {
-            return
-        }
-        if background.notes?.count == 1 {
-            coreDataStack.managedContext.delete(background)
-        }
-    }
-
-    private func saveNotifications(note: Note) {
-        let currentNotifications = note.notifications as! Set<NoteNotification>
-        let savedNotifications = notifications
-
-        var notificationsRem: Set<NoteNotification> = []
-        var notificationsAdd: Set<NoteNotification> = []
-
-        let calendarCurrentNotifications = currentNotifications.compactMap { $0 as? CalendarNotification }
-        let calendarSavedNotifications = savedNotifications.compactMap { $0 as? CalendarNotification }
-
-        // subtracting calendarSavedNotifications from calendarCurrentNotifications
-        let remArr = calendarNotificationsSubtracting(a: calendarCurrentNotifications, b: calendarSavedNotifications)
-        remArr.forEach { notificationsRem.insert($0) }
-
-        // subtracting calendarCurrentNotifications from calendarSavedNotifications
-        let addArr = calendarNotificationsSubtracting(a: calendarSavedNotifications, b: calendarCurrentNotifications)
-        addArr.forEach { notificationsAdd.insert($0) }
-
-        guard notificationsRem.count > 0 || notificationsAdd.count > 0 else {
-            return
-        }
-
-        notificationsAdd.forEach { self.coreDataStack.managedContext.insert($0) }
-        note.removeFromNotifications(notificationsRem as NSSet)
-        note.addToNotifications(notificationsAdd as NSSet)
-
-        coreDataStack.saveContext()
-
-        notificationsManager.register(notifications: notificationsAdd.compactMap { $0 as? CalendarNotification })
-        notificationsManager.deregister(notifications: notificationsRem)
-
-        notificationsRem.forEach {
-            coreDataStack.managedContext.delete($0)
-        }
-        coreDataStack.saveContext()
-    }
-
-    private func calendarNotificationsSubtracting(a: [CalendarNotification],
-                                                  b: [CalendarNotification]) -> [CalendarNotification] {
-        var result: [CalendarNotification] = []
-        for notification in a {
-            let isContains = b.contains { $0.compare(with: notification) }
-            if !isContains {
-                result.append(notification)
-            }
-        }
-        return result
+    private func saveTags(_ note: Note) {
+        let selectedTagsArray = NoteTagsManager().tagsWithoutTemp(tags: tagsProvider.tags)
+        note.setTags(coreDataStack, tags: Set(selectedTagsArray))
     }
 }

@@ -55,11 +55,11 @@ class ToastView: UIView {
     }
     
     func setupConstrains() {
-        let stackViewConstrains = [stackView.topAnchor.constraint(equalTo: topAnchor),
-                                   stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                   stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                                   stackView.bottomAnchor.constraint(equalTo: bottomAnchor)]
-        NSLayoutConstraint.activate(stackViewConstrains)
+        let constrains = [stackView.topAnchor.constraint(equalTo: topAnchor),
+                          stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                          stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                          stackView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+        NSLayoutConstraint.activate(constrains)
         
         imageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
         imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true

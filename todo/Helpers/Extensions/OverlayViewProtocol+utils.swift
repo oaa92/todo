@@ -12,12 +12,12 @@ extension OverlayViewProtocol {
     func setupOverlayView() {
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     }
-    
+
     func showOverlayView(parent: UIView) {
         overlayView.frame = parent.frame
         parent.insertSubview(overlayView, at: 1)
     }
-    
+
     func hideOverlayView() {
         overlayView.removeFromSuperview()
     }

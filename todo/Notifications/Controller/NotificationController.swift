@@ -13,7 +13,7 @@ class NotificationController: CustomViewController<NotificationView>, OverlayVie
     var coreDataStack: CoreDataStack!
     var notifications: Set<NoteNotification> = []
     weak var noteNotificationsDelegate: NoteNotificationsProtocol?
-    
+
     var overlayView = UIView()
 
     private var date = Date()
@@ -52,7 +52,7 @@ class NotificationController: CustomViewController<NotificationView>, OverlayVie
     override func viewDidLoad() {
         super.viewDidLoad()
         setupOverlayView()
-        
+
         customView.notificationSwitchView.addTarget(self,
                                                     action: #selector(notificationSwitchViewValueChanged),
                                                     for: .valueChanged)
@@ -118,8 +118,7 @@ extension NotificationController {
             format = "dd\(hours)mm"
         case .annually:
             format = "MMMMdd\(hours)mm"
-        default:
-            customView.dateLabel.text = DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .short)
+        case .none:
             return
         }
 
@@ -156,8 +155,10 @@ extension NotificationController {
     }
 
     private func animatePeriodLabel(alpha: CGFloat) {
+        customView.layoutIfNeeded()
         UIView.animate(withDuration: 0.2) {
             self.customView.periodLabel.alpha = alpha
+            self.customView.layoutIfNeeded()
         }
     }
 }
@@ -180,7 +181,7 @@ extension NotificationController {
                 return nil
             }
         }
-        
+
         var weekdays: [Int] = []
         var wdate: Date = Date()
         for (date, period) in notifications {
@@ -220,27 +221,10 @@ extension NotificationController {
     }
 
     private func saveCalendarNotification(date: Date, period: PeriodType) {
-        guard let notification = createCalendarNotification(date: date, period: period) else {
+        guard let notification = CalendarNotification.createWithParams(date: date, period: period) else {
             return
         }
         notifications.insert(notification)
-    }
-
-    private func createCalendarNotification(date: Date, period: PeriodType) -> CalendarNotification? {
-        let encoder = JSONEncoder()
-        let data: Data
-        do {
-            data = try encoder.encode(period)
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
-
-        let notification = CalendarNotification(entity: CalendarNotification.entity(), insertInto: nil)
-        notification.uid = UUID().uuidString
-        notification.date = date
-        notification.period = data
-        return notification
     }
 }
 
@@ -249,9 +233,11 @@ extension NotificationController {
 extension NotificationController {
     @objc private func notificationSwitchViewValueChanged() {
         let alpha: CGFloat = customView.notificationSwitchView.isOn ? 1 : 0
+        customView.layoutIfNeeded()
         UIView.animate(withDuration: 0.2) {
             self.customView.dateLabel.alpha = alpha
             self.customView.periodStack.alpha = alpha
+            self.customView.layoutIfNeeded()
         }
         if customView.notificationSwitchView.isOn, customView.periodSwitchView.isOn {
             animatePeriodLabel(alpha: 1)
@@ -265,7 +251,7 @@ extension NotificationController {
             period = .daily
             notificationPeriodController.selectPeriod(period: period)
         }
-        
+
         updateDateLabel()
         updatePeriodLabel()
 
@@ -274,14 +260,16 @@ extension NotificationController {
     }
 
     @objc private func labelTapped(_ sender: UITapGestureRecognizer) {
+        var configuration = PanelConfiguration(margin: 0, visibleArea: 50)
+        configuration.panelSize = .custom(275)
         switch sender.view {
         case customView.dateLabel:
             showPanel(panel: datePanelManager,
-                      size: .custom(300),
+                      configuration: configuration,
                       controller: notificationDateController)
         case customView.periodLabel:
             showPanel(panel: periodPanelManager,
-                      size: .custom(312),
+                      configuration: configuration,
                       controller: notificationPeriodController)
         default:
             print("unknown view")
@@ -308,9 +296,7 @@ extension NotificationController: NoteNotificationEditProtocol {
 // MARK: Panels
 
 extension NotificationController {
-    private func showPanel(panel: Panels, size: PanelDimensions, controller: Panelable & UIViewController) {
-        var configuration = PanelConfiguration(size: size, margin: 0, visibleArea: 50)
-        configuration.animateEntry = true
+    private func showPanel(panel: Panels, configuration: PanelConfiguration, controller: Panelable & UIViewController) {
         panel.show(panel: controller, config: configuration)
         panel.expandPanel()
         currentPanel = panel

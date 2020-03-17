@@ -1,17 +1,15 @@
 //
 //  GradientBackgroud+CoreDataProperties.swift
-//  
+//
 //
 //  Created by Анатолий on 09/03/2020.
 //
 //
 
-import Foundation
 import CoreData
-
+import Foundation
 
 extension GradientBackgroud {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<GradientBackgroud> {
         return NSFetchRequest<GradientBackgroud>(entityName: "GradientBackgroud")
     }
@@ -20,12 +18,11 @@ extension GradientBackgroud {
     @NSManaged public var endPoint: String?
     @NSManaged public var startPoint: String?
     @NSManaged public var notes: NSSet?
-
 }
 
 // MARK: Generated accessors for notes
-extension GradientBackgroud {
 
+extension GradientBackgroud {
     @objc(addNotesObject:)
     @NSManaged public func addToNotes(_ value: Note)
 
@@ -37,5 +34,4 @@ extension GradientBackgroud {
 
     @objc(removeNotes:)
     @NSManaged public func removeFromNotes(_ values: NSSet)
-
 }

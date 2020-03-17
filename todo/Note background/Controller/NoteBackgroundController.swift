@@ -39,7 +39,9 @@ extension NoteBackgroundController {
         
         for (index, backgroundI) in colorsDataSource.backgrounds.enumerated() {
             if backgroundI.compare(with: background) {
-                customView.colorsCollectionView.selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .centeredVertically)
+                customView.colorsCollectionView.selectItem(at: IndexPath(row: index, section: 0),
+                                                           animated: true,
+                                                           scrollPosition: .centeredVertically)
                 break
             }
         }

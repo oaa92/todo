@@ -11,14 +11,14 @@ import UIKit
 class TagColorDataSourse: NSObject {
     let colors: [UIColor] = [
         .white,
-        UIColor.Palette.yellow_pale.get,
-        UIColor.Palette.orange_pale.get,
-        UIColor.Palette.red.get,
+        UIColor(hex6: 0xEB5C5C),
+        UIColor(hex6: 0xFFD500),
+        UIColor(hex6: 0xFF8F57),
         UIColor.Palette.green.get,
-        UIColor.Palette.cyan_pale.get,
+        UIColor(hex6: 0x76E1E5),
         UIColor.Palette.cyan.get,
         UIColor.Palette.blue.get,
-        UIColor.Palette.blue_pale.get,
+        UIColor(hex6: 0xC9C9FF),
         UIColor.Palette.violet.get,
         UIColor.Palette.pink.get,
         UIColor(hex6: 0x5D737E)

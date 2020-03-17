@@ -153,12 +153,15 @@ extension NotesTableController {
         noteController.coreDataStack = coreDataStack
         noteController.notificationsManager = notificationsManager
         noteController.note = note
+        noteController.noteDelegate = self
         return noteController
     }
 
     private func deleteNote(note: Note) {
         if note.deletedAt == nil {
-            note.moveToTrash(coreDataStack: coreDataStack, notificationsManager: notificationsManager)
+            let ids = note.moveToTrash(coreDataStack)
+            coreDataStack.saveContext()
+            notificationsManager.deregister(ids: ids)
         } else {
             note.delete(coreDataStack: coreDataStack)
         }
@@ -343,6 +346,24 @@ extension NotesTableController: NSFetchedResultsControllerDelegate {
     }
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        customView.tableView.endUpdates()
+    }
+}
+
+// MARK: NoteProtocol
+
+extension NotesTableController: NoteProtocol {
+    func updateNote(note: Note) {
+        guard let indexPath = tableDataSource.fetchedResultsController.indexPath(forObject: note) else {
+            return
+        }
+        customView.tableView.beginUpdates()
+        if let uid = note.uid {
+            tableDataSource.providers[uid] = nil
+        }
+        if let cell = customView.tableView.cellForRow(at: indexPath) as? NoteCell {
+            tableDataSource.configure(cell: cell, indexPath: indexPath)
+        }
         customView.tableView.endUpdates()
     }
 }
