@@ -17,7 +17,7 @@ class NoteBackgroundView: UIView {
         stack.distribution = .fill
         stack.spacing = 16
         
-        stack.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        stack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         stack.isLayoutMarginsRelativeArrangement = true
         
         return stack
@@ -26,7 +26,7 @@ class NoteBackgroundView: UIView {
     let colorsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 130, height: 130)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 8)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView

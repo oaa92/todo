@@ -9,7 +9,18 @@
 import UIKit
 
 class TagIconDataSourse: NSObject {
-    let iconNames = ["tag", "goal", "work", "meeting", "cart", "sport", "pills", "book", "car", "heart", "doge", "submarine"]
+    let iconNames = ["tag",
+                     "goal",
+                     "idea",
+                     "meeting",
+                     "cart",
+                     "sport",
+                     "pills",
+                     "book",
+                     "car",
+                     "heart",
+                     "doge",
+                     "submarine"]
 }
 
 // MARK: UICollectionViewDataSource

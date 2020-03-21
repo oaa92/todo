@@ -120,7 +120,8 @@ extension TagsTableController {
     }
 
     private func showPanel() {
-        let panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
+        var panelConfiguration = PanelConfiguration(size: .thirdQuarter, margin: 0, visibleArea: 50)
+        panelConfiguration.keyboardObserver = false
         panelManager.show(panel: panel, config: panelConfiguration)
     }
 

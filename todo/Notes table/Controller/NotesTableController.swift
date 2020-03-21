@@ -142,9 +142,12 @@ extension NotesTableController {
     private func exitFromEditMode() {
         customView.tableView.setEditing(false, animated: true)
         navigationItem.setLeftBarButtonItems([menuButtonItem, customEditButtonItem], animated: true)
+        
+        var rightItems: [UIBarButtonItem] = []
         if showAddButton {
-            navigationItem.setRightBarButton(addButtonItem, animated: true)
+            rightItems.append(addButtonItem)
         }
+        navigationItem.setRightBarButtonItems(rightItems, animated: true)
     }
 
     private func createNoteController(note: Note) -> NoteViewController {
@@ -214,8 +217,10 @@ extension NotesTableController {
         let menuController = MenuController()
         menuController.locale = locale
         menuController.coreDataStack = coreDataStack
-        menuController.notificationsManager = notificationsManager
-        navigationController?.pushViewController(menuController, animated: true)
+        menuController.notificationsManager = notificationsManager        
+        let navigationController = UINavigationController(rootViewController: menuController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
